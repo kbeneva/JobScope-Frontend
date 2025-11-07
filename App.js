@@ -1,6 +1,10 @@
+import 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar';
+import { ThemeProvider } from "./src/context/ThemeContext";
+import AppNavigator from "./src/navigation/AppNavigator";
 import { StyleSheet, Text, View } from 'react-native';
-import { useFonts, 
+import {
+  useFonts,
   Poppins_300Light,
   Poppins_400Regular,
   Poppins_500Medium,
@@ -11,10 +15,9 @@ import { useFonts,
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <AppNavigator />
+    </ThemeProvider>
   );
 }
 

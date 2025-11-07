@@ -24,6 +24,7 @@ export const lightColors = {
 
     // Icons
     icon: '#006989',
+    iconFilled: '#5C6B7A',
 
     // Basics
     white: '#FFFFFF',
