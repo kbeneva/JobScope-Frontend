@@ -11,8 +11,7 @@ export const lightColors = {
 
     // Texte
     textPrimary: '#000000',
-    textSecondary: '#001F3F',
-    textTertiary: '#5C6B7A',
+    textSecondary: '#5C6B7A',
     textDisabled: '#C7C7CC',
     textOnPrimary: '#FFFFFF',
 
@@ -24,7 +23,6 @@ export const lightColors = {
 
     // Icons
     icon: '#006989',
-    iconFilled: '#5C6B7A',
 
     // Basics
     white: '#FFFFFF',
