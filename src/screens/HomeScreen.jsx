@@ -1,13 +1,20 @@
-import { useContext } from 'react';
-import { ThemeContext } from "../context/ThemeContext";
-import { View, Text } from 'react-native';
+import { useTheme } from "../styles/theme";
+import { createScreenStyles } from "../styles/screens/screenStyles";
+import { View, Text } from "react-native";
+import JobCard from "../components/JobCard";
+import Button from "../components/Button";
 
 export default function HomeScreen() {
-    const { colors, theme } = useContext(ThemeContext);
+  const theme = useTheme();
+  const screenStyles = createScreenStyles(theme);
 
-    return (
-        <>
-            <Text>Profile</Text>
-        </>
-    );
+  return (
+    <View style={screenStyles.container}>
+      <Text style={{ ...theme.typography.h1, color: theme.colors.textPrimary }}>
+        Bienvenue
+      </Text>
+      <JobCard></JobCard>
+      <Button title="Envoyer" onPress={() => console.log("Clicked")} />
+    </View>
+  );
 }

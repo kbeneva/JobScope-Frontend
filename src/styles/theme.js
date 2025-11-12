@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import { spacing, padding, margin } from './spacing';
 import { typography } from './typography';

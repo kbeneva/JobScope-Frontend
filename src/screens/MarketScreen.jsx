@@ -1,13 +1,14 @@
-import { useContext } from 'react';
-import { ThemeContext } from "../context/ThemeContext";
+import { useTheme } from "../styles/theme";
+import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text } from 'react-native';
 
 export default function MarketScreen() {
-    const { colors, theme } = useContext(ThemeContext);
+  const theme = useTheme();
+  const screenStyles = createScreenStyles(theme);
 
-    return (  
-        <>
-        <Text>Market Analysis</Text>
-        </>
-    );
+  return (
+    <View style={screenStyles.container}>
+      <></>
+    </View>
+  );
 }

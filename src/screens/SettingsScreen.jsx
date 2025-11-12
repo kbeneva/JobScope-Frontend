@@ -1,10 +1,13 @@
-import { useContext } from 'react';
-import { ThemeContext } from "../context/ThemeContext";
+import { useTheme } from "../styles/theme";
+import { createScreenStyles } from "../styles/screens/screenStyles";
 
 export default function SettingsScreen() {
-    const { theme, toggleTheme, colors } = useContext(ThemeContext);
+  const theme = useTheme();
+  const screenStyles = createScreenStyles(theme);
 
-    return (  
-        <></>
-    );
+  return (
+    <View style={screenStyles.container}>
+      <></>
+    </View>
+  );
 }

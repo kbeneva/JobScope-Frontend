@@ -1,12 +1,21 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import React from "react";
+import { Text, TextInput, View } from "react-native";
+import { useTheme } from '../styles/theme';
+import { createSearchBarStyles } from '../../styles/components/searchBarStyles';
 
-const SearchBar = props => {
+export default function SearchBar({}) {
+  const theme = useTheme();
+  const styles = createSearchBarStyles(theme);
+
   return (
-    <View>
-      <Text>Hello, I am {props.name}!</Text>
-    </View>
+    <TextInput
+      style={styles.input}
+      placeholder="Search jobs"
+      placeholderTextColor={theme.colors.textSecondary}
+      value={value}
+      onChangeText={onChangeText}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+    />
   );
 };
-
-export default SearchBar;

@@ -7,13 +7,15 @@ export const darkColors = {
     // Background
     background: '#F5F8FB',
     auth: '#FFFFFF',
-    card: '#FFFFFF',
+    card: '#262D34',
+    tag: '#455863',
+    bar: '#262D34',
 
-    // Texte
+    // Text
     textPrimary: '#EEEEEE',
     textSecondary: '#B8C1CC',
     textDisabled: '#C7C7CC',
-    textOnPrimary: '#FFFFFF',
+    textButton: '#FFFFFF',
 
     // States
     success: '#5bb471',

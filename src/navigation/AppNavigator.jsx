@@ -21,7 +21,7 @@ function Tabs() {
         <Tab.Navigator
             screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor: colors.primary, // Change automatiquement !
+                tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.iconSecondary,
                 tabBarShowLabel: false,
                 tabBarStyle: { height: 60, backgroundColor: tabBarColor },
