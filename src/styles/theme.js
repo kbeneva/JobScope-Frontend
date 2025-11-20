@@ -33,5 +33,7 @@ export const useTheme = () => {
   return {
     ...baseTheme,
     colors: context.colors,
+    theme: context.theme,
+    toggleTheme: context.toggleTheme,
   };
 };

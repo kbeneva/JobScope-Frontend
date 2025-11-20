@@ -5,7 +5,7 @@ export const darkColors = {
     accent: '#094B6B',
 
     // Background
-    background: '#F5F8FB',
+    background: '#101418',
     auth: '#FFFFFF',
     card: '#262D34',
     tag: '#455863',

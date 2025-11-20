@@ -10,4 +10,10 @@ export const createScreenStyles = (theme) => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: theme.spacing.md,
+  },
 });
