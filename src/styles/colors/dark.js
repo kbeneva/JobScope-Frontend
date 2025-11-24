@@ -1,20 +1,21 @@
 export const darkColors = {
     // Color Palette
-    primary: '#006989',
+    primary: '#00809D',
     secondary: '#007EA7',
-    accent: '#199BBB',
+    accent: '#094B6B',
 
     // Background
-    background: '#F5F8FB',
+    background: '#101418',
     auth: '#FFFFFF',
-    card: '#FFFFFF',
+    card: '#262D34',
+    tag: '#455863',
+    bar: '#262D34',
 
-    // Texte
-    textPrimary: '#000000',
-    textSecondary: '#001F3F',
-    textTertiary: '#5C6B7A',
+    // Text
+    textPrimary: '#EEEEEE',
+    textSecondary: '#B8C1CC',
     textDisabled: '#C7C7CC',
-    textOnPrimary: '#FFFFFF',
+    textButton: '#FFFFFF',
 
     // States
     success: '#5bb471',
@@ -23,7 +24,7 @@ export const darkColors = {
     info: '#5FA8D3',
 
     // Icons
-    icon: '#006989',
+    icon: '#00809D',
 
     // Basics
     white: '#FFFFFF',

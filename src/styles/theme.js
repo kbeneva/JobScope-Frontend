@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import { spacing, padding, margin } from './spacing';
 import { typography } from './typography';
@@ -33,5 +33,7 @@ export const useTheme = () => {
   return {
     ...baseTheme,
     colors: context.colors,
+    theme: context.theme,
+    toggleTheme: context.toggleTheme,
   };
 };

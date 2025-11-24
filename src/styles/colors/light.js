@@ -8,13 +8,14 @@ export const lightColors = {
     background: '#F5F8FB',
     auth: '#FFFFFF',
     card: '#FFFFFF',
+    tag: '#EDEDED',
+    bar: '#FFFFFF',
 
-    // Texte
+    // Text
     textPrimary: '#000000',
-    textSecondary: '#001F3F',
-    textTertiary: '#5C6B7A',
+    textSecondary: '#5C6B7A',
     textDisabled: '#C7C7CC',
-    textOnPrimary: '#FFFFFF',
+    textButton: '#FFFFFF',
 
     // States
     success: '#5bb471',
@@ -24,7 +25,6 @@ export const lightColors = {
 
     // Icons
     icon: '#006989',
-    iconFilled: '#5C6B7A',
 
     // Basics
     white: '#FFFFFF',

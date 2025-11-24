@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 import { lightColors, darkColors } from '../styles/colors';
 
 export const ThemeContext = createContext();
