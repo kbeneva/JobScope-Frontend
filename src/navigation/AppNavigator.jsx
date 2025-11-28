@@ -92,6 +92,7 @@ export default function AppNavigator() {
                     component={Tabs}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Navigator>
         </NavigationContainer>
