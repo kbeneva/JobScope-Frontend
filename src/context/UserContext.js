@@ -69,7 +69,6 @@ export const UserProvider = ({ children }) => {
     isAuthenticated: !!user,
     isLoading,
     login,
-    signup,
     logout,
     updateUser
   };

@@ -1,8 +1,8 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useFonts,
   Poppins_300Light,
@@ -15,10 +15,21 @@ import {
 import { UserProvider } from "./src/context/UserContext";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Poppins_900Black,
+  });
+  
   return (
     <ThemeProvider>
       <UserProvider>
+        <SafeAreaView edges={["bottom"]} style={{flex:1}}>
         <AppNavigator />
+        </SafeAreaView>
       </UserProvider>
     </ThemeProvider>
   );

@@ -9,7 +9,7 @@ export default function JobCard() {
 
     return ( 
         <View style={styles.container}>
-            <JobTag label='test'/>
+            <JobTag label='test' outlined={true}/>
         </View>
      );
 }

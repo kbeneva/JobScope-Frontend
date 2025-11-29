@@ -3,9 +3,11 @@ import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text, Switch } from "react-native";
 import JobCard from "../components/JobCard";
 import Button from "../components/Button";
+import { useUser } from "../context/UserContext";
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   return (
