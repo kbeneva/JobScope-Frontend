@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useFonts,
@@ -23,6 +23,14 @@ export default function App() {
     Poppins_700Bold,
     Poppins_900Black,
   });
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
   
   return (
     <ThemeProvider>

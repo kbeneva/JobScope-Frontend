@@ -3,6 +3,7 @@ import { ThemeContext } from "../context/ThemeContext";
 
 export default function LoginScreen() {
     const { colors, theme } = useContext(ThemeContext);
+    const { user, login } = useUser();
 
     return (
         <></>

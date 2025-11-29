@@ -5,7 +5,7 @@ import { useUser } from "../context/UserContext";
 
 export default function ProfileScreen() {
   const theme = useTheme();
-  const { user, isAuthenticated } = useUser();
+  const { user, isAuthenticated, updateUser } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   return (
