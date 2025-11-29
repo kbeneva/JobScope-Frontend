@@ -8,7 +8,7 @@ export default function JobHeader() {
     
     return ( 
         <View style={styles.container}>
-            <Text style={{ ...theme.typography.h1, color: theme.colors.textPrimary }}>Bienvenue</Text>
+            <Text style={styles.header}>Bienvenue</Text>
         </View>
      );
 }
