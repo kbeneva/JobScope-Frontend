@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {
   useFonts,
   Poppins_300Light,
@@ -23,12 +23,14 @@ export default function App() {
     Poppins_700Bold,
     Poppins_900Black,
   });
-  
+
   return (
     <ThemeProvider>
-      <SafeAreaView edges={["bottom"]} style={{flex:1}}>
-        <AppNavigator />
-      </SafeAreaView>
+      <SafeAreaProvider>
+        <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
+          <AppNavigator />
+        </SafeAreaView>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
