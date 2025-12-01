@@ -1,14 +1,22 @@
+// navigation/AppNavigator.jsx
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { useUser } from "../context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
+import { ActivityIndicator, View } from "react-native";
 
 import HomeScreen from "../screens/HomeScreen";
 import JobsScreen from "../screens/JobsScreen";
 import MarketScreen from "../screens/MarketScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
+import DetailsScreen from "../screens/DetailsScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,7 +32,7 @@ function Tabs() {
                 tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.iconSecondary,
                 tabBarShowLabel: false,
-                tabBarStyle: { height: 60, backgroundColor: tabBarColor },
+                tabBarStyle: { backgroundColor: tabBarColor },
             }}
         >
             <Tab.Screen
@@ -42,7 +50,7 @@ function Tabs() {
             />
             <Tab.Screen
                 name="Graphs"
-                component={JobsScreen}
+                component={MarketScreen}
                 options={{
                     tabBarIcon: ({ color, focused, size }) => (
                         <Ionicons
@@ -55,7 +63,7 @@ function Tabs() {
             />
             <Tab.Screen
                 name="Jobs"
-                component={MarketScreen}
+                component={JobsScreen}
                 options={{
                     tabBarIcon: ({ color, focused, size }) => (
                         <Ionicons
@@ -82,17 +90,32 @@ function Tabs() {
 }
 
 export default function AppNavigator() {
-    const { theme } = useContext(ThemeContext);
+    const { theme, colors } = useContext(ThemeContext);
+    const { isLoading } = useUser();
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+                <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+        );
+    }
 
     return (
         <NavigationContainer theme={theme === "light" ? DefaultTheme : DarkTheme}>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Tabs"
-                    component={Tabs}
-                    options={{ headerShown: false }}
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Tabs" component={Tabs} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+                <Stack.Screen name="Favorites" component={FavoritesScreen} />
+                <Stack.Screen name="Settings" component={SettingsScreen} />
+                <Stack.Screen 
+                    name="Login" 
+                    component={LoginScreen}
                 />
-                <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen 
+                    name="Signup" 
+                    component={SignupScreen}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );
