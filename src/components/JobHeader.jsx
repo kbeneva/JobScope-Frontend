@@ -1,6 +1,6 @@
 import { useTheme } from "../styles/theme";
 import { View, Text } from "react-native";
-import { createHeaderStyles } from "../styles/components/JobHeaderStyles";
+import { createHeaderStyles } from "../styles/components/jobHeaderStyles";
 
 export default function JobHeader() {
     const theme = useTheme();

@@ -5,24 +5,24 @@ import JobTag from "./JobTag";
 import Bookmark from './Bookmark';
 import { Ionicons } from "@expo/vector-icons";
 
-export default function JobCard() {
+export default function JobCard({ job }) {
     const theme = useTheme();
     const styles = createCardStyles(theme);
     const iconColor = theme.colors.primary;
 
     return (
-        <View style={[styles.container, { position: 'relative', marginBottom: theme.spacing.xl }]}>
+        <View style={[styles.container, { position: 'relative'}]}>
             <Bookmark style={{ position: 'absolute', right: 10, top: 10 }} />
 
-            <Text style={styles.title}>Job title</Text>
+            <Text style={styles.title}>{job.title}</Text>
             <Text style={[styles.info, styles.company]}>Company</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: theme.spacing.xl }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Ionicons name="location-sharp" size={24} color={iconColor} />
-                    <Text style={styles.info}>Location</Text>
+                    <Text style={styles.info}>{job.location}</Text>
                 </View>
-                <Text style={styles.info}>x days ago</Text>
+                <Text style={styles.info}>{job.publishedTime}</Text>
             </View>
 
             <View
@@ -33,10 +33,24 @@ export default function JobCard() {
                     gap: 8,
                 }}
             >
-                <JobTag
-                    label="Full-time"
-                    style={{ minWidth: '45%' }}
-                />
+                 {job.jobType && (
+                    <JobTag
+                        label={job.jobType}
+                    />
+                )}
+
+                {job.salary && (
+                    <JobTag
+                        label={job.salary}
+                    />
+                )}
+
+                {job.tags?.map((tag, index) => (
+                    <JobTag
+                        key={index}
+                        label={tag}
+                    />
+                ))}
             </View>
         </View>
     );

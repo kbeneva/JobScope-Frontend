@@ -1,18 +1,50 @@
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { View, Text, Switch } from "react-native";
+import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
-import Button from "../components/Button";
 import JobHeader from "../components/JobHeader";
+import ResponsiveGrid from "../components/ResponsiveGrid";
 
 export default function HomeScreen() {
   const theme = useTheme();
   const screenStyles = createScreenStyles(theme);
 
+  const jobs = [
+    {
+      title: "Senior Full-Stack Web Developer",
+      company: "Lightspeed Commerce",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      tags: ["JavaScript", "React", "Node.js"],
+      publishedTime: "5 days ago",
+    },
+    {
+      title: "Senior DevOps Engineer",
+      company: "Munich Re",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      salary: "$69,000 - $114,000",
+      tags: ["Kubernetes", "Terraform", "AWS"],
+      publishedTime: "18 days ago",
+    },
+    {
+      title: "Junior Web Developer Co-Op",
+      company: "Osler, Hoskin & Harcourt LLP",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      tags: ["SharePoint", "SQL", "JavaScript"],
+      publishedTime: "4 days ago",
+    },
+  ];
+
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <JobHeader />
-      <View style={screenStyles.container}>
+      <ScrollView
+        style={screenStyles.container}
+        contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={screenStyles.rowContainer}>
           <Text style={{ color: theme.colors.textPrimary }}>
             {" "}
@@ -32,10 +64,12 @@ export default function HomeScreen() {
           />
         </View>
 
-        <JobCard></JobCard>
-
-        <Button title="Envoyer" onPress={() => console.log("Clicked")} />
-      </View>
-    </>
+        <ResponsiveGrid>
+          {jobs.map((job, index) => (
+            <JobCard key={index} job={job} />
+          ))}
+        </ResponsiveGrid>
+      </ScrollView>
+    </View>
   );
 }

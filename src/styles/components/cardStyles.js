@@ -5,6 +5,7 @@ export const createCardStyles = (theme) => StyleSheet.create({
     backgroundColor: theme.colors.card,
     borderRadius: theme.borderRadius.md,
     padding: theme.spacing.md,
+    flex: 1,
   },
   title: {
     ...theme.typography.h4,
