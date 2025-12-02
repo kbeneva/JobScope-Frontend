@@ -1,9 +1,11 @@
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
+import { useUser } from "../context/UserContext";
 
 export default function ProfileScreen() {
   const theme = useTheme();
+  const { user, isAuthenticated, updateUser } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   return (

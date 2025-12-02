@@ -1,9 +1,8 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator, View, Platform } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   useFonts,
   Poppins_300Light,
@@ -13,6 +12,7 @@ import {
   Poppins_700Bold,
   Poppins_900Black,
 } from "@expo-google-fonts/poppins";
+import { UserProvider } from "./src/context/UserContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,22 +24,23 @@ export default function App() {
     Poppins_900Black,
   });
 
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  const isWeb = Platform.OS === 'web';
+
   return (
     <ThemeProvider>
-      <SafeAreaProvider>
-        <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
+      <UserProvider>
+        <SafeAreaProvider>
           <AppNavigator />
-        </SafeAreaView>
-      </SafeAreaProvider>
+        </SafeAreaProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

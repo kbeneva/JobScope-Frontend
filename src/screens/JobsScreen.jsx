@@ -1,9 +1,11 @@
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
+import { useUser } from "../context/UserContext";
 
 export default function JobsScreen() {
   const theme = useTheme();
+  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   return (

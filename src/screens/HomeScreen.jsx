@@ -2,11 +2,13 @@ import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
+import { useUser } from "../context/UserContext";
 import JobHeader from "../components/JobHeader";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 
 export default function HomeScreen() {
   const theme = useTheme();
+  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   const jobs = [

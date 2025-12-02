@@ -25,10 +25,10 @@
     },
     h2: {
         fontFamily: 'Poppins_500Medium',
-        fontSize: 24,
+        fontSize: 20,
     },
     h3: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: 'Poppins_600SemiBold',
         fontSize: 20,
     },
     h4: {
@@ -59,11 +59,11 @@
     // forms styles
     input: {
         fontFamily: 'Poppins_400Regular',
-        fontSize: 16,
+        fontSize: 14,
     },
     inputLabel: {
-        fontFamily: 'Poppins_600SemiBold',
-        fontSize: 20,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 18,
     },
     inputHelper: {
         fontFamily: 'Poppins_400Regular',
