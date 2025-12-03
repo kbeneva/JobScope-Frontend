@@ -4,7 +4,9 @@ export const createHeaderStyles = (theme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.colors.primary,
-      padding: theme.spacing.md,
+      paddingHorizontal: theme.spacing.xl,
+      paddingTop: theme.spacing.xl,
+      paddingBottom: theme.spacing.sm
     },
     header: {
       ...theme.typography.h1,

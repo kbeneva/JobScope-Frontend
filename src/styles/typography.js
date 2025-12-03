@@ -20,7 +20,7 @@
 
     // Headers and elements styles
     h1: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'Poppins_500Medium',
         fontSize: 32,
     },
     h2: {

@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <JobHeader />
+      <JobHeader isHomePage={true}/>
       <ScrollView
         style={screenStyles.container}
         contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}
