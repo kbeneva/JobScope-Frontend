@@ -39,8 +39,8 @@ const jobs = [
 
 export default function FavoritesScreen() {
     // Page
-    const [page, setPage] = React.useState(1);
-    const totalPages = 10;
+  const [page, setPage] = React.useState(1);
+  const totalPages = 10;
   const theme = useTheme();
   const screenStyles = createScreenStyles(theme);
 
