@@ -9,6 +9,8 @@ import HomeScreen from "../screens/HomeScreen";
 import JobsScreen from "../screens/JobsScreen";
 import MarketScreen from "../screens/MarketScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import DetailsScreen from "../screens/DetailsScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -94,6 +96,7 @@ export default function AppNavigator() {
                 />
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="Favorites" component={FavoritesScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
