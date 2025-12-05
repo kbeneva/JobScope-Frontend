@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import { ThemeContext } from "../context/ThemeContext";
 
-export default function AuthScreen() {
+export default function LoginScreen() {
     const { colors, theme } = useContext(ThemeContext);
+    const { user, login } = useUser();
 
     return (
         <></>

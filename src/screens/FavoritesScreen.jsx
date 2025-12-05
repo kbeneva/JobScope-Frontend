@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
+import { useUser } from "../context/UserContext";
 import JobCard from "../components/JobCard";
 import { Ionicons } from "@expo/vector-icons";
-
-
 
 const jobs = [
   {
@@ -42,6 +41,7 @@ export default function FavoritesScreen() {
   const [page, setPage] = React.useState(1);
   const totalPages = 10;
   const theme = useTheme();
+  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
 
   return (

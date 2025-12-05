@@ -2,12 +2,15 @@ import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
+import { useUser } from "../context/UserContext";
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import JobTag from "../components/JobTag";
 import Bookmark from "../components/Bookmark";
+
 export default function DetailsScreen() {
   const theme = useTheme();
+  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
   const navigation = useNavigation();
 
