@@ -17,6 +17,8 @@ import SignupScreen from "../screens/SignupScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -116,6 +118,9 @@ export default function AppNavigator() {
                     name="Signup" 
                     component={SignupScreen}
                 />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="Favorites" component={FavoritesScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

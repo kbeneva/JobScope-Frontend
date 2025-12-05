@@ -1,14 +1,15 @@
+import React,{ useState } from "react";
 import { View, Text, Pressable, Alert } from "react-native";
 import { useTheme } from '../styles/theme';
-import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function Bookmark({ userId = 1, jobId, style }) {
-     const theme = useTheme();
+export default function Bookmark({ userId = 1, jobId, style, isSaved: propIsSaved }) {
+    const theme = useTheme();
     const iconColor = theme.colors.primary;
 
     const [isSaved, setIsSaved] = useState(false);
     const [loading, setLoading] = useState(false);
+    const displaySaved = propIsSaved !== undefined ? propIsSaved : isSaved;
 
     const toggleBookmark = async () => {
         if (!userId) {
@@ -38,7 +39,8 @@ export default function Bookmark({ userId = 1, jobId, style }) {
     return (
         <Pressable onPress={toggleBookmark} disabled={loading} style={[{ padding: 4 }, style]}>
             <Ionicons
-                name={isSaved ? "bookmark" : "bookmark-outline"}
+                name={displaySaved ? "bookmark" : "bookmark-outline"}
+                // name={isSaved ? "bookmark" : "bookmark-outline"}
                 size={24}
                 color={iconColor}
             />

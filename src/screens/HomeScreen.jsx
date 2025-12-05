@@ -3,6 +3,7 @@ import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
 import { useUser } from "../context/UserContext";
+import { useNavigation } from '@react-navigation/native'; // ENLEVER
 import JobHeader from "../components/JobHeader";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 
@@ -10,6 +11,7 @@ export default function HomeScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
+  const navigation = useNavigation(); // ENLEVER
 
   const jobs = [
     {
@@ -66,6 +68,9 @@ export default function HomeScreen() {
           />
         </View>
 
+        <Button title="Envoyer" onPress={() => console.log("Clicked")} />
+        <Button title="Voir les favoris" onPress={() => navigation.navigate("Favorites")} /> 
+        <Button title="Voir le détail du job" onPress={() => navigation.navigate("Details")}  /> 
         <ResponsiveGrid>
           {jobs.map((job, index) => (
             <JobCard key={index} job={job} />
@@ -75,3 +80,5 @@ export default function HomeScreen() {
     </View>
   );
 }
+     // Enlever <Button title="Voir le détail du job" onPress={() => navigation.navigate("Details")}  />
+     // Enlever <Button title="Voir les favoris" onPress={() => navigation.navigate("Favorites")} /> 

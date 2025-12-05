@@ -10,12 +10,16 @@ export default function JobCard({ job }) {
     const styles = createCardStyles(theme);
     const iconColor = theme.colors.primary;
 
+    if (!job) {
+        return null;
+    }
+
     return (
         <View style={[styles.container, { position: 'relative'}]}>
-            <Bookmark style={{ position: 'absolute', right: 10, top: 10 }} />
+            <Bookmark style={{ position: 'absolute', right: 10, top: 10 }} isSaved={true} />
 
             <Text style={styles.title}>{job.title}</Text>
-            <Text style={[styles.info, styles.company]}>Company</Text>
+            <Text style={[styles.info, styles.company]}>{job.company}</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: theme.spacing.xl }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
