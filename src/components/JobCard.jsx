@@ -43,9 +43,9 @@ export default function JobCard({ job }) {
                     />
                 )}
 
-                {(job.pay || job.salary) && (
+                {job.salary && (
                     <JobTag
-                        label={job.pay || job.salary}
+                        label={job.salary}
                     />
                 )}
 

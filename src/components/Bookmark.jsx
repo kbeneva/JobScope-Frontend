@@ -40,6 +40,7 @@ export default function Bookmark({ userId = 1, jobId, style, isSaved: propIsSave
         <Pressable onPress={toggleBookmark} disabled={loading} style={[{ padding: 4 }, style]}>
             <Ionicons
                 name={displaySaved ? "bookmark" : "bookmark-outline"}
+                // name={isSaved ? "bookmark" : "bookmark-outline"}
                 size={24}
                 color={iconColor}
             />
