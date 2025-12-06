@@ -3,7 +3,7 @@ import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
 import { useUser } from "../context/UserContext";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import JobHeader from "../components/JobHeader";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import Button from "../components/Button";
@@ -47,7 +47,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <JobHeader isHomePage={true}/>
+      <JobHeader isHomePage={true} />
       <ScrollView
         style={screenStyles.container}
         contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}
@@ -72,8 +72,14 @@ export default function HomeScreen() {
           />
         </View>
 
-        <Button title="Voir les favoris" onPress={() => navigation.navigate("Favorites")} /> 
-        <Button title="Voir le détail du job" onPress={() => navigation.navigate("Details")}  /> 
+        <Button
+          title="Voir les favoris"
+          onPress={() => navigation.navigate("Favorites")}
+        />
+        <Button
+          title="Voir le détail du job"
+          onPress={() => navigation.navigate("Details")}
+        />
         <ResponsiveGrid>
           {jobs.map((job, index) => (
             <JobCard key={index} job={job} />

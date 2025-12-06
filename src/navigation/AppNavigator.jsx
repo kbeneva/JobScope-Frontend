@@ -17,6 +17,7 @@ import SignupScreen from "../screens/SignupScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import UserFormScreen from "../screens/UserFormScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -110,7 +111,9 @@ export default function AppNavigator() {
                 <Stack.Screen name="Tabs" component={Tabs} />
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Favorites" component={FavoritesScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
+                <Stack.Screen name="UserForm" component={UserFormScreen} />
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}
@@ -119,9 +122,6 @@ export default function AppNavigator() {
                     name="Signup"
                     component={SignupScreen}
                 />
-                {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
-                <Stack.Screen name="Profile" component={ProfileScreen} />
-                {/* <Stack.Screen name="Favorites" component={FavoritesScreen} /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );

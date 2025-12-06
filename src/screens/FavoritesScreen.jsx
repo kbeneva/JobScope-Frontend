@@ -7,11 +7,13 @@ import JobCard from "../components/JobCard";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import { Ionicons } from "@expo/vector-icons";
 import BackHeader from "../components/BackHeader";
+import { createFavoritesStyles } from "../styles/screens/favoritesStyles";
 
 export default function FavoritesScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
+  const favoritesStyles = createFavoritesStyles(theme);
 
   const [page, setPage] = useState(1);
   const [limit] = useState(6);
