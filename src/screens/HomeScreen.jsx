@@ -3,7 +3,7 @@ import { createScreenStyles } from "../styles/screens/screenStyles";
 import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
 import { useUser } from "../context/UserContext";
-import { useNavigation } from '@react-navigation/native'; // ENLEVER
+import { useNavigation } from '@react-navigation/native';
 import JobHeader from "../components/JobHeader";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import Button from "../components/Button";
@@ -12,7 +12,7 @@ export default function HomeScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
-  const navigation = useNavigation(); // ENLEVER
+  const navigation = useNavigation();
 
   const jobs = [
     {
@@ -22,6 +22,7 @@ export default function HomeScreen() {
       jobType: "Full-time",
       tags: ["JavaScript", "React", "Node.js"],
       publishedTime: "5 days ago",
+      isFavorite: true,
     },
     {
       title: "Senior DevOps Engineer",
@@ -31,6 +32,7 @@ export default function HomeScreen() {
       salary: "$69,000 - $114,000",
       tags: ["Kubernetes", "Terraform", "AWS"],
       publishedTime: "18 days ago",
+      isFavorite: false,
     },
     {
       title: "Junior Web Developer Co-Op",
@@ -39,6 +41,7 @@ export default function HomeScreen() {
       jobType: "Full-time",
       tags: ["SharePoint", "SQL", "JavaScript"],
       publishedTime: "4 days ago",
+      isFavorite: false,
     },
   ];
 

@@ -16,7 +16,7 @@ export const createCardStyles = (theme) => StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   info: {
-    ...theme.bodySmall,
+    ...theme.typography.bodySmall,
     color: theme.colors.textSecondary
   }
 });

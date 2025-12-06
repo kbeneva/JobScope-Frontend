@@ -1,49 +1,72 @@
-import React,{ useState } from "react";
-import { View, Text, Pressable, Alert } from "react-native";
+import React,{ useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { useTheme } from '../styles/theme';
 import { Ionicons } from "@expo/vector-icons";
+import { useUser } from "../context/UserContext";
 
-export default function Bookmark({ userId = 1, jobId, style, isSaved: propIsSaved }) {
+export default function Bookmark({ style, isSaved: propIsSaved, onToggle }) {
     const theme = useTheme();
     const iconColor = theme.colors.primary;
+    const { user, isAuthenticated } = useUser();
 
-    const [isSaved, setIsSaved] = useState(false);
+    const [isSaved, setIsSaved] = useState(propIsSaved);
     const [loading, setLoading] = useState(false);
-    const displaySaved = propIsSaved !== undefined ? propIsSaved : isSaved;
-
-    const toggleBookmark = async () => {
-        if (!userId) {
-            // TODO: change to modal
-            Alert.alert(
-                "Connection required!",
-                "You need to be authenticated to save a job",
-                [{ text: "OK" }]
-            );
-            return;
+    
+    useEffect(() => {
+        if (propIsSaved !== undefined) {
+            setIsSaved(propIsSaved);
         }
+    }, [propIsSaved]);
 
+    const toggleBookmark = async (e) => {
+        e?.stopPropagation?.();
+        
+        // // TODO : UNCOMMENT CODE BELLOW WHEN API AVAILABLE
+        // if (!isAuthenticated) {
+        //     Alert.alert(
+        //         "Connexion requise",
+        //         "Vous devez être connecté pour sauvegarder une offre",
+        //         [{ text: "OK" }]
+        //     );
+        //     return;
+        // }
+
+        if (loading) return;
+
+        const newSavedState = !isSaved;
+        
+        setIsSaved(newSavedState);
         setLoading(true);
 
         try {
-            // TODO: change when API available
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // TODO : API CALL - POST OR DELETE FAVORITE
 
-            setIsSaved(prev => !prev);
+            onToggle?.(jobId, newSavedState);
 
         } catch (err) {
-            console.log("Erreur bookmark:", err);
+            console.error("Erreur bookmark:", err);
+            
+            setIsSaved(!newSavedState);
+            
+            Alert.alert("Erreur", "Impossible de sauvegarder l'offre");
         } finally {
             setLoading(false);
         }
     };
+
     return (
-        <Pressable onPress={toggleBookmark} disabled={loading} style={[{ padding: 4 }, style]}>
+        <TouchableOpacity 
+            onPress={toggleBookmark} 
+            disabled={loading}
+            style={[{ padding: 4 }, style]}
+            activeOpacity={0.6}
+        >
             <Ionicons
-                name={displaySaved ? "bookmark" : "bookmark-outline"}
-                // name={isSaved ? "bookmark" : "bookmark-outline"}
+                name={isSaved ? "bookmark" : "bookmark-outline"}
                 size={24}
                 color={iconColor}
+                style={{ opacity: loading ? 0.5 : 1 }}
             />
-        </Pressable>
+        </TouchableOpacity>
     );
 };

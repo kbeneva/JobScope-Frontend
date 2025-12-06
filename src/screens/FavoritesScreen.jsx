@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  ActivityIndicator,
-  ScrollView 
-} from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator,ScrollView } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { useUser } from "../context/UserContext";
 import JobCard from "../components/JobCard";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import { Ionicons } from "@expo/vector-icons";
+import BackHeader from "../components/BackHeader";
 
 export default function FavoritesScreen() {
   const theme = useTheme();
@@ -19,7 +14,7 @@ export default function FavoritesScreen() {
   const screenStyles = createScreenStyles(theme);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(6); // Items par page
+  const [limit] = useState(6);
   const [jobs, setJobs] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [total, setTotal] = useState(0);
@@ -42,7 +37,8 @@ export default function FavoritesScreen() {
         salary: "$60 - 70k Yearly",
         jobType: "Part-time",
         tags: ["Hybrid"],
-        publishedTime: "5 days ago"
+        publishedTime: "5 days ago",
+        isFavorite: true,
       },
       {
         id: 2,
@@ -52,7 +48,8 @@ export default function FavoritesScreen() {
         salary: "$60 - 70k Yearly",
         jobType: "Part-time",
         tags: ["Hybrid"],
-        publishedTime: "5 days ago"
+        publishedTime: "5 days ago",
+        isFavorite: true,
       },
       {
         id: 3,
@@ -62,7 +59,8 @@ export default function FavoritesScreen() {
         salary: "$60 - 70k Yearly",
         jobType: "Part-time",
         tags: ["Hybrid"],
-        publishedTime: "5 days ago"
+        publishedTime: "5 days ago",
+        isFavorite: true,
       },
       {
         id: 4,
@@ -72,7 +70,8 @@ export default function FavoritesScreen() {
         salary: "$80 - 90k Yearly",
         jobType: "Full-time",
         tags: ["Remote"],
-        publishedTime: "2 days ago"
+        publishedTime: "2 days ago",
+        isFavorite: true,
       },
       {
         id: 5,
@@ -82,7 +81,8 @@ export default function FavoritesScreen() {
         salary: "$90 - 110k Yearly",
         jobType: "Full-time",
         tags: ["Hybrid"],
-        publishedTime: "1 week ago"
+        publishedTime: "1 week ago",
+        isFavorite: true,
       },
       {
         id: 6,
@@ -92,7 +92,8 @@ export default function FavoritesScreen() {
         salary: "$75 - 95k Yearly",
         jobType: "Full-time",
         tags: ["On-site"],
-        publishedTime: "3 days ago"
+        publishedTime: "3 days ago",
+        isFavorite: true,
       },
       {
         id: 7,
@@ -102,7 +103,8 @@ export default function FavoritesScreen() {
         salary: "$85 - 105k Yearly",
         jobType: "Full-time",
         tags: ["Remote"],
-        publishedTime: "4 days ago"
+        publishedTime: "4 days ago",
+        isFavorite: true,
       },
       {
         id: 8,
@@ -112,7 +114,8 @@ export default function FavoritesScreen() {
         salary: "$70 - 90k Yearly",
         jobType: "Full-time",
         tags: ["Hybrid"],
-        publishedTime: "1 week ago"
+        publishedTime: "1 week ago",
+        isFavorite: true,
       },
     ];
 
@@ -154,25 +157,20 @@ export default function FavoritesScreen() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[screenStyles.container, { flex: 1 }]}>
+      <BackHeader title="Saved"/>
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={screenStyles.container}
+        contentContainerStyle={{ paddingBottom: theme.spacing.xl }}
+        showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <View style={{ 
           flexDirection: 'row', 
           alignItems: 'center', 
-          justifyContent: 'space-between', 
+          justifyContent: 'center',
           marginBottom: 16 
         }}>
-          <Text style={{ 
-            fontSize: 18, 
-            fontFamily: 'Poppins_600SemiBold',
-            color: theme.colors.textPrimary 
-          }}>
-            Mes Favoris ({total})
-          </Text>
           
           {/* Pagination en haut */}
           {totalPages > 1 && (
@@ -180,7 +178,7 @@ export default function FavoritesScreen() {
               <TouchableOpacity
                 style={{ 
                   borderWidth: 1, 
-                  borderColor: theme.colors.border, 
+                  borderColor: theme.colors.textSecondary, 
                   borderRadius: 20, 
                   padding: 8, 
                   marginHorizontal: 4,
@@ -203,7 +201,7 @@ export default function FavoritesScreen() {
               <TouchableOpacity
                 style={{ 
                   borderWidth: 1, 
-                  borderColor: theme.colors.border, 
+                  borderColor: theme.colors.textSecondary, 
                   borderRadius: 20, 
                   padding: 8, 
                   marginHorizontal: 4,
