@@ -14,6 +14,5 @@ export const createScreenStyles = (theme) => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: theme.spacing.md,
   },
 });

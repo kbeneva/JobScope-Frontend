@@ -17,6 +17,7 @@ import SignupScreen from "../screens/SignupScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import UserFormScreen from "../screens/UserFormScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,7 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
     const { colors, theme } = useContext(ThemeContext);
     const tabBarColor = theme === "light" ? "#fff" : "#222";
+   
 
     return (
         <Tab.Navigator
@@ -85,6 +87,8 @@ function Tabs() {
                     ),
                 }}
             />
+          
+
         </Tab.Navigator>
     );
 }
@@ -107,13 +111,15 @@ export default function AppNavigator() {
                 <Stack.Screen name="Tabs" component={Tabs} />
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Favorites" component={FavoritesScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen 
-                    name="Login" 
+                <Stack.Screen name="UserForm" component={UserFormScreen} />
+                <Stack.Screen
+                    name="Login"
                     component={LoginScreen}
                 />
-                <Stack.Screen 
-                    name="Signup" 
+                <Stack.Screen
+                    name="Signup"
                     component={SignupScreen}
                 />
             </Stack.Navigator>

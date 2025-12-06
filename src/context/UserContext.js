@@ -17,6 +17,21 @@ export const UserProvider = ({ children }) => {
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
+       else {
+      //  mock editprofil pour le tester dans profil 
+      const mockUser = {
+        id: "507f1f77bcf86cd799439012",
+        email: "johndoe@jobscope.com",
+        role: "user",
+        firstName: "John",
+        lastName: "Doe",
+        biography:
+          "I'm a web developer. I spend my whole day, practically every day, experimenting with HTML, CSS, and JavaScript; dabbling with Python and Ruby.",
+        interest: "Web Development, Cloud Computing,DevOps",
+      };
+      setUser(mockUser);
+      await AsyncStorage.setItem('user', JSON.stringify(mockUser));
+    }
     } catch (error) {
       console.error('Error loading user:', error);
     } finally {
@@ -29,12 +44,12 @@ export const UserProvider = ({ children }) => {
       // TODO: Replace with API call
       const mockUser = {
         id: "507f1f77bcf86cd799439012",
-        email: email,
+        email,
         role: "user",
         firstName: "John",
         lastName: "Doe",
         biography: "Full-stack developer with 3 years of experience.",
-        interest: ["Web Development, Cloud Computing, DevOps"]
+        interest: "Web Development, Cloud Computing, DevOps",
       };
 
       setUser(mockUser);

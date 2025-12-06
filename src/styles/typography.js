@@ -1,4 +1,4 @@
-export const typography = {
+ export const typography = {
     sizes: {
         xs: 12,
         sm: 14,
@@ -20,7 +20,7 @@ export const typography = {
 
     // Headers and elements styles
     h1: {
-        fontFamily: 'Poppins_600SemiBold',
+        fontFamily: 'Poppins_500Medium',
         fontSize: 32,
     },
     h2: {
@@ -48,7 +48,7 @@ export const typography = {
         fontSize: 14,
     },
     caption: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'Poppins_300Light',
         fontSize: 12,
     },
     button: {
@@ -63,7 +63,7 @@ export const typography = {
     },
     inputLabel: {
         fontFamily: 'Poppins_400Regular',
-        fontSize: 18,
+        fontSize: 16,
     },
     inputHelper: {
         fontFamily: 'Poppins_400Regular',

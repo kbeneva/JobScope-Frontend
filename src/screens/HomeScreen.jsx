@@ -1,56 +1,68 @@
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { View, Text, Switch } from "react-native";
+import { View, Text, ScrollView, Switch } from "react-native";
 import JobCard from "../components/JobCard";
-import Button from "../components/Button";
 import { useUser } from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
+import JobHeader from "../components/JobHeader";
+import ResponsiveGrid from "../components/ResponsiveGrid";
+import Button from "../components/Button";
 
 export default function HomeScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
+  const navigation = useNavigation();
+
+  const jobs = [
+    {
+      title: "Senior Full-Stack Web Developer",
+      company: "Lightspeed Commerce",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      tags: ["JavaScript", "React", "Node.js"],
+      publishedTime: "5 days ago",
+      isFavorite: true,
+    },
+    {
+      title: "Senior DevOps Engineer",
+      company: "Munich Re",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      salary: "$69,000 - $114,000",
+      tags: ["Kubernetes", "Terraform", "AWS"],
+      publishedTime: "18 days ago",
+      isFavorite: false,
+    },
+    {
+      title: "Junior Web Developer Co-Op",
+      company: "Osler, Hoskin & Harcourt LLP",
+      location: "Toronto, ON",
+      jobType: "Full-time",
+      tags: ["SharePoint", "SQL", "JavaScript"],
+      publishedTime: "4 days ago",
+      isFavorite: false,
+    },
+  ];
 
   return (
-    <View style={screenStyles.container}>
-      <Text style={{ ...theme.typography.h1, color: theme.colors.textPrimary }}>
-        Bienvenue
-      </Text>
-
-      <View style={screenStyles.rowContainer}>
-        <Text style={{ color: theme.colors.textPrimary }}>
-          {" "}
-          {theme.theme === "light" ? "Mode clair" : "Mode sombre"}{" "}
-        </Text>
-
-        <Switch
-          value={theme.theme === "dark"}
-          onValueChange={theme.toggleTheme}
-          thumbColor={
-            theme.theme === "dark" ? theme.colors.accent : theme.colors.white
-          }
-          trackColor={{
-            false: theme.colors.tag,
-            true: theme.colors.accent + 80,
-          }}
+    <View style={{ flex: 1 }}>
+      <JobHeader isHomePage={true} />
+      <ScrollView
+        style={screenStyles.container}
+        contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <Button
+          title="Voir le détail du job"
+          onPress={() => navigation.navigate("Details")}
         />
-      </View>
-
-      <JobCard></JobCard>
-
-      <Text style={theme.typography.h1}>Ceci est un h1</Text>
-      <Text style={theme.typography.h2}>Ceci est un h2</Text>
-      <Text style={theme.typography.h3}>Ceci est un h3</Text>
-      <Text style={theme.typography.h4}>Ceci est un h4</Text>
-      <Text style={theme.typography.body}>Ceci est un body</Text>
-      <Text style={theme.typography.bodySmall}>Ceci est un bodySmall</Text>
-      <Text style={theme.typography.caption}>Ceci est un caption</Text>
-      <Text style={theme.typography.button}>Ceci est un button</Text>
-      <Text style={theme.typography.input}>Ceci est un input</Text>
-      <Text style={theme.typography.inputLabel}>Ceci est un inputLabel</Text>
-      <Text style={theme.typography.inputHelper}>Ceci est un inputHelper</Text>
-      <Text style={theme.typography.inputError}>Ceci est un inputError</Text>
-
-      <Button title="Envoyer" onPress={() => console.log("Clicked")} />
+        <ResponsiveGrid>
+          {jobs.map((job, index) => (
+            <JobCard key={index} job={job} />
+          ))}
+        </ResponsiveGrid>
+      </ScrollView>
     </View>
   );
 }
