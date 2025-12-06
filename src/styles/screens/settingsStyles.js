@@ -17,11 +17,16 @@ export const createSettingsStyles = (theme) => StyleSheet.create({
     },
     divider: {
         height: 1,
-        backgroundColor: theme.colors.border
+        backgroundColor: theme.colors.textDisabled
+    },
+    rowLeft: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 12
     },
     rowText: {
         ...theme.typography.body,
-        color: theme.colors.text,
+        color: theme.colors.textPrimary,
         marginLeft: 12
     },
     settingRow: {

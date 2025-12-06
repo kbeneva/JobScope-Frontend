@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useTheme } from '../styles/theme';
-import { createCardStyles } from "../styles/components/cardStyles";
+import { createCardStyles } from "../styles/components/jobCardStyles";
 import JobTag from "./JobTag";
 import Bookmark from './Bookmark';
 import { Ionicons } from "@expo/vector-icons";

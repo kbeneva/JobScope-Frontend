@@ -2,10 +2,19 @@ import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { useUser } from "../context/UserContext";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import BackHeader from "../components/BackHeader";
 import { createUserFormStyles } from "../styles/screens/userFormStyles";
 import { Ionicons } from "@expo/vector-icons";
+import Button from "../components/Button";
 
 export default function UserFormScreen() {
   const theme = useTheme();
@@ -27,7 +36,9 @@ export default function UserFormScreen() {
     <View style={screenStyles.container}>
       <BackHeader title="Edit Profile" />
       <View>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
           <ScrollView contentContainerStyle={{ paddingHorizontal: 4 }}>
             <Text style={userFormStyles.label}>First Name</Text>
             <TextInput
@@ -80,9 +91,7 @@ export default function UserFormScreen() {
             />
           </ScrollView>
 
-          <TouchableOpacity onPress={onSave} style={userFormStyles.saveBtn}>
-            <Text style={userFormStyles.saveText}>Save changes</Text>
-          </TouchableOpacity>
+          <Button onPress={() => onSave} title="Save changes" />
         </KeyboardAvoidingView>
       </View>
     </View>

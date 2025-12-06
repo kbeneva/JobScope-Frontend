@@ -55,13 +55,13 @@ export default function ProfileScreen() {
           onPress={() => navigation.navigate("Favorites")}
         >
           <View style={profileStyles.rowLeft}>
-            <Ionicons name="bookmark" size={22} color={theme.colors.icon} />
+            <Ionicons name="bookmark-outline" size={22} color={theme.colors.textPrimary} />
             <Text style={profileStyles.rowText}>Saved</Text>
           </View>
           <Ionicons
             name="chevron-forward"
             size={20}
-            color={theme.colors.iconSecondary}
+            color={theme.colors.textPrimary}
           />
         </TouchableOpacity>
 
@@ -75,14 +75,14 @@ export default function ProfileScreen() {
             <Ionicons
               name="settings-outline"
               size={22}
-              color={theme.colors.icon}
+              color={theme.colors.textPrimary}
             />
             <Text style={profileStyles.rowText}>Settings</Text>
           </View>
           <Ionicons
             name="chevron-forward"
             size={20}
-            color={theme.colors.iconSecondary}
+            color={theme.colors.textPrimary}
           />
         </TouchableOpacity>
       </View>

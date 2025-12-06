@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 export const createProfileStyles = (theme) => StyleSheet.create({
     name: {
         ...theme.typography.h2,
-        color: theme.colors.text
+        color: theme.colors.textPrimary,
     },
     email: {
         ...theme.typography.body,
-        color: theme.colors.primary,
+        color: theme.colors.textPrimary,
+        textDecorationLine: 'underline',
         marginTop: 4,
     },
     button: {
@@ -19,7 +20,7 @@ export const createProfileStyles = (theme) => StyleSheet.create({
     },
     buttonText: { ...theme.typography.button, color: theme.colors.white },
     bio: {
-        ...theme.typography.body,
+        ...theme.typography.bodySmall,
         color: theme.colors.textSecondary,
         lineHeight: 20,
     },
@@ -38,15 +39,16 @@ export const createProfileStyles = (theme) => StyleSheet.create({
     },
     rowLeft: {
       flexDirection: "row",
-      alignItems: "center", gap: 12
+      alignItems: "center",
+      gap: 12
     },
     rowText: {
       ...theme.typography.body,
-      color: theme.colors.text,
+      color: theme.colors.textPrimary,
       marginLeft: 12,
     },
     divider: {
-      height: 1,
-      backgroundColor: theme.colors.border
+        height: 1,
+        backgroundColor: theme.colors.textDisabled
     },
 });

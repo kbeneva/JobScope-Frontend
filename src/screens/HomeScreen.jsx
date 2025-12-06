@@ -53,29 +53,6 @@ export default function HomeScreen() {
         contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={screenStyles.rowContainer}>
-          <Text style={{ color: theme.colors.textPrimary }}>
-            {" "}
-            {theme.theme === "light" ? "Mode clair" : "Mode sombre"}{" "}
-          </Text>
-
-          <Switch
-            value={theme.theme === "dark"}
-            onValueChange={theme.toggleTheme}
-            thumbColor={
-              theme.theme === "dark" ? theme.colors.accent : theme.colors.white
-            }
-            trackColor={{
-              false: theme.colors.tag,
-              true: theme.colors.accent + 80,
-            }}
-          />
-        </View>
-
-        <Button
-          title="Voir les favoris"
-          onPress={() => navigation.navigate("Favorites")}
-        />
         <Button
           title="Voir le détail du job"
           onPress={() => navigation.navigate("Details")}

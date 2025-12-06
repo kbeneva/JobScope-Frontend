@@ -63,7 +63,7 @@
     },
     inputLabel: {
         fontFamily: 'Poppins_400Regular',
-        fontSize: 18,
+        fontSize: 16,
     },
     inputHelper: {
         fontFamily: 'Poppins_400Regular',

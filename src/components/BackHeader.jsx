@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../styles/theme";
-import { createBackHeaderStyles } from "../styles/components/backHeader";
+import { createBackHeaderStyles } from "../styles/components/backHeaderStyles";
 
 export default function BackHeader({ title = "Details", onBack, backParams = null }) {
   const navigation = useNavigation();

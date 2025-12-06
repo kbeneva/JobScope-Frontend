@@ -12,9 +12,9 @@ export const darkColors = {
     bar: '#262D34',
 
     // Text
-    textPrimary: '#EEEEEE',
+    textPrimary: '#F1F3F4',
     textSecondary: '#B8C1CC',
-    textDisabled: '#C7C7CC',
+    textDisabled: '#5C6B7A',
     textButton: '#FFFFFF',
 
     // States

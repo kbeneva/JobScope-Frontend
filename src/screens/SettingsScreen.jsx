@@ -4,7 +4,7 @@ import { useUser } from "../context/UserContext";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import BackHeader from "../components/BackHeader";
 import { Ionicons } from "@expo/vector-icons";
-import { createSettingsStyles } from "../styles/screens/settingsStyle";
+import { createSettingsStyles } from "../styles/screens/settingsStyles";
 
 export default function SettingsScreen() {
   const theme = useTheme();
@@ -20,19 +20,21 @@ export default function SettingsScreen() {
           <View style={settingsStyles.rowLeft}>
             <Ionicons
               name="sunny-outline"
-              size={20}
-              color={theme.colors.iconPrimary}
+              size={30}
+              color={theme.colors.textSecondary}
             />
             <Text style={settingsStyles.rowText}>Theme</Text>
           </View>
           <Switch
             value={theme.theme === "dark"}
             onValueChange={theme.toggleTheme}
+            thumbColor={
+              theme.theme === "dark" ? theme.colors.accent : theme.colors.white
+            }
             trackColor={{
-              false: theme.colors.border,
-              true: theme.colors.primary,
+              false: theme.colors.tag,
+              true: theme.colors.accent + 80,
             }}
-            thumbColor={theme.colors.white}
           />
         </View>
 
@@ -49,15 +51,15 @@ export default function SettingsScreen() {
           <View style={settingsStyles.rowLeft}>
             <Ionicons
               name="log-out-outline"
-              size={20}
-              color={theme.colors.iconPrimary}
+              size={30}
+              color={theme.colors.textSecondary}
             />
             <Text style={settingsStyles.rowText}>Logout</Text>
           </View>
           <Ionicons
             name="chevron-forward"
             size={18}
-            color={theme.colors.iconSecondary}
+            color={theme.colors.textPrimary}
           />
         </TouchableOpacity>
       </View>

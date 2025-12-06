@@ -1,29 +1,17 @@
 import { StyleSheet } from 'react-native';
+import { padding } from '../spacing';
 
 export const createUserFormStyles = (theme) => StyleSheet.create({
     label: {
-        ...theme.typography.caption,
-        color: theme.colors.textSecondary,
-        marginBottom: 6,
-        marginTop: theme.spacing.md,
+        ...theme.typography.inputLabel,
+        color: theme.colors.textPrimary,
     },
     input: {
+        ...theme.typography.input,
+        color: theme.colors.textSecondary,
         borderBottomWidth: 1,
-        borderBottomColor: theme.colors.border,
-        paddingVertical: 10,
-        ...theme.typography.body,
-        color: theme.colors.text,
-    },
-    saveBtn: {
-        backgroundColor: theme.colors.primary,
-        paddingVertical: 16,
-        borderRadius: theme.borderRadius.md,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: theme.spacing.lg,
-    },
-    saveText: {
-        ...theme.typography.button,
-        color: theme.colors.white
+        borderBottomColor: theme.colors.textSecondary,
+        marginBottom: theme.spacing.lg,
+        padding: 2,
     },
 });

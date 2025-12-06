@@ -1,5 +1,5 @@
 import { View, Platform, useWindowDimensions } from "react-native";
-import { createGridStyles } from "../styles/components/gridStyle";
+import { createGridStyles } from "../styles/components/gridStyles";
 
 export default function ResponsiveGrid({
   children,
