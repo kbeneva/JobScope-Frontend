@@ -24,6 +24,7 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
     const { colors, theme } = useContext(ThemeContext);
     const tabBarColor = theme === "light" ? "#fff" : "#222";
+   
 
     return (
         <Tab.Navigator
@@ -85,6 +86,8 @@ function Tabs() {
                     ),
                 }}
             />
+          
+
         </Tab.Navigator>
     );
 }
@@ -108,12 +111,12 @@ export default function AppNavigator() {
                 <Stack.Screen name="Details" component={DetailsScreen} />
                 <Stack.Screen name="Favorites" component={FavoritesScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen 
-                    name="Login" 
+                <Stack.Screen
+                    name="Login"
                     component={LoginScreen}
                 />
-                <Stack.Screen 
-                    name="Signup" 
+                <Stack.Screen
+                    name="Signup"
                     component={SignupScreen}
                 />
                 {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
