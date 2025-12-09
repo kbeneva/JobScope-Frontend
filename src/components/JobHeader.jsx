@@ -1,6 +1,6 @@
 import { useTheme } from "../styles/theme";
 import { View, Text } from "react-native";
-import { createHeaderStyles } from "../styles/components/jobHeaderStyles";
+import { createHeaderStyles } from "../styles/components/JobHeaderStyles";
 import SearchBar from "./SearchBar";
 
 export default function JobHeader({ isHomePage = false }) {
