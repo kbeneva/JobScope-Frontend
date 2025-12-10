@@ -11,7 +11,7 @@ export default function JobHeader({ isHomePage = false }) {
         <View style={styles.container}>
             {isHomePage ?
                 <View>
-                    <Text style={styles.header}>Bienvenue</Text>
+                    <Text style={styles.header}>Welcome</Text>
                     <SearchBar />
                 </View>
                 :
