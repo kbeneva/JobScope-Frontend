@@ -1,6 +1,6 @@
 import { useTheme } from "../styles/theme";
 import { View, Text } from "react-native";
-import { createHeaderStyles } from "../styles/components/jobHeaderStyles";
+import { createHeaderStyles } from "../styles/components/JobHeaderStyles";
 import SearchBar from "./SearchBar";
 
 export default function JobHeader({ isHomePage = false }) {
@@ -11,7 +11,7 @@ export default function JobHeader({ isHomePage = false }) {
         <View style={styles.container}>
             {isHomePage ?
                 <View>
-                    <Text style={styles.header}>Bienvenue</Text>
+                    <Text style={styles.header}>Welcome</Text>
                     <SearchBar />
                 </View>
                 :

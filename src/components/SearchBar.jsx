@@ -7,7 +7,7 @@ import { useTheme } from "../styles/theme";
 import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 
-export default function SearchBar({ onSearch, onFilterApply, placeholder = "Rechercher..." }) {
+export default function SearchBar({ onSearch, onFilterApply, placeholder = "Search job..." }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
   const [searchText, setSearchText] = useState("");

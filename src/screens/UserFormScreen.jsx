@@ -27,6 +27,7 @@ export default function UserFormScreen() {
   const [email, setEmail] = useState(user?.email || "");
   const [biography, setBiography] = useState(user?.biography || "");
   const [interest, setInterest] = useState(user?.interest || "");
+  const BIO_MAX = 250;
 
   const onSave = async () => {
     await updateUser({ firstName, lastName, email, biography, interest });
@@ -72,7 +73,7 @@ export default function UserFormScreen() {
             <Text style={userFormStyles.label}>Bio</Text>
             <TextInput
               value={biography}
-              onChangeText={(t) => t.length <= 250 && setBiography(t)}
+              onChangeText={(t) => t.length <= BIO_MAX && setBiography(t)}
               placeholder="Write something about you..."
               placeholderTextColor={theme.colors.textSecondary}
               style={[
@@ -81,6 +82,15 @@ export default function UserFormScreen() {
               ]}
               multiline
             />
+            <Text
+              style={{
+                color: theme.colors.textSecondary,
+                textAlign: "right",
+                marginTop: 4,
+              }}
+            >
+              {`${biography.length}/${BIO_MAX}`}
+            </Text>
             <Text style={userFormStyles.label}>Interests</Text>
             <TextInput
               value={interest}
