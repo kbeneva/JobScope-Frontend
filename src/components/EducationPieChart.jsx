@@ -28,7 +28,6 @@ export default function EducationPieChart() {
       >
         <View style={styles.row}>
 
-          {/* PIE CHART À GAUCHE, BIEN COMPLET */}
           <PieChart
             data={data}
             width={270}
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 20,
     paddingHorizontal: 16,
-    borderRadius: 22,  
+    borderRadius: 22,
     marginBottom: 20,
 
     shadowOpacity: 0.08,
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   legend: {
-    marginLeft: -100,    
+    marginLeft: -100,
   },
 
   legendRow: {

@@ -4,13 +4,16 @@ import { View, Text, Switch } from "react-native";
 import MarketCardBox from "../components/MarketCardBox";
 import MarketTable from "../components/MarketTable";
 import EducationPieChart from "../components/EducationPieChart";
-
+import MarketGraphic from "../components/MarketGraphic";
+import { ScrollView } from "react-native";
+import MarketGraphicHorizontal from "../components/MarketGraphicHorizontal";
+import MarketDonutRadar from "../components/MarketDonutRadar";
 export default function MarketScreen() {
   const theme = useTheme();
   const screenStyles = createScreenStyles(theme);
 
   return (
-    <View style={screenStyles.container}>
+    <ScrollView style={screenStyles.container}>
 
       <View style={screenStyles.rowContainer}>
         <Text style={{ color: theme.colors.textPrimary }}>
@@ -44,10 +47,11 @@ export default function MarketScreen() {
           { job: "Psychologist", salary: "$170,564" },
           { job: "Dentist", salary: "$148,405" },
         ]}
-        
+
       />
       <EducationPieChart />
-
-    </View>
+      <MarketGraphic />
+      <MarketGraphicHorizontal />
+    </ScrollView>
   );
 }

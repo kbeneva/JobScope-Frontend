@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 12,
-    alignSelf: "flex-start", // pas full width — juste autour du texte
+    alignSelf: "flex-start", 
     marginVertical: 10,
   },
   text: {
