@@ -14,12 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 import JobTag from "../components/JobTag";
 import Bookmark from "../components/Bookmark";
 import BackHeader from "../components/BackHeader";
+import { createDetailsStyles } from "../styles/screens/detailsStyles";
 
 // TODO: Passer en prop jobId
 export default function DetailsScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
+  const detailsStyles = createDetailsStyles(theme);
   const navigation = useNavigation();
 
   // simuler appel a l'api avec l'id
@@ -58,158 +60,71 @@ export default function DetailsScreen() {
     <View style={screenStyles.container}>
       <BackHeader title="Details of Job Offer"/>
       {/* 1 */}
-      <View style={{ position: "relative" }}>
+      <View style={detailsStyles.relative}>
         <Bookmark
-          style={{ position: "absolute", right: 10, top: 10 }}
+          style={detailsStyles.bookmark}
           isSaved={job.isFavorite}
         />
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 12,
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "700",
-                color: theme.colors?.textPrimary || theme.text,
-              }}
-            >
+        <View style={detailsStyles.headerRow}>
+          <View style={detailsStyles.flex1}>
+            <Text style={detailsStyles.title}>
               {job.title}
             </Text>
-            <Text
-              style={{
-                fontSize: 15,
-                color: theme.colors?.textSecondary || theme.textSecondary,
-              }}
-            >
+            <Text style={detailsStyles.company}>
               {job.company}
             </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 2,
-              }}
-            >
+            <View style={detailsStyles.locationRow}>
               <Ionicons name="location-sharp" size={24} color={theme.colors.primary} />
-
-              <Text
-                style={{
-                  color: theme.colors?.textSecondary || theme.textSecondary,
-                  fontSize: 15,
-                }}
-              >
+              <Text style={detailsStyles.location}>
                 {job.location}
               </Text>
             </View>
           </View>
-          <Text
-            style={{
-              color: theme.colors?.textSecondary || theme.textSecondary,
-              fontSize: 14,
-              marginLeft: 12,
-            }}
-          >
+          <Text style={detailsStyles.published}>
             {job.publishedTime || job.postedAgo}
           </Text>
         </View>
       </View>
       <ScrollView
-        style={{ flex: 1 }}
+        style={detailsStyles.flex1}
         contentContainerStyle={screenStyles.scrollContent}
       >
         {/* 2 */}
-        <View
-          style={{
-            flexDirection: "row",
-            borderBottomWidth: 1,
-            borderBottomColor: theme.colors?.border || theme.border,
-            marginBottom: 16,
-          }}
-        >
-          <View
-            style={{
-              borderBottomWidth: 2,
-              borderBottomColor: theme.colors?.primary || theme.primary,
-              marginRight: 20,
-              paddingVertical: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "600",
-                color: theme.colors?.primary || theme.primary,
-              }}
-            >
+        <View style={detailsStyles.tabRow}>
+          <View style={detailsStyles.tabActive}>
+            <Text style={detailsStyles.tabActiveLabel}>
               Job
             </Text>
           </View>
         </View>
         {/* 3 */}
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "600",
-            marginBottom: 8,
-            color: theme.colors?.textPrimary || theme.text,
-          }}
-        >
+        <Text style={detailsStyles.sectionTitle}>
           Job details
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 8,
-          }}
-        >
+        <View style={detailsStyles.detailRow}>
           <MaterialIcons
             name="attach-money"
             size={20}
             color={theme.colors?.primary || theme.primary}
-            style={{ marginRight: 6 }}
+            style={detailsStyles.detailIcon}
           />
           <JobTag title={job.pay || job.salary} outlined={true} />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 8,
-          }}
-        >
+        <View style={detailsStyles.detailRow}>
           <MaterialIcons
             name="work"
             size={20}
             color={theme.colors?.primary || theme.primary}
-            style={{ marginRight: 6 }}
+            style={detailsStyles.detailIcon}
           />
           <JobTag title={job.jobType} outlined={true} />
         </View>
         {/* 4*/}
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "600",
-            marginBottom: 8,
-            color: theme.colors?.textPrimary || theme.text,
-          }}
-        >
+        <Text style={detailsStyles.sectionTitle}>
           Full job description
         </Text>
-        <Text
-          style={{
-            fontSize: 15,
-            lineHeight: 22,
-            color: theme.colors?.textSecondary || theme.textSecondary,
-          }}
-        >
+        <Text style={detailsStyles.description}>
           {job.description}
         </Text>
         <Text style={theme.typography.h4}>Skills</Text>
