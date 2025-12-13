@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { useUser } from "../context/UserContext";
@@ -14,49 +8,74 @@ import { useNavigation } from "@react-navigation/native";
 import JobTag from "../components/JobTag";
 import Bookmark from "../components/Bookmark";
 import BackHeader from "../components/BackHeader";
+import { jobsService } from "../services/jobsService";
+import { useState, useEffect } from "react";
 
-// TODO: Passer en prop jobId
-export default function DetailsScreen() {
+export default function DetailsScreen({ route }) {
   const theme = useTheme();
-  const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
-  const navigation = useNavigation();
 
-  // simuler appel a l'api avec l'id
+  const { jobId, job: initialJob } = route.params || {};
 
-  const job = {
-    title: "Senior Full-Stack Web Developer",
-    company: "Lightspeed Commerce",
-    location: "Toronto, ON",
-    jobType: "Full-time",
-    experience: "5+ years",
-    education: "Bachelor's degree in Computer Science",
-    languages: ["English"],
-    shortDescription:
-      "Join our Marketing team to build, maintain, and evolve our marketing website and related applications.",
-    description:
-      "We are looking for a Full-Stack Web Developer to join our Marketing team...",
-    skills: [
-      "JavaScript",
-      "React",
-      "Node.js",
-      "PHP",
-      "MySQL",
-      "WordPress",
-      "Git",
-      "REST",
-      "HTML",
-      "CSS",
-    ],
-    tags: ["JavaScript", "React", "Node.js"],
-    postedOn: "LinkedIn",
-    publishedTime: "5 days ago",
-    isFavorite: false,
+  const [job, setJob] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (jobId && !initialJob) {
+      fetchJob();
+    }
+  }, [jobId]);
+
+  const fetchJob = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await jobsService.getJobById(jobId);
+      setJob(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: theme.colors.error, marginBottom: 20 }}>
+          Error: {error}
+        </Text>
+        <TouchableOpacity onPress={fetchJob}>
+          <Text style={{ color: theme.colors.primary }}>Reload</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Pas de job
+  if (!job) {
+    return (
+      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: theme.colors.textPrimary }}>
+          Aucune offre trouvée
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={screenStyles.container}>
-      <BackHeader title="Details of Job Offer"/>
+      <BackHeader title="Details of Job Offer" />
       {/* 1 */}
       <View style={{ position: "relative" }}>
         <Bookmark
