@@ -7,43 +7,28 @@ import { useNavigation } from "@react-navigation/native";
 import JobHeader from "../components/JobHeader";
 import ResponsiveGrid from "../components/ResponsiveGrid";
 import Button from "../components/Button";
+import { jobsService } from "../services/jobsService";
+import { useState, useEffect } from "react";
 
 export default function HomeScreen() {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
   const navigation = useNavigation();
+  const [jobs, setJobs] = useState([]);
 
-  const jobs = [
-    {
-      title: "Senior Full-Stack Web Developer",
-      company: "Lightspeed Commerce",
-      location: "Toronto, ON",
-      jobType: "Full-time",
-      tags: ["JavaScript", "React", "Node.js"],
-      publishedTime: "5 days ago",
-      isFavorite: true,
-    },
-    {
-      title: "Senior DevOps Engineer",
-      company: "Munich Re",
-      location: "Toronto, ON",
-      jobType: "Full-time",
-      salary: "$69,000 - $114,000",
-      tags: ["Kubernetes", "Terraform", "AWS"],
-      publishedTime: "18 days ago",
-      isFavorite: false,
-    },
-    {
-      title: "Junior Web Developer Co-Op",
-      company: "Osler, Hoskin & Harcourt LLP",
-      location: "Toronto, ON",
-      jobType: "Full-time",
-      tags: ["SharePoint", "SQL", "JavaScript"],
-      publishedTime: "4 days ago",
-      isFavorite: false,
-    },
-  ];
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      const data = await jobsService.getRecentJobs();
+      setJobs(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
