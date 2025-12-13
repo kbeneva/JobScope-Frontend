@@ -152,63 +152,40 @@ export default function FavoritesScreen() {
   // Chargement initial
   if (loading && jobs.length === 0) {
     return (
-      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View style={[screenStyles.container, favoritesStyles.loadingContainer]}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
   }
 
   return (
-    <View style={[screenStyles.container, { flex: 1 }]}>
+    <View style={[screenStyles.container, favoritesStyles.scrollView]}>
       <BackHeader title="Saved"/>
       <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: theme.spacing.xl }}
+        style={favoritesStyles.scrollView}
+        contentContainerStyle={favoritesStyles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <View style={{ 
-          flexDirection: 'row', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          marginBottom: 16 
-        }}>
+        <View style={favoritesStyles.headerContainer}>
           
           {/* Pagination en haut */}
           {totalPages > 1 && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={favoritesStyles.paginationContainer}>
               <TouchableOpacity
-                style={{ 
-                  borderWidth: 1, 
-                  borderColor: theme.colors.textSecondary, 
-                  borderRadius: 20, 
-                  padding: 8, 
-                  marginHorizontal: 4,
-                  opacity: page === 1 ? 0.5 : 1 
-                }}
+                style={[favoritesStyles.paginationButton, page === 1 && favoritesStyles.paginationButtonDisabled]}
                 onPress={() => setPage(page - 1)}
                 disabled={page === 1}
               >
                 <Ionicons name="chevron-back" size={20} color={theme.colors.textSecondary} />
               </TouchableOpacity>
               
-              <Text style={{ 
-                fontSize: 14, 
-                color: theme.colors.textSecondary,
-                marginHorizontal: 8 
-              }}>
+              <Text style={favoritesStyles.paginationText}>
                 {page} / {totalPages}
               </Text>
               
               <TouchableOpacity
-                style={{ 
-                  borderWidth: 1, 
-                  borderColor: theme.colors.textSecondary, 
-                  borderRadius: 20, 
-                  padding: 8, 
-                  marginHorizontal: 4,
-                  opacity: page === totalPages ? 0.5 : 1 
-                }}
+                style={[favoritesStyles.paginationButton, page === totalPages && favoritesStyles.paginationButtonDisabled]}
                 onPress={() => setPage(page + 1)}
                 disabled={page === totalPages}
               >
@@ -227,7 +204,7 @@ export default function FavoritesScreen() {
 
         {/* Indicateur de chargement lors du changement de page */}
         {loading && (
-          <View style={{ paddingVertical: 20, alignItems: 'center' }}>
+          <View style={favoritesStyles.loadingContainer}>
             <ActivityIndicator size="small" color={theme.colors.primary} />
           </View>
         )}
