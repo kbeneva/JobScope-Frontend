@@ -13,7 +13,6 @@ export const analyticsService = {
 
   getDomainDashboard: async (domain) => {
     try {
-      console.log(domain)
       const response = await publicApiClient.get(`/analytics/dashboard/domain/${domain}`);
       return response.data;
     } catch (error) {

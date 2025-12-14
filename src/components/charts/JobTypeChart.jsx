@@ -1,88 +1,102 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
-import { PieChart } from "react-native-chart-kit";
+import { View, Text } from "react-native";
+import { PieChart } from "react-native-gifted-charts";
 import { useTheme } from "../../styles/theme";
-import { createJobTypeDonutStyles } from "../../styles/components/charts/thirdChart";
+import { createJobTypeDonutStyles } from "../../styles/components/charts/chart";
 
 export default function JobTypeChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createJobTypeDonutStyles(theme);
-    const screenWidth = Dimensions.get("window").width;
 
-    data = [
-        {
-            name: "Full-time",
-            population: 80.2,
-            color: "#006989",
-        },
-        {
-            name: "Contractor",
-            population: 18,
-            color: "#2C7DA0",
-        },
-        {
-            name: "Part-time",
-            population: 1.47,
-            color: "#468FAF",
-        },
-        {
-            name: "Internship",
-            population: 0.35,
-            color: "#61A5C2",
-        },
-    ];
+    // Vérifier si les données existent
+    if (!data || data.length === 0) {
+        return (
+            <View>
+                <Text style={styles.title}>{title || "Job Types Distribution"}</Text>
+                <Text style={{ color: theme.colors.textSecondary, textAlign: 'center' }}>
+                    No data available
+                </Text>
+            </View>
+        );
+    }
+
+    // Couleurs pour les différents types de jobs
+    const colors = ["#006989", "#2C7DA0", "#468FAF", "#61A5C2", "#89C2D9"];
+
+    // Préparer les données pour le PieChart
+    const chartData = data.map((item, index) => ({
+        value: item.value,
+        color: colors[index % colors.length],
+        text: `${item.percentage}%`,
+        label: item.label,
+    }));
 
     return (
         <View>
-
-            <Text style={styles.title}>Job Types Distribution</Text>
+            <Text style={styles.title}>{title}</Text>
 
             <View style={styles.chartContainer}>
                 <PieChart
-                    data={data}
-                    width={screenWidth - 60}
-                    height={250}
-                    chartConfig={{
-                        backgroundColor: "transparent",
-                        backgroundGradientFrom: "transparent",
-                        backgroundGradientTo: "transparent",
-                        color: () => theme.colors.textPrimary,
-                    }}
-                    accessor="population"
-                    backgroundColor="transparent"
-                    paddingLeft="82"
-                    hasLegend={false}
-                    absolute
-                />
-                <View
-                    style={[
-                        styles.donutHole,
-                        { backgroundColor: theme.colors.card },
-                    ]}
+                    data={chartData}
+                    donut
+                    radius={90}
+                    innerRadius={50}
+                    innerCircleColor={theme.colors.card || theme.colors.background}
+                    centerLabelComponent={() => (
+                        <View>
+                            <Text style={{ 
+                                fontSize: 20, 
+                                fontWeight: 'bold',
+                                color: theme.colors.textPrimary,
+                            }}>
+                                {metadata?.total_jobs || ''}
+                            </Text>
+                            <Text style={{ 
+                                fontSize: 12, 
+                                color: theme.colors.textSecondary,
+                            }}>
+                                Jobs
+                            </Text>
+                        </View>
+                    )}
+                    textColor={theme.colors.white || '#fff'}
+                    textSize={11}
+                    showText
+                    fontWeight="bold"
                 />
             </View>
+
+            {/* Légende */}
             <View style={styles.legendContainer}>
                 {data.map((item, index) => (
                     <View key={index} style={styles.legendRow}>
-
                         <View style={styles.legendLeft}>
                             <View
                                 style={[
                                     styles.colorDot,
-                                    { backgroundColor: item.color },
+                                    { backgroundColor: colors[index % colors.length] },
                                 ]}
                             />
-                            <Text style={styles.legendText}>{item.name}</Text>
+                            <Text style={styles.legendText}>{item.label}</Text>
                         </View>
-
                         <Text style={styles.legendValue}>
-                            {item.population}%
+                            {item.value} ({item.percentage}%)
                         </Text>
-
                     </View>
                 ))}
             </View>
 
+            {/* Métadonnées */}
+            {metadata && (
+                <Text style={{ 
+                    fontSize: 11, 
+                    color: theme.colors.textSecondary,
+                    textAlign: 'center',
+                    marginTop: 8,
+                }}>
+                    Last updated: {new Date(metadata.last_updated).toLocaleDateString()}
+                </Text>
+            )}
         </View>
     );
 }

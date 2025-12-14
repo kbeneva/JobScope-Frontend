@@ -59,11 +59,12 @@ export default function RadarDomainChart({ data, title, metadata, domain }) {
           dataStroke={theme.colors.accent}
           dataStrokeWidth={2}
 
-          labelSize={12}
+          labelSize={10}
           labelFontFamily={theme.typography.fontFamily.regular}
-
-          axisColor={theme.colors.textDisabled}
-          axisWidth={1}
+          labelDistance={1.2}
+          
+          divisionStroke={theme.colors.textDisabled}
+          
           isCircle
         />
       </View>

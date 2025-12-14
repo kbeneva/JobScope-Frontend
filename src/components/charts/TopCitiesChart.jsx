@@ -1,47 +1,51 @@
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createTopCitiesChartStyles }
-    from "../../styles/components/charts/secondChart";
+import { createTopCitiesChartStyles } from "../../styles/components/charts/chart";
 
 export default function TopCitiesChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createTopCitiesChartStyles(theme);
-    const maxValue = 1000;
 
-    data = [
-        { label: "Toronto, ON", value: 975 },
-        { label: "Mississauga, ON", value: 236 },
-        { label: "Brampton, ON", value: 53 },
-        { label: "Markham, ON", value: 48 },
-        { label: "Vaughan, ON", value: 25 },
-    ];
+    if (!data || data.length === 0) {
+        return (
+            <View>
+                <Text style={styles.title}>{title || "Top 5 Cities"}</Text>
+                <Text style={{ color: theme.colors.textSecondary, textAlign: 'center' }}>
+                    No data available
+                </Text>
+            </View>
+        );
+    }
+
+    const maxValue = Math.max(...data.map(item => item.count));
 
     return (
-        <View >
-
-
-            <Text style={styles.title}>Top 5 Cities</Text>
+        <View>
+            <Text style={styles.title}>{title}</Text>
 
             {data.map((item, index) => (
                 <View key={index} style={styles.row}>
-
-                    <Text style={styles.label}>{item.label}</Text>
+                    <Text style={styles.label}>{item.location}</Text>
 
                     <View style={styles.barContainer}>
                         <View
                             style={[
                                 styles.bar,
-                                { width: `${(item.value / maxValue) * 100}%` },
+                                { width: `${(item.count / maxValue) * 100}%` },
                             ]}
                         />
                     </View>
 
-                    <Text style={styles.value}>{item.value}</Text>
+                    <Text style={styles.value}>{item.count}</Text>
                 </View>
             ))}
 
-
-
+            {/* Métadonnées optionnelles */}
+            {metadata && (
+                <Text style={styles.axisLabel}>
+                    Total locations: {metadata.total_locations || metadata.total_location} • Total jobs: {metadata.total_jobs}
+                </Text>
+            )}
         </View>
     );
 }

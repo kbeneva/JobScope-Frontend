@@ -65,13 +65,12 @@ export const createAnalyticsStyles = (theme) => StyleSheet.create({
         marginBottom: 16,
     },
     placeholderStyle: {
-        fontSize: 16,
+        ...theme.typography.bodyMedium,
         color: theme.colors.textSecondary,
     },
     selectedTextStyle: {
-        fontSize: 16,
+        ...theme.typography.bodyMedium,
         color: theme.colors.textPrimary,
-        fontWeight: '500',
     },
     iconStyle: {
         width: 20,

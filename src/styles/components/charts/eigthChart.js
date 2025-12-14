@@ -10,7 +10,7 @@ export const createSkillsDistChartStyles = (theme) =>
         },
         chartContainer: {
             alignItems: 'center',
-            paddingHorizontal: 10,
+            width: '100%'
         },
         legendContainer: {
             marginTop: 16,

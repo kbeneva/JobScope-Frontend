@@ -63,6 +63,13 @@ export default function DashboardA() {
 
       {Object.keys(chartsData).length > 0 && !loading && !error && (
         <View>
+          {chartsData.top_programming_languages && (
+            <ProgrammingLanguagesChart
+              data={chartsData.top_programming_languages.data}
+              title={chartsData.top_programming_languages.title}
+              metadata={chartsData.top_programming_languages.metadata}
+            />
+          )}
           {chartsData.top_cities && (
             <TopCitiesChart
               data={chartsData.top_cities.data}
@@ -89,13 +96,6 @@ export default function DashboardA() {
               data={chartsData.top_hard_skills_no_lang.data}
               title={chartsData.top_hard_skills_no_lang.title}
               metadata={chartsData.top_hard_skills_no_lang.metadata}
-            />
-          )}
-          {chartsData.top_programming_languages && (
-            <ProgrammingLanguagesChart
-              data={chartsData.top_programming_languages.data}
-              title={chartsData.top_programming_languages.title}
-              metadata={chartsData.top_programming_languages.metadata}
             />
           )}
         </View>

@@ -2,14 +2,14 @@ import { StyleSheet } from "react-native";
 
 export const createTopLanguagesChartStyles = (theme) =>
   StyleSheet.create({
-
+    container: {
+      marginBottom: theme.spacing.lg,
+    },
     title: {
-      marginBottom: theme.spacing?.md ?? 16,
+      marginBottom: theme.spacing.md,
       ...theme.typography.h4,
       color: theme.colors.textPrimary,
       textAlign: "center",
-      marginTop: 30,
-
     },
 
     row: {

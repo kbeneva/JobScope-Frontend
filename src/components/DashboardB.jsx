@@ -26,6 +26,13 @@ export default function DashboardB() {
     value: domain,
   }));
 
+  const normalizeDomainForType = (domain) => {
+    return domain
+      .toLowerCase()
+      .replace(/\s+&\s+/g, '_and_')  // "QA & Security" -> "qa_and_security"
+      .replace(/\s+/g, '_');          // Remplacer les espaces restants par _
+  };
+
   // Charger les données du domaine sélectionné
   useEffect(() => {
     const fetchDomainData = async () => {
@@ -33,12 +40,12 @@ export default function DashboardB() {
       setError(null);
       try {
         const response = await analyticsService.getDomainDashboard(selectedDomain);
-        
+
         const dataByType = {};
         response.charts.forEach(chart => {
           dataByType[chart.type] = chart;
         });
-        
+
         setChartsData(dataByType);
       } catch (err) {
         setError('Error while loading domain data');
@@ -59,16 +66,14 @@ export default function DashboardB() {
       {/* Dropdown */}
       <Dropdown
         style={styles.dropdown}
+        containerStyle={styles.containerStyle}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        containerStyle={styles.containerStyle}
-        itemContainerStyle={styles.itemContainerStyle}
-        itemTextStyle={styles.itemTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
         activeColor={theme.colors.accent + '20'}
         data={domainData}
-        maxHeight={300}
+        maxHeight={260}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? 'Select a domain' : '...'}
@@ -80,6 +85,30 @@ export default function DashboardB() {
           setSelectedDomain(item.value);
           setIsFocus(false);
         }}
+
+        renderItem={(item, selected) => (
+          <View
+            style={{
+              paddingVertical: 6,
+              paddingHorizontal: 14,
+              backgroundColor: selected
+                ? theme.colors.accent + '10'
+                : theme.colors.white,
+            }}
+          >
+            <Text
+              style={{
+                ...theme.typography.body,
+                fontSize: 14,
+                color: selected
+                  ? theme.colors.accent
+                  : theme.colors.textPrimary,
+              }}
+            >
+              {item.label}
+            </Text>
+          </View>
+        )}
       />
 
       {/* Loading State */}
@@ -100,37 +129,37 @@ export default function DashboardB() {
       {/* Data Display - Mapper les charts par type */}
       {Object.keys(chartsData).length > 0 && !loading && !error && (
         <View>
-          {/* Le type contient le domaine, par exemple: "radar_domain_web" */}
-          {chartsData[`radar_domain_${selectedDomain.toLowerCase()}`] && (
+          {/* Utiliser la fonction de normalisation pour construire les clés */}
+          {chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`] && (
             <RadarDomainChart 
-              data={chartsData[`radar_domain_${selectedDomain.toLowerCase()}`].data}
-              title={chartsData[`radar_domain_${selectedDomain.toLowerCase()}`].title}
-              metadata={chartsData[`radar_domain_${selectedDomain.toLowerCase()}`].metadata}
+              data={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].metadata}
               domain={selectedDomain}
             />
           )}
-{/*           
-          {chartsData[`seniority_distribution_${selectedDomain.toLowerCase()}`] && (
+          
+          {/* {chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`] && (
             <SeniorityDistributionChart 
-              data={chartsData[`seniority_distribution_${selectedDomain.toLowerCase()}`].data}
-              title={chartsData[`seniority_distribution_${selectedDomain.toLowerCase()}`].title}
-              metadata={chartsData[`seniority_distribution_${selectedDomain.toLowerCase()}`].metadata}
+              data={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].metadata}
             />
           )}
           
-          {chartsData[`top_cities_${selectedDomain.toLowerCase()}`] && (
+          {chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`] && (
             <TopCitiesDomainChart 
-              data={chartsData[`top_cities_${selectedDomain.toLowerCase()}`].data}
-              title={chartsData[`top_cities_${selectedDomain.toLowerCase()}`].title}
-              metadata={chartsData[`top_cities_${selectedDomain.toLowerCase()}`].metadata}
+              data={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].metadata}
             />
           )}
           
-          {chartsData[`top_technologies_${selectedDomain.toLowerCase()}`] && (
+          {chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`] && (
             <TopTechnologiesChart 
-              data={chartsData[`top_technologies_${selectedDomain.toLowerCase()}`].data}
-              title={chartsData[`top_technologies_${selectedDomain.toLowerCase()}`].title}
-              metadata={chartsData[`top_technologies_${selectedDomain.toLowerCase()}`].metadata}
+              data={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].metadata}
             />
           )} */}
         </View>
