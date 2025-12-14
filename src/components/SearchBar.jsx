@@ -23,18 +23,12 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
     internship: defaultFilters.jobType?.includes('Internship') || false,
 
     // Experience
-    entry: defaultFilters.experience?.includes('Entry') || false,
-    intermediate: defaultFilters.experience?.includes('Intermediate') || false,
+    Junior: defaultFilters.experience?.includes('Junior') || false,
+    Mid: defaultFilters.experience?.includes('Mid') || false,
     senior: defaultFilters.experience?.includes('Senior') || false,
     lead: defaultFilters.experience?.includes('Lead') || false,
   });
 
-  // // ✅ Appelé quand on tape dans l'input (live search si sur JobsScreen)
-  // const handleSearch = (text) => {
-  //   setSearchText(text);
-  //   const apiFilters = buildApiFilters(text, filters);
-  //   onSearch?.(apiFilters);
-  // };
 
   // ✅ Appelé sur Enter (redirection depuis HomeScreen)
   const handleSubmitSearch = () => {
@@ -93,8 +87,8 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
       partTime: false,
       contract: false,
       internship: false,
-      entry: false,
-      intermediate: false,
+      Junior: false,
+      Mid: false,
       senior: false,
       lead: false,
     };
@@ -138,8 +132,8 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
     if (uiFilters.internship) apiFilters.jobType.push('Internship');
 
     // Experience
-    if (uiFilters.entry) apiFilters.experience.push('Entry');
-    if (uiFilters.intermediate) apiFilters.experience.push('Intermediate');
+    if (uiFilters.Junior) apiFilters.experience.push('Junior');
+    if (uiFilters.Mid) apiFilters.experience.push('Mid');
     if (uiFilters.senior) apiFilters.experience.push('Senior');
     if (uiFilters.lead) apiFilters.experience.push('Lead');
 
@@ -237,14 +231,14 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
                 {/* Experience Level */}
                 <Accordion title="Experience Level">
                   <CheckBoxItem
-                    label="Entry"
-                    checked={filters.entry}
-                    onToggle={() => toggleFilter("entry")}
+                    label="Junior"
+                    checked={filters.Junior}
+                    onToggle={() => toggleFilter("Junior")}
                   />
                   <CheckBoxItem
                     label="Intermediate"
-                    checked={filters.intermediate}
-                    onToggle={() => toggleFilter("intermediate")}
+                    checked={filters.Mid}
+                    onToggle={() => toggleFilter("Mid")}
                   />
                   <CheckBoxItem
                     label="Senior"
@@ -269,7 +263,10 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
                 />
                 <Button
                   title="Update"
-                  onPress={handleFilterApply}
+                  onPress={() => {
+                    console.log('🔘🔘🔘 UPDATE BUTTON CLICKED 🔘🔘🔘');
+                    handleFilterApply();
+                  }}
                   size="small"
                   style={{ flex: 1, marginLeft: 8 }}
                 />

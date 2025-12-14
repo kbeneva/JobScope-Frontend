@@ -8,18 +8,31 @@ export const jobsService = {
       console.log("📦 Filters received:", filters);
       console.log("📄 Page:", page, "Limit:", limit);
 
-      // ✅ Construire les params correctement
-      const params = {
-        page,
-        limit,
-        ...filters, // title, jobType[], experience[]
-      };
+      const params = new URLSearchParams();
+      params.append('page', page.toString());
+      params.append('limit', limit.toString());
 
-      console.log("📤 Final params sent to API:", params);
+      // Ajouter title si présent
+      if (filters.title) {
+        params.append('title', filters.title);
+      }
+if (filters.jobType && Array.isArray(filters.jobType)) {
+        filters.jobType.forEach(type => {
+          params.append('jobType', type); // jobType=X&jobType=Y
+        });
+      }
 
-      const response = await optionalAuthApiClient.get('/jobs/search', {
-        params: params,
-      });
+      // ✅ Ajouter chaque experience séparément (SANS [])
+      if (filters.experience && Array.isArray(filters.experience)) {
+        filters.experience.forEach(exp => {
+          params.append('experience', exp);
+        });
+      }
+
+      const queryString = params.toString();
+      console.log("📤 Query string:", queryString);
+
+      const response = await optionalAuthApiClient.get(`/jobs/search?${queryString}`);
 
       console.log("✅ API Response received:", {
         status: response.status,
