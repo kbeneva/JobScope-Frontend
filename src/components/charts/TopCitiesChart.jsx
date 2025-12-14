@@ -3,12 +3,12 @@ import { useTheme } from "../../styles/theme";
 import { createTopCitiesChartStyles }
     from "../../styles/components/charts/secondChart";
 
-export default function TopCitiesChart() {
+export default function TopCitiesChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createTopCitiesChartStyles(theme);
     const maxValue = 1000;
 
-    const data = [
+    data = [
         { label: "Toronto, ON", value: 975 },
         { label: "Mississauga, ON", value: 236 },
         { label: "Brampton, ON", value: 53 },

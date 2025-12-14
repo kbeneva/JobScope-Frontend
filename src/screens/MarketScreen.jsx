@@ -1,48 +1,69 @@
 import { useTheme } from "../styles/theme";
+import { View, Text, Switch, ScrollView, TouchableOpacity } from "react-native";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { View, Text, Switch, ScrollView } from "react-native";
-import ProgrammingLanguageChart from "../components/charts/ProgrammingLanguageChart";
-import TopCitiesChart from "../components/charts/TopCitiesChart";
-import JobTypeDonutChart from "../components/charts/JobTypeChart";
-import SoftSkillsChart from "../components/charts/SoftKillsChart";
-import HardSkillsChart from "../components/charts/HardSkillsChart";
+import { createAnalyticsStyles } from "../styles/screens/analyticsStyles";
+import DashboardA from "../components/DashboardA";
+import DashboardB from "../components/DashboardB";
+import { useState } from "react";
+
+
 export default function MarketScreen() {
   const theme = useTheme();
-  const screenStyles = createScreenStyles(theme);
+  const styles = createScreenStyles(theme);
+  const analyticsStyles = createAnalyticsStyles(theme);
+  
+  const [activeTab, setActiveTab] = useState('dashboardA');
 
   return (
-    <ScrollView style={screenStyles.container}>
+    <View style={styles.container}>
+      {/* Navbar */}
+      <View>
+        <Text style={analyticsStyles.title}>Analysis and Information on the Current Job Market</Text>
+        <View style={analyticsStyles.tabContainer}>
+          <TouchableOpacity
+            style={[
+              analyticsStyles.tab,
+              activeTab === 'dashboardA' && analyticsStyles.activeTab,
+            ]}
+            onPress={() => setActiveTab('dashboardA')}
+          >
+            <Text
+              style={[
+                analyticsStyles.tabText,
+                activeTab === 'dashboardA'
+                  ? analyticsStyles.activeText
+                  : analyticsStyles.inactiveText,
+              ]}
+            >
+              Overview
+            </Text>
+          </TouchableOpacity>
 
-      <View style={screenStyles.rowContainer}>
-        <Text style={{ color: theme.colors.textPrimary }}>
-          {theme.theme === "light" ? "Mode clair" : "Mode sombre"}
-        </Text>
-
-        <Switch
-          value={theme.theme === "dark"}
-          onValueChange={theme.toggleTheme}
-          thumbColor={
-            theme.theme === "dark"
-              ? theme.colors.accent
-              : theme.colors.white
-          }
-          trackColor={{
-            false: theme.colors.tag,
-            true: theme.colors.accent + "80",
-          }}
-        />
+          <TouchableOpacity
+            style={[
+              analyticsStyles.tab,
+              activeTab === 'dashboardB' && analyticsStyles.activeTab,
+            ]}
+            onPress={() => setActiveTab('dashboardB')}
+          >
+            <Text
+              style={[
+                analyticsStyles.tabText,
+                activeTab === 'dashboardB'
+                  ? analyticsStyles.activeText
+                  : analyticsStyles.inactiveText,
+              ]}
+            >
+              By Domain
+            </Text>
+          </TouchableOpacity>
+          <View styles={analyticsStyles.divider} />
+        </View>
       </View>
 
-      <ProgrammingLanguageChart />
-      {/*<Text style={{ color: theme.colors.bodySmall }}>
-        Number of job offers
-      </Text>*/}
-      <TopCitiesChart />
-      <JobTypeDonutChart />
-
-      <SoftSkillsChart />
-      <HardSkillsChart />
-
-    </ScrollView>
+      <View>
+        {activeTab === 'dashboardA' ? <DashboardA /> : <DashboardB />}
+      </View>
+    </View>
   );
 }

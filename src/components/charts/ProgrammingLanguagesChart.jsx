@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from "react-native";
 import { createTopLanguagesChartStyles } from "../../styles/components/charts/firstChart";
 import { useTheme } from "../../styles/theme";
 
-export default function ProgrammingLanguageChart() {
+export default function ProgrammingLanguagesChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createTopLanguagesChartStyles(theme);
     const maxValue = 1000;
-    const data = [
+    data = [
         { label: "Python", value: 913 },
         { label: "Java", value: 803 },
         { label: "JavaScript", value: 522 },

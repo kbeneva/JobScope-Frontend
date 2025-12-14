@@ -23,7 +23,7 @@ const DATA = [
     { label: "Git", value: 106, type: "Development Practice" },
 ];
 
-export default function HardSkillsChart() {
+export default function HardSkillsChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createHardSkillsChartStyles(theme);
     const maxValue = 750;

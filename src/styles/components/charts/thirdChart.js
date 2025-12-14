@@ -52,12 +52,12 @@ export const createJobTypeDonutStyles = (theme) =>
             width: 40,
             height: 40,
             borderRadius: 40,
-            top: "58%",
-            left: "56%",
-            transform: [
-                { translateX: -40 },
-                { translateY: -40 },
-            ],
+            // top: "50%",
+            // left: "50%",
+            // transform: [
+            //     { translateX: -40 },
+            //     { translateY: -40 },
+            // ],
         },
     });
 

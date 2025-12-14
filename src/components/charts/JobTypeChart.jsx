@@ -2,15 +2,14 @@ import React from "react";
 import { View, Text, Dimensions } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { useTheme } from "../../styles/theme";
-import { createJobTypeDonutStyles }
-    from "../../styles/components/charts/thirdChart";
+import { createJobTypeDonutStyles } from "../../styles/components/charts/thirdChart";
 
-export default function JobTypeChart() {
+export default function JobTypeChart({ data, title, metadata }) {
     const theme = useTheme();
     const styles = createJobTypeDonutStyles(theme);
     const screenWidth = Dimensions.get("window").width;
 
-    const data = [
+    data = [
         {
             name: "Full-time",
             population: 80.2,

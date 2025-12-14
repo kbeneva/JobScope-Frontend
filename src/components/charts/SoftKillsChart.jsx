@@ -24,7 +24,7 @@ const DATA = [
   { label: "Coaching", value: 106, type: "Leadership" },
 ];
 
-export default function SoftSkillsChart() {
+export default function SoftSkillsChart({ data, title, metadata }) {
   const theme = useTheme();
   const styles = createSoftSkillsChartStyles(theme);
   const maxValue = 750;
