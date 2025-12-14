@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { useUser } from "../context/UserContext";
@@ -16,13 +16,13 @@ export default function DetailsScreen({ route }) {
   const theme = useTheme();
   const screenStyles = createScreenStyles(theme);
   const detailsStyles = createDetailsStyles(theme);
-  const navigation = useNavigation();
 
   const { jobId, job: initialJob } = route.params || {};
 
   const [job, setJob] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (jobId && !initialJob) {
@@ -33,7 +33,7 @@ export default function DetailsScreen({ route }) {
   const fetchJob = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const data = await jobsService.getJobById(jobId);
       setJob(data);
@@ -70,16 +70,18 @@ export default function DetailsScreen({ route }) {
     return (
       <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <Text style={{ color: theme.colors.textPrimary }}>
-          Aucune offre trouvée
+          Offer not Found
         </Text>
       </View>
     );
   }
 
+  const isLongText = job.description && job.description.length > 500;
+
   return (
     <View style={screenStyles.container}>
       <BackHeader title="Details of Job Offer" />
-      {/* 1 */}
+
       <View style={detailsStyles.relative}>
         <Bookmark
           style={detailsStyles.bookmark}
@@ -88,7 +90,7 @@ export default function DetailsScreen({ route }) {
 
         <View style={detailsStyles.headerRow}>
           <View style={detailsStyles.flex1}>
-            <Text style={detailsStyles.title}>
+            <Text style={theme.typography.h3}>
               {job.title}
             </Text>
             <Text style={detailsStyles.company}>
@@ -106,20 +108,13 @@ export default function DetailsScreen({ route }) {
           </Text>
         </View>
       </View>
+
       <ScrollView
         style={detailsStyles.flex1}
         contentContainerStyle={screenStyles.scrollContent}
+        showsVerticalScrollIndicator={false}
       >
-        {/* 2 */}
-        <View style={detailsStyles.tabRow}>
-          <View style={detailsStyles.tabActive}>
-            <Text style={detailsStyles.tabActiveLabel}>
-              Job
-            </Text>
-          </View>
-        </View>
-        {/* 3 */}
-        <Text style={detailsStyles.sectionTitle}>
+        <Text style={theme.typography.h4}>
           Job details
         </Text>
         <View style={detailsStyles.detailRow}>
@@ -129,7 +124,11 @@ export default function DetailsScreen({ route }) {
             color={theme.colors?.primary || theme.primary}
             style={detailsStyles.detailIcon}
           />
-          <JobTag title={job.pay || job.salary} outlined={true} />
+          {job.salary ?
+            <JobTag label={job.salary} outlined={true} />
+            :
+            <Text style={theme.typography.caption}>not disclosed</Text>
+          }
         </View>
         <View style={detailsStyles.detailRow}>
           <MaterialIcons
@@ -138,17 +137,44 @@ export default function DetailsScreen({ route }) {
             color={theme.colors?.primary || theme.primary}
             style={detailsStyles.detailIcon}
           />
-          <JobTag title={job.jobType} outlined={true} />
+          <JobTag label={job.jobType} outlined={true} />
         </View>
-        {/* 4*/}
-        <Text style={detailsStyles.sectionTitle}>
-          Full job description
+
+        <Text style={theme.typography.h4}>
+          Job description
         </Text>
-        <Text style={detailsStyles.description}>
+        <Text
+          style={detailsStyles.description}
+          numberOfLines={isExpanded ? undefined : 5}
+        >
           {job.description}
         </Text>
+
+        {isLongText && (
+          <TouchableOpacity
+            onPress={() => setIsExpanded(!isExpanded)}
+            style={{ marginTop: 8, marginBottom: 16 }}
+          >
+            <Text>
+              {isExpanded ? 'Read less' : 'Read more'}
+            </Text>
+          </TouchableOpacity>
+        )}
+
         <Text style={theme.typography.h4}>Skills</Text>
-        {/* TODO: map les skills */}
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "flex-start",
+            gap: 8,
+          }}
+        >
+          {job.skills?.map((tag, index) => (
+            <JobTag key={index} label={tag} />
+          ))}
+        </View>
+
       </ScrollView>
     </View>
   );

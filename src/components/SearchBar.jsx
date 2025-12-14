@@ -6,27 +6,62 @@ import Checkbox from 'expo-checkbox';
 import { useTheme } from "../styles/theme";
 import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
+import Accordion from "./Accordion";
 
-export default function SearchBar({ onSearch, onFilterApply, placeholder = "Search job..." }) {
+export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, placeholder = "Search job...", defaultQuery = "", defaultFilters = {}, }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
   const [searchText, setSearchText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const [filters, setFilters] = useState({
-    fullTime: false,
-    partTime: false,
-    remote: false,
-    onSite: false,
+    // Job Type
+    fullTime: defaultFilters.jobType?.includes('Full-time') || false,
+    partTime: defaultFilters.jobType?.includes('Part-time') || false,
+    contract: defaultFilters.jobType?.includes('Contract') || false,
+    internship: defaultFilters.jobType?.includes('Internship') || false,
+
+    // Experience
+    entry: defaultFilters.experience?.includes('Entry') || false,
+    intermediate: defaultFilters.experience?.includes('Intermediate') || false,
+    senior: defaultFilters.experience?.includes('Senior') || false,
+    lead: defaultFilters.experience?.includes('Lead') || false,
   });
 
   const handleSearch = (text) => {
     setSearchText(text);
-    onSearch?.(text);
+    const apiFilters = buildApiFilters(text, filters);
+    onSearch?.(apiFilters);
+  };
+
+  const handleSubmitSearch = () => {
+    const apiFilters = buildApiFilters(searchText, filters);
+    console.log('🚀 Submit Search:', apiFilters);
+    onSearchSubmit?.(apiFilters);
   };
 
   const handleFilterApply = () => {
-    onFilterApply?.(filters);
+    const apiFilters = buildApiFilters(searchText, filters);
+    onFilterApply?.(apiFilters);
+    setModalVisible(false);
+  };
+
+  const handleReset = () => {
+    const resetFilters = {
+      fullTime: false,
+      partTime: false,
+      contract: false,
+      internship: false,
+      entry: false,
+      intermediate: false,
+      senior: false,
+      lead: false,
+    };
+
+    setFilters(resetFilters);
+    const apiFilters = buildApiFilters(searchText, resetFilters);
+
+    onFilterApply?.(apiFilters);
     setModalVisible(false);
   };
 
@@ -34,20 +69,46 @@ export default function SearchBar({ onSearch, onFilterApply, placeholder = "Sear
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const buildApiFilters = (title, uiFilters) => {
+    const apiFilters = {
+      title: title || undefined,
+      jobType: [],
+      experience: [],
+    };
+
+    // Job Type
+    if (uiFilters.fullTime) apiFilters.jobType.push('Full-time');
+    if (uiFilters.partTime) apiFilters.jobType.push('Part-time');
+    if (uiFilters.contract) apiFilters.jobType.push('Contract');
+    if (uiFilters.internship) apiFilters.jobType.push('Internship');
+
+    // Experience
+    if (uiFilters.entry) apiFilters.experience.push('Entry');
+    if (uiFilters.intermediate) apiFilters.experience.push('Intermediate');
+    if (uiFilters.senior) apiFilters.experience.push('Senior');
+    if (uiFilters.lead) apiFilters.experience.push('Lead');
+
+    if (apiFilters.jobType.length === 0) delete apiFilters.jobType;
+    if (apiFilters.experience.length === 0) delete apiFilters.experience;
+    if (!apiFilters.title) delete apiFilters.title;
+
+    return apiFilters;
+  };
+
   return (
     <>
       <View style={[styles.searchContainer]}>
-        <FontAwesome 
-          name="search" 
-          size={20} 
-          color={theme.colors.textSecondary} 
+        <FontAwesome
+          name="search"
+          size={20}
+          color={theme.colors.textSecondary}
           style={styles.searchIcon}
         />
 
         <TextInput
           style={[
             styles.input,
-            { 
+            {
               color: theme.colors.textPrimary,
               flex: 1,
             }
@@ -55,76 +116,105 @@ export default function SearchBar({ onSearch, onFilterApply, placeholder = "Sear
           placeholder={placeholder}
           placeholderTextColor={theme.colors.textSecondary}
           value={searchText}
-          onChangeText={handleSearch}
+          onChangeText={setSearchText}
+          onSubmitEditing={handleSubmitSearch}
+          returnKeyType="search"
         />
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={styles.filterButton}
         >
-          <FontAwesome 
-            name="sliders" 
-            size={20} 
-            color={theme.colors.textSecondary} 
+          <FontAwesome
+            name="sliders"
+            size={20}
+            color={theme.colors.textSecondary}
           />
         </TouchableOpacity>
       </View>
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setModalVisible(false)}
+        >
           <View style={[
             styles.modalContent,
           ]}>
-            <Text style={[
-              styles.modalTitle,
-              { color: theme.colors.textPrimary }
-            ]}>
-              Filtres
-            </Text>
 
             <View style={styles.filtersContainer}>
-              <CheckBoxItem
-                label="Full time"
-                checked={filters.fullTime}
-                onToggle={() => toggleFilter('fullTime')}
-              />
-              <CheckBoxItem
-                label="Part time"
-                checked={filters.partTime}
-                onToggle={() => toggleFilter('partTime')}
-              />
-              <CheckBoxItem
-                label="Remote"
-                checked={filters.remote}
-                onToggle={() => toggleFilter('remote')}
-              />
-              <CheckBoxItem
-                label="On ite"
-                checked={filters.onSite}
-                onToggle={() => toggleFilter('onSite')}
-              />
+              {/* Job Type */}
+              <Accordion title="Job Type">
+                <CheckBoxItem
+                  label="Full-time"
+                  checked={filters.fullTime}
+                  onToggle={() => toggleFilter("fullTime")}
+                />
+                <CheckBoxItem
+                  label="Part-time"
+                  checked={filters.partTime}
+                  onToggle={() => toggleFilter("partTime")}
+                />
+                <CheckBoxItem
+                  label="Contract"
+                  checked={filters.contract}
+                  onToggle={() => toggleFilter("contract")}
+                />
+                <CheckBoxItem
+                  label="Internship"
+                  checked={filters.internship}
+                  onToggle={() => toggleFilter("internship")}
+                />
+              </Accordion>
+
+              {/* Experience Level */}
+              <Accordion title="Experience Level">
+                <CheckBoxItem
+                  label="Entry"
+                  checked={filters.entry}
+                  onToggle={() => toggleFilter("entry")}
+                />
+                <CheckBoxItem
+                  label="Intermediate"
+                  checked={filters.intermediate}
+                  onToggle={() => toggleFilter("intermediate")}
+                />
+                <CheckBoxItem
+                  label="Senior"
+                  checked={filters.senior}
+                  onToggle={() => toggleFilter("senior")}
+                />
+                <CheckBoxItem
+                  label="Lead"
+                  checked={filters.lead}
+                  onToggle={() => toggleFilter("lead")}
+                />
+              </Accordion>
             </View>
 
             <View style={styles.modalButtons}>
               <Button
-                title="Annuler"
-                onPress={() => setModalVisible(false)}
-                variant="secondary"
+                title="Reset"
+                onPress={handleReset}
+                variant="outline"
+                size="small"
                 style={{ flex: 1, marginRight: 8 }}
               />
               <Button
-                title="Appliquer"
+                title="Update"
                 onPress={handleFilterApply}
+                size="small"
                 style={{ flex: 1, marginLeft: 8 }}
               />
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </>
   );
@@ -143,7 +233,7 @@ function CheckBoxItem({ label, checked, onToggle }) {
         color={checked ? theme.colors.primary : undefined}
         style={styles.checkbox}
       />
-      <Text 
+      <Text
         style={[
           styles.checkboxLabel,
           { color: theme.colors.textPrimary }

@@ -9,7 +9,7 @@ export const createButtonStyles = (theme) => StyleSheet.create({
   
   // Sizes
   small: {
-    paddingVertical: 10,
+    paddingVertical: 6,
     paddingHorizontal: 16,
     minHeight: 36,
   },
@@ -48,6 +48,6 @@ export const createButtonStyles = (theme) => StyleSheet.create({
     color: theme.colors.white,
   },
   text_outline: {
-    color: theme.colors.primary,
+    color: theme.colors.black,
   },
 });
