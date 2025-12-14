@@ -5,7 +5,13 @@ import { createHeaderStyles } from "../styles/components/JobHeaderStyles";
 import SearchBar from "./SearchBar";
 import { useNavigation } from "@react-navigation/native";
 
-export default function JobHeader({ isHomePage = false }) {
+export default function JobHeader({ isHomePage = false, onFilterApply }) {
+    console.log("🎯 JobHeader rendered");
+    console.log("   isHomePage:", isHomePage);
+    console.log("   onFilterApply received:", !!onFilterApply);
+    console.log("   onFilterApply function:", onFilterApply);
+
+
     const theme = useTheme();
     const { user, isAuthenticated } = useUser();
     const navigation = useNavigation();
@@ -25,8 +31,8 @@ export default function JobHeader({ isHomePage = false }) {
                 <View>
                     {isAuthenticated && user ? (
                         <Text style={styles.header}>
-                            Welcome back,{' '}
-                            <Text style={[styles.header, { color: theme.colors.primary }]}>
+                            Welcome back,{'\n'}
+                            <Text style={styles.header}>
                                 { user.firstName } { user.lastName }
                             </Text>
                         </Text>
@@ -39,7 +45,7 @@ export default function JobHeader({ isHomePage = false }) {
                 </View>
             ) : (
                 <View style={{paddingTop:20}}>
-                    <SearchBar />
+                    <SearchBar onFilterApply={onFilterApply}/>
                 </View>
             )}
         </View>

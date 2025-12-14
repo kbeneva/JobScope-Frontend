@@ -88,33 +88,36 @@ export default function DetailsScreen({ route }) {
           isSaved={job.isFavorite}
         />
 
-        <View style={detailsStyles.headerRow}>
-          <View style={detailsStyles.flex1}>
-            <Text style={theme.typography.h3}>
-              {job.title}
-            </Text>
-            <Text style={detailsStyles.company}>
-              {job.company}
-            </Text>
+        <View>
+          <Text style={detailsStyles.title}>
+            {job.title}
+          </Text>
+
+          <Text style={detailsStyles.company}>
+            {job.company}
+          </Text>
+
+          <View style={detailsStyles.headerRow}>
             <View style={detailsStyles.locationRow}>
               <Ionicons name="location-sharp" size={24} color={theme.colors.primary} />
               <Text style={detailsStyles.location}>
                 {job.location}
               </Text>
             </View>
+
+            <Text style={detailsStyles.published}>
+              {job.publishedTime}
+            </Text>
           </View>
-          <Text style={detailsStyles.published}>
-            {job.publishedTime || job.postedAgo}
-          </Text>
         </View>
       </View>
-
+      <View style={detailsStyles.divider} />
       <ScrollView
         style={detailsStyles.flex1}
         contentContainerStyle={screenStyles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={theme.typography.h4}>
+        <Text style={detailsStyles.sectionTitle}>
           Job details
         </Text>
         <View style={detailsStyles.detailRow}>
@@ -140,7 +143,7 @@ export default function DetailsScreen({ route }) {
           <JobTag label={job.jobType} outlined={true} />
         </View>
 
-        <Text style={theme.typography.h4}>
+        <Text style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}>
           Job description
         </Text>
         <Text
@@ -161,7 +164,8 @@ export default function DetailsScreen({ route }) {
           </TouchableOpacity>
         )}
 
-        <Text style={theme.typography.h4}>Skills</Text>
+        <Text style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}>
+          Skills</Text>
         <View
           style={{
             flexDirection: "row",

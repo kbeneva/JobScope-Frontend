@@ -8,6 +8,7 @@ import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 import Accordion from "./Accordion";
 
+
 export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, placeholder = "Search job...", defaultQuery = "", defaultFilters = {}, }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
@@ -28,25 +29,65 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
     lead: defaultFilters.experience?.includes('Lead') || false,
   });
 
-  const handleSearch = (text) => {
-    setSearchText(text);
-    const apiFilters = buildApiFilters(text, filters);
-    onSearch?.(apiFilters);
-  };
+  // // ✅ Appelé quand on tape dans l'input (live search si sur JobsScreen)
+  // const handleSearch = (text) => {
+  //   setSearchText(text);
+  //   const apiFilters = buildApiFilters(text, filters);
+  //   onSearch?.(apiFilters);
+  // };
 
+  // ✅ Appelé sur Enter (redirection depuis HomeScreen)
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
-    console.log('🚀 Submit Search:', apiFilters);
-    onSearchSubmit?.(apiFilters);
+
+    console.log('🚀 SearchBar: Submit (Enter pressed):', apiFilters);
+    console.log('   onSearchSubmit exists?', !!onSearchSubmit);
+    console.log('   onFilterApply exists?', !!onFilterApply);
+
+    // Si onSearchSubmit existe (HomeScreen), redirige vers Jobs
+    if (onSearchSubmit) {
+      console.log('   → Calling onSearchSubmit (redirect to Jobs)');
+      onSearchSubmit(apiFilters);
+    }
+    // Sinon si onFilterApply existe (JobsScreen), applique les filtres
+    else if (onFilterApply) {
+      console.log('   → Calling onFilterApply (apply filters)');
+      onFilterApply(apiFilters);
+    }
+    else {
+      console.warn('   ⚠️ No handler defined!');
+    }
   };
 
+  // Appelé quand on clique "Update" dans le modal
   const handleFilterApply = () => {
     const apiFilters = buildApiFilters(searchText, filters);
-    onFilterApply?.(apiFilters);
+
+    console.log('✅ SearchBar: Update clicked:', apiFilters);
+    console.log('   onSearchSubmit exists?', !!onSearchSubmit);
+    console.log('   onFilterApply exists?', !!onFilterApply);
+
     setModalVisible(false);
+
+    // Si onSearchSubmit existe (HomeScreen), redirige vers Jobs
+    if (onSearchSubmit) {
+      console.log('   → Calling onSearchSubmit (redirect to Jobs)');
+      onSearchSubmit(apiFilters);
+    }
+    // Sinon si onFilterApply existe (JobsScreen), applique les filtres
+    else if (onFilterApply) {
+      console.log('   → Calling onFilterApply (apply filters)');
+      onFilterApply(apiFilters);
+    }
+    else {
+      console.warn('   ⚠️ No handler defined!');
+    }
   };
 
+  // Reset des filtres
   const handleReset = () => {
+    console.log('🔄 SearchBar: Reset clicked');
+
     const resetFilters = {
       fullTime: false,
       partTime: false,
@@ -59,14 +100,28 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
     };
 
     setFilters(resetFilters);
-    const apiFilters = buildApiFilters(searchText, resetFilters);
+    setSearchText(''); // Vider aussi le texte
+    const apiFilters = buildApiFilters('', resetFilters);
 
-    onFilterApply?.(apiFilters);
+    console.log('   Reset filters:', apiFilters);
+
     setModalVisible(false);
+
+    if (onSearchSubmit) {
+      console.log('   → Calling onSearchSubmit');
+      onSearchSubmit(apiFilters);
+    } else if (onFilterApply) {
+      console.log('   → Calling onFilterApply');
+      onFilterApply(apiFilters);
+    }
   };
 
   const toggleFilter = (key) => {
-    setFilters(prev => ({ ...prev, [key]: !prev[key] }));
+    setFilters(prev => {
+      const newFilters = { ...prev, [key]: !prev[key] };
+      console.log('🎛️ Filter toggled:', key, '→', newFilters[key]);
+      return newFilters;
+    });
   };
 
   const buildApiFilters = (title, uiFilters) => {
@@ -94,6 +149,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     return apiFilters;
   };
+
 
   return (
     <>
@@ -139,81 +195,86 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setModalVisible(false)}
         >
-          <View style={[
-            styles.modalContent,
-          ]}>
+          <TouchableOpacity
+            style={{ width: '100%' }}
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}  // ← Empêche la fermeture du modal
+          >
+            <View style={[
+              styles.modalContent,
+            ]}>
 
-            <View style={styles.filtersContainer}>
-              {/* Job Type */}
-              <Accordion title="Job Type">
-                <CheckBoxItem
-                  label="Full-time"
-                  checked={filters.fullTime}
-                  onToggle={() => toggleFilter("fullTime")}
-                />
-                <CheckBoxItem
-                  label="Part-time"
-                  checked={filters.partTime}
-                  onToggle={() => toggleFilter("partTime")}
-                />
-                <CheckBoxItem
-                  label="Contract"
-                  checked={filters.contract}
-                  onToggle={() => toggleFilter("contract")}
-                />
-                <CheckBoxItem
-                  label="Internship"
-                  checked={filters.internship}
-                  onToggle={() => toggleFilter("internship")}
-                />
-              </Accordion>
+              <View style={styles.filtersContainer}>
+                {/* Job Type */}
+                <Accordion title="Job Type">
+                  <CheckBoxItem
+                    label="Full-time"
+                    checked={filters.fullTime}
+                    onToggle={() => toggleFilter("fullTime")}
+                  />
+                  <CheckBoxItem
+                    label="Part-time"
+                    checked={filters.partTime}
+                    onToggle={() => toggleFilter("partTime")}
+                  />
+                  <CheckBoxItem
+                    label="Contract"
+                    checked={filters.contract}
+                    onToggle={() => toggleFilter("contract")}
+                  />
+                  <CheckBoxItem
+                    label="Internship"
+                    checked={filters.internship}
+                    onToggle={() => toggleFilter("internship")}
+                  />
+                </Accordion>
 
-              {/* Experience Level */}
-              <Accordion title="Experience Level">
-                <CheckBoxItem
-                  label="Entry"
-                  checked={filters.entry}
-                  onToggle={() => toggleFilter("entry")}
-                />
-                <CheckBoxItem
-                  label="Intermediate"
-                  checked={filters.intermediate}
-                  onToggle={() => toggleFilter("intermediate")}
-                />
-                <CheckBoxItem
-                  label="Senior"
-                  checked={filters.senior}
-                  onToggle={() => toggleFilter("senior")}
-                />
-                <CheckBoxItem
-                  label="Lead"
-                  checked={filters.lead}
-                  onToggle={() => toggleFilter("lead")}
-                />
-              </Accordion>
-            </View>
+                {/* Experience Level */}
+                <Accordion title="Experience Level">
+                  <CheckBoxItem
+                    label="Entry"
+                    checked={filters.entry}
+                    onToggle={() => toggleFilter("entry")}
+                  />
+                  <CheckBoxItem
+                    label="Intermediate"
+                    checked={filters.intermediate}
+                    onToggle={() => toggleFilter("intermediate")}
+                  />
+                  <CheckBoxItem
+                    label="Senior"
+                    checked={filters.senior}
+                    onToggle={() => toggleFilter("senior")}
+                  />
+                  <CheckBoxItem
+                    label="Lead"
+                    checked={filters.lead}
+                    onToggle={() => toggleFilter("lead")}
+                  />
+                </Accordion>
+              </View>
 
-            <View style={styles.modalButtons}>
-              <Button
-                title="Reset"
-                onPress={handleReset}
-                variant="outline"
-                size="small"
-                style={{ flex: 1, marginRight: 8 }}
-              />
-              <Button
-                title="Update"
-                onPress={handleFilterApply}
-                size="small"
-                style={{ flex: 1, marginLeft: 8 }}
-              />
-            </View>
-          </View>
+              <View style={styles.modalButtons}>
+                <Button
+                  title="Reset"
+                  onPress={handleReset}
+                  variant="outline"
+                  size="small"
+                  style={{ flex: 1, marginRight: 8 }}
+                />
+                <Button
+                  title="Update"
+                  onPress={handleFilterApply}
+                  size="small"
+                  style={{ flex: 1, marginLeft: 8 }}
+                />
+              </View>
+            </View></TouchableOpacity>
         </TouchableOpacity>
       </Modal>
     </>

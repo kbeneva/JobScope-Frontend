@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { padding } from "../spacing";
 
 export const createDetailsStyles = (theme) => StyleSheet.create({
   relative: {
@@ -6,63 +7,51 @@ export const createDetailsStyles = (theme) => StyleSheet.create({
   },
   bookmark: {
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 0,
+    top: 0,
+    zIndex: 999
+  },
+  title: {
+    ...theme.typography.h3,
+    lineHeight: 28,
+    paddingRight: theme.spacing.xl,
+    marginTop: theme.spacing.xs
+  },
+  company: {
+    ...theme.typography.bodySmall,
+    color: theme.colors.textSecondary,
+    marginBottom: theme.spacing.sm
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 12,
-  },
-  flex1: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: theme.colors?.textPrimary || theme.text,
-  },
-  company: {
-    fontSize: 15,
-    color: theme.colors?.textSecondary || theme.textSecondary,
+    marginVertical: 12,
   },
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 2,
   },
   location: {
-    fontSize: 15,
-    color: theme.colors?.textSecondary || theme.textSecondary,
+    ...theme.typography.bodySmall,
+    color: theme.colors.textSecondary,
     marginLeft: 4,
   },
   published: {
-    fontSize: 14,
-    color: theme.colors?.textSecondary || theme.textSecondary,
-    marginLeft: 12,
+    ...theme.typography.bodySmall,
+    color: theme.colors.textSecondary,
   },
-  tabRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors?.border || theme.border,
-    marginBottom: 16,
-  },
-  tabActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: theme.colors?.primary || theme.primary,
-    marginRight: 20,
-    paddingVertical: 10,
-  },
-  tabActiveLabel: {
-    fontWeight: '600',
-    color: theme.colors?.primary || theme.primary,
+  divider: {
+    height: 2,
+    backgroundColor: theme.colors.textDisabled,
+    marginBottom: 12
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: theme.colors?.textPrimary || theme.text,
+    ...theme.typography.h4,
+    color: theme.colors.textPrimary,
+  },
+  titleMarginTop: {
+    marginTop: theme.spacing.md
   },
   detailRow: {
     flexDirection: 'row',
@@ -73,8 +62,8 @@ export const createDetailsStyles = (theme) => StyleSheet.create({
     marginRight: 6,
   },
   description: {
-    fontSize: 15,
+    ...theme.typography.bodySmall,
     lineHeight: 22,
-    color: theme.colors?.textSecondary || theme.textSecondary,
+    color: theme.colors.textSecondary,
   },
 });

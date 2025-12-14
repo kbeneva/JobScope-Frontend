@@ -10,7 +10,8 @@ export const createCardStyles = (theme) => StyleSheet.create({
   title: {
     ...theme.typography.h4,
     color: theme.colors.textPrimary,
-    lineHeight: theme.typography.sizes.xxl
+    lineHeight: theme.typography.sizes.xxl,
+    marginRight: theme.spacing.lg
   },
   company: {
     marginBottom: theme.spacing.md,

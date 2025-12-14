@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   View, 
   Text, 
@@ -16,10 +16,12 @@ import ResponsiveGrid from "../components/ResponsiveGrid";
 import { Ionicons } from "@expo/vector-icons";
 import { jobsService } from "../services/jobsService";
 
-export default function JobsScreen() {
+export default function JobsScreen({ route }) {
   const theme = useTheme();
   const { user, isAuthenticated } = useUser();
   const screenStyles = createScreenStyles(theme);
+
+  const { searchFilters } = route.params || {};
 
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -28,26 +30,61 @@ export default function JobsScreen() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentFilters, setCurrentFilters] = useState({});
 
-  // Charger les données quand la page change
   useEffect(() => {
-    fetchJobs(page);
+    console.log("🔄 useEffect [searchFilters] triggered");
+    
+    if (searchFilters) {
+      console.log("   → New filters from navigation:", searchFilters);
+      setCurrentFilters(searchFilters);
+      setPage(1);
+      fetchJobs(1, searchFilters);
+    } else {
+      console.log("   → Initial load without filters");
+      setCurrentFilters({});
+      fetchJobs(1, {});
+    }
+  }, [searchFilters]);
+
+  useEffect(() => {
+    console.log("📄 useEffect [page] triggered, page:", page);
+    
+    // Ne pas refetch la page 1 si elle vient d'être chargée par l'useEffect précédent
+    if (page !== 1) {
+      console.log("   → Fetching page", page, "with filters:", currentFilters);
+      fetchJobs(page, currentFilters);
+    }
   }, [page]);
 
-  const fetchJobs = async (pageNumber) => {
+  const fetchJobs = async (pageNumber, filters = {}) => {
+    console.log("🚨 FETCHJOBS CALLED");
+    console.log("   page:", pageNumber);
+    console.log("   filters:", filters);
+    
     setLoading(true);
     setError(null);
 
     try {
-      const response = await jobsService.searchJobs('', pageNumber, limit);
+      console.log("📡 Calling jobsService.searchJobs...");
+      const response = await jobsService.searchJobs(filters, pageNumber, limit);
+      
+      console.log("✅ Response received:", {
+        total: response.total,
+        items: response.items?.length,
+      });
     
       if (response.items && Array.isArray(response.items)) {
         setJobs(response.items);
-        setTotal(response.total || response.items.length);
+        setTotal(response.total || 0);
         setTotalPages(response.pages || Math.ceil((response.total || 0) / limit));
+      } else if (Array.isArray(response)) {
+        setJobs(response);
+        setTotal(response.length);
+        setTotalPages(1);
       }
     } catch (err) {
-      console.error('Error fetching jobs:', err);
+      console.error("❌ Error in fetchJobs:", err);
       setError(err.message);
       Alert.alert('Erreur', 'Impossible de charger les offres');
     } finally {
@@ -55,10 +92,17 @@ export default function JobsScreen() {
     }
   };
 
+  const handleSearch = useCallback((filters) => {
+    console.log('🔍 Search triggered from JobsScreen SearchBar:', filters);
+    setCurrentFilters(filters);
+    setPage(1);
+    fetchJobs(1, filters);
+  }, []);
+
   if (loading && jobs.length === 0) {
     return (
       <View style={{ flex: 1 }}>
-        <JobHeader />
+        <JobHeader onFilterApply={handleSearch} />
         <View style={[screenStyles.container, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
@@ -69,7 +113,7 @@ export default function JobsScreen() {
   if (error && jobs.length === 0) {
     return (
       <View style={{ flex: 1 }}>
-        <JobHeader />
+        <JobHeader onFilterApply={handleSearch}/>
         <View style={[screenStyles.container, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
           <Ionicons name="alert-circle-outline" size={64} color={theme.colors.error} />
           <Text style={{ 
@@ -111,7 +155,7 @@ export default function JobsScreen() {
   if (!loading && jobs.length === 0) {
     return (
       <View style={{ flex: 1 }}>
-        <JobHeader />
+        <JobHeader onFilterApply={handleSearch} />
         <View style={[screenStyles.container, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
           <Ionicons name="briefcase-outline" size={64} color={theme.colors.textSecondary} />
           <Text style={{ 
@@ -128,7 +172,7 @@ export default function JobsScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <JobHeader />
+      <JobHeader onFilterApply={handleSearch} />
       <ScrollView
         style={screenStyles.container}
         contentContainerStyle={{ paddingBottom: theme.spacing.xl * 2 }}

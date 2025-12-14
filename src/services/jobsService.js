@@ -2,11 +2,32 @@ import { publicApiClient, optionalAuthApiClient } from './api';
 
 export const jobsService = {
   // optional auth
-  searchJobs: async (query, page = 1, limit = 10) => {
+  searchJobs: async (filters = {}, page = 1, limit = 10) => {
     try {
+      console.log("🌐 jobsService.searchJobs CALLED");
+      console.log("📦 Filters received:", filters);
+      console.log("📄 Page:", page, "Limit:", limit);
+
+      // ✅ Construire les params correctement
+      const params = {
+        page,
+        limit,
+        ...filters, // title, jobType[], experience[]
+      };
+
+      console.log("📤 Final params sent to API:", params);
+
       const response = await optionalAuthApiClient.get('/jobs/search', {
-        params: { q: query, page, limit },
+        params: params,
       });
+
+      console.log("✅ API Response received:", {
+        status: response.status,
+        dataKeys: Object.keys(response.data),
+        total: response.data.total,
+        itemsCount: response.data.items?.length,
+      });
+      
       return response.data;
     } catch (error) {
       console.error('Error searchJobs:', error);
