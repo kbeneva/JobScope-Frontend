@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
       const mockUser = {
         id: "507f1f77bcf86cd799439012",
         email: "johndoe@jobscope.com",
-        role: "user",
+        role: "admin",
         firstName: "John",
         lastName: "Doe",
         biography:
