@@ -168,6 +168,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
           >
             <View style={[
               styles.modalContent,
+              { backgroundColor: theme.colors.bar}
             ]}>
 
               <View style={styles.filtersContainer}>
@@ -177,6 +178,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
                     label="Full-time"
                     checked={filters.fullTime}
                     onToggle={() => toggleFilter("fullTime")}
+                    backgroundColor={theme.colors.secondary}
                   />
                   <CheckBoxItem
                     label="Part-time"
@@ -226,6 +228,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
                   onPress={handleReset}
                   variant="outline"
                   size="small"
+                  textStyle={{ color: theme.colors.textPrimary }}
                   style={{ flex: 1, marginRight: 8 }}
                 />
                 <Button

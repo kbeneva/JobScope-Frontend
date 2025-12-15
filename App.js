@@ -13,6 +13,7 @@ import {
   Poppins_900Black,
 } from "@expo-google-fonts/poppins";
 import { UserProvider } from "./src/context/UserContext";
+import { FavoritesProvider } from "./src/context/FavoritesContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,9 +38,11 @@ export default function App() {
   return (
     <ThemeProvider>
       <UserProvider>
-        <SafeAreaProvider>
-          <AppNavigator />
-        </SafeAreaProvider>
+        <FavoritesProvider>
+          <SafeAreaProvider>
+            <AppNavigator />
+          </SafeAreaProvider>
+        </FavoritesProvider>
       </UserProvider>
     </ThemeProvider>
   );

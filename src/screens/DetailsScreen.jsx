@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
-import { useUser } from "../context/UserContext";
-import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import JobTag from "../components/JobTag";
 import Bookmark from "../components/Bookmark";
 import BackHeader from "../components/BackHeader";
@@ -19,7 +23,7 @@ export default function DetailsScreen({ route }) {
 
   const { jobId, job: initialJob } = route.params || {};
 
-  const [job, setJob] = useState();
+  const [job, setJob] = useState(initialJob);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,7 +50,12 @@ export default function DetailsScreen({ route }) {
 
   if (loading) {
     return (
-      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View
+        style={[
+          screenStyles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -54,7 +63,12 @@ export default function DetailsScreen({ route }) {
 
   if (error) {
     return (
-      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View
+        style={[
+          screenStyles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
         <Text style={{ color: theme.colors.error, marginBottom: 20 }}>
           Error: {error}
         </Text>
@@ -65,13 +79,15 @@ export default function DetailsScreen({ route }) {
     );
   }
 
-  // Pas de job
   if (!job) {
     return (
-      <View style={[screenStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: theme.colors.textPrimary }}>
-          Offer not Found
-        </Text>
+      <View
+        style={[
+          screenStyles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <Text style={{ color: theme.colors.textPrimary }}>Offer not Found</Text>
       </View>
     );
   }
@@ -83,31 +99,24 @@ export default function DetailsScreen({ route }) {
       <BackHeader title="Details of Job Offer" />
 
       <View style={detailsStyles.relative}>
-        <Bookmark
-          style={detailsStyles.bookmark}
-          isSaved={job.isFavorite}
-        />
+        <Bookmark style={detailsStyles.bookmark} jobId={job._id || job.id} />
 
         <View>
-          <Text style={detailsStyles.title}>
-            {job.title}
-          </Text>
+          <Text style={detailsStyles.title}>{job.title}</Text>
 
-          <Text style={detailsStyles.company}>
-            {job.company}
-          </Text>
+          <Text style={detailsStyles.company}>{job.company}</Text>
 
           <View style={detailsStyles.headerRow}>
             <View style={detailsStyles.locationRow}>
-              <Ionicons name="location-sharp" size={24} color={theme.colors.primary} />
-              <Text style={detailsStyles.location}>
-                {job.location}
-              </Text>
+              <Ionicons
+                name="location-sharp"
+                size={24}
+                color={theme.colors.primary}
+              />
+              <Text style={detailsStyles.location}>{job.location}</Text>
             </View>
 
-            <Text style={detailsStyles.published}>
-              {job.publishedTime}
-            </Text>
+            <Text style={detailsStyles.published}>{job.publishedTime}</Text>
           </View>
         </View>
       </View>
@@ -117,9 +126,7 @@ export default function DetailsScreen({ route }) {
         contentContainerStyle={screenStyles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={detailsStyles.sectionTitle}>
-          Job details
-        </Text>
+        <Text style={detailsStyles.sectionTitle}>Job details</Text>
         <View style={detailsStyles.detailRow}>
           <MaterialIcons
             name="attach-money"
@@ -127,11 +134,11 @@ export default function DetailsScreen({ route }) {
             color={theme.colors?.primary || theme.primary}
             style={detailsStyles.detailIcon}
           />
-          {job.salary ?
+          {job.salary ? (
             <JobTag label={job.salary} outlined={true} />
-            :
+          ) : (
             <Text style={theme.typography.caption}>not disclosed</Text>
-          }
+          )}
         </View>
         <View style={detailsStyles.detailRow}>
           <MaterialIcons
@@ -143,7 +150,9 @@ export default function DetailsScreen({ route }) {
           <JobTag label={job.jobType} outlined={true} />
         </View>
 
-        <Text style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}>
+        <Text
+          style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}
+        >
           Job description
         </Text>
         <Text
@@ -158,14 +167,17 @@ export default function DetailsScreen({ route }) {
             onPress={() => setIsExpanded(!isExpanded)}
             style={{ marginTop: 8, marginBottom: 16 }}
           >
-            <Text>
-              {isExpanded ? 'Read less' : 'Read more'}
+            <Text style={{ color: theme.colors.primary }}>
+              {isExpanded ? "Read less" : "Read more"}
             </Text>
           </TouchableOpacity>
         )}
 
-        <Text style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}>
-          Skills</Text>
+        <Text
+          style={[detailsStyles.sectionTitle, detailsStyles.titleMarginTop]}
+        >
+          Skills
+        </Text>
         <View
           style={{
             flexDirection: "row",
@@ -178,7 +190,6 @@ export default function DetailsScreen({ route }) {
             <JobTag key={index} label={tag} />
           ))}
         </View>
-
       </ScrollView>
     </View>
   );
