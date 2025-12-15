@@ -11,5 +11,6 @@ export const createHeaderStyles = (theme) =>
     header: {
       ...theme.typography.h1,
       color: theme.colors.white,
+      marginBottom: 4
     },
   });
