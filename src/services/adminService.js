@@ -105,14 +105,8 @@ const MOCK_USERS = [
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const adminService = {
-  /**
-   * Récupérer tous les utilisateurs (paginé)
-   */
   getAllUsers: async (page = 1, limit = 10) => {
     try {
-      console.log("🎭 MOCK adminService.getAllUsers");
-      console.log("   page:", page, "limit:", limit);
-
       // Simuler un délai réseau
       await delay(800);
 
@@ -130,26 +124,15 @@ export const adminService = {
         limit,
       };
 
-      console.log("✅ Mock users loaded:", {
-        total: response.total,
-        itemsCount: response.items.length,
-      });
-
       return response;
     } catch (error) {
-      console.error('❌ Error getAllUsers:', error);
+      console.error('Error getAllUsers:', error);
       throw error;
     }
   },
 
-  /**
-   * Récupérer les infos d'un utilisateur
-   */
   getUserInfo: async (userId) => {
     try {
-      console.log("🎭 MOCK adminService.getUserInfo");
-      console.log("   userId:", userId);
-
       await delay(500);
 
       const user = MOCK_USERS.find(u => u._id === userId);
@@ -158,23 +141,15 @@ export const adminService = {
         throw new Error('User not found');
       }
 
-      console.log("✅ Mock user info loaded:", user.email);
       return user;
     } catch (error) {
-      console.error('❌ Error getUserInfo:', error);
+      console.error('Error getUserInfo:', error);
       throw error;
     }
   },
 
-  /**
-   * Mettre à jour un utilisateur
-   */
   updateUser: async (userId, data) => {
     try {
-      console.log("🎭 MOCK adminService.updateUser");
-      console.log("   userId:", userId);
-      console.log("   data:", data);
-
       await delay(600);
 
       if (data.password) {
@@ -193,21 +168,17 @@ export const adminService = {
         ...data,
       };
 
-      console.log("✅ Mock user updated:", MOCK_USERS[userIndex].email);
       return MOCK_USERS[userIndex];
     } catch (error) {
-      console.error('❌ Error updateUser:', error);
+      console.error('Error updateUser:', error);
       throw error;
     }
   },
 
-  /**
-   * Supprimer un utilisateur
-   */
   deleteUser: async (userId) => {
     try {
-      console.log("🎭 MOCK adminService.deleteUser");
-      console.log("   userId:", userId);
+      console.log("MOCK adminService.deleteUser");
+      console.log("userId:", userId);
 
       await delay(500);
 
@@ -220,10 +191,10 @@ export const adminService = {
       // Simuler la suppression
       const deletedUser = MOCK_USERS.splice(userIndex, 1)[0];
 
-      console.log("✅ Mock user deleted:", deletedUser.email);
+      console.log("Mock user deleted:", deletedUser.email);
       return true;
     } catch (error) {
-      console.error('❌ Error deleteUser:', error);
+      console.error('Error deleteUser:', error);
       throw error;
     }
   },

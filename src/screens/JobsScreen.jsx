@@ -33,46 +33,28 @@ export default function JobsScreen({ route }) {
   const [currentFilters, setCurrentFilters] = useState({});
 
   useEffect(() => {
-    console.log("🔄 useEffect [searchFilters] triggered");
-    
     if (searchFilters) {
-      console.log("   → New filters from navigation:", searchFilters);
       setCurrentFilters(searchFilters);
       setPage(1);
       fetchJobs(1, searchFilters);
     } else {
-      console.log("   → Initial load without filters");
       setCurrentFilters({});
       fetchJobs(1, {});
     }
   }, [searchFilters]);
 
   useEffect(() => {
-    console.log("📄 useEffect [page] triggered, page:", page);
-    
-    // Ne pas refetch la page 1 si elle vient d'être chargée par l'useEffect précédent
     if (page !== 1) {
-      console.log("   → Fetching page", page, "with filters:", currentFilters);
       fetchJobs(page, currentFilters);
     }
   }, [page]);
 
   const fetchJobs = async (pageNumber, filters = {}) => {
-    console.log("🚨 FETCHJOBS CALLED");
-    console.log("   page:", pageNumber);
-    console.log("   filters:", filters);
-    
     setLoading(true);
     setError(null);
 
     try {
-      console.log("📡 Calling jobsService.searchJobs...");
       const response = await jobsService.searchJobs(filters, pageNumber, limit);
-      
-      console.log("✅ Response received:", {
-        total: response.total,
-        items: response.items?.length,
-      });
     
       if (response.items && Array.isArray(response.items)) {
         setJobs(response.items);
@@ -84,7 +66,7 @@ export default function JobsScreen({ route }) {
         setTotalPages(1);
       }
     } catch (err) {
-      console.error("❌ Error in fetchJobs:", err);
+      console.error("Error in fetchJobs:", err);
       setError(err.message);
       Alert.alert('Erreur', 'Impossible de charger les offres');
     } finally {
@@ -93,7 +75,6 @@ export default function JobsScreen({ route }) {
   };
 
   const handleSearch = useCallback((filters) => {
-    console.log('🔍 Search triggered from JobsScreen SearchBar:', filters);
     setCurrentFilters(filters);
     setPage(1);
     fetchJobs(1, filters);

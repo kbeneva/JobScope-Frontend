@@ -30,58 +30,32 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
   });
 
 
-  // ✅ Appelé sur Enter (redirection depuis HomeScreen)
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
 
-    console.log('🚀 SearchBar: Submit (Enter pressed):', apiFilters);
-    console.log('   onSearchSubmit exists?', !!onSearchSubmit);
-    console.log('   onFilterApply exists?', !!onFilterApply);
-
-    // Si onSearchSubmit existe (HomeScreen), redirige vers Jobs
     if (onSearchSubmit) {
-      console.log('   → Calling onSearchSubmit (redirect to Jobs)');
       onSearchSubmit(apiFilters);
     }
-    // Sinon si onFilterApply existe (JobsScreen), applique les filtres
     else if (onFilterApply) {
-      console.log('   → Calling onFilterApply (apply filters)');
       onFilterApply(apiFilters);
-    }
-    else {
-      console.warn('   ⚠️ No handler defined!');
     }
   };
 
-  // Appelé quand on clique "Update" dans le modal
   const handleFilterApply = () => {
     const apiFilters = buildApiFilters(searchText, filters);
 
-    console.log('✅ SearchBar: Update clicked:', apiFilters);
-    console.log('   onSearchSubmit exists?', !!onSearchSubmit);
-    console.log('   onFilterApply exists?', !!onFilterApply);
-
     setModalVisible(false);
 
-    // Si onSearchSubmit existe (HomeScreen), redirige vers Jobs
     if (onSearchSubmit) {
-      console.log('   → Calling onSearchSubmit (redirect to Jobs)');
       onSearchSubmit(apiFilters);
     }
-    // Sinon si onFilterApply existe (JobsScreen), applique les filtres
     else if (onFilterApply) {
-      console.log('   → Calling onFilterApply (apply filters)');
       onFilterApply(apiFilters);
-    }
-    else {
-      console.warn('   ⚠️ No handler defined!');
     }
   };
 
   // Reset des filtres
   const handleReset = () => {
-    console.log('🔄 SearchBar: Reset clicked');
-
     const resetFilters = {
       fullTime: false,
       partTime: false,
@@ -94,29 +68,22 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
     };
 
     setFilters(resetFilters);
-    setSearchText(''); // Vider aussi le texte
+    setSearchText('');
     const apiFilters = buildApiFilters('', resetFilters);
-
-    console.log('   Reset filters:', apiFilters);
 
     setModalVisible(false);
 
     if (onSearchSubmit) {
-      console.log('   → Calling onSearchSubmit');
       onSearchSubmit(apiFilters);
     } else if (onFilterApply) {
-      console.log('   → Calling onFilterApply');
       onFilterApply(apiFilters);
     }
   };
 
-  const toggleFilter = (key) => {
-    setFilters(prev => {
-      const newFilters = { ...prev, [key]: !prev[key] };
-      console.log('🎛️ Filter toggled:', key, '→', newFilters[key]);
-      return newFilters;
-    });
+  const toggleFilter = key => {
+    setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
+
 
   const buildApiFilters = (title, uiFilters) => {
     const apiFilters = {
@@ -263,10 +230,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
                 />
                 <Button
                   title="Update"
-                  onPress={() => {
-                    console.log('🔘🔘🔘 UPDATE BUTTON CLICKED 🔘🔘🔘');
-                    handleFilterApply();
-                  }}
+                  onPress={handleFilterApply}
                   size="small"
                   style={{ flex: 1, marginLeft: 8 }}
                 />
