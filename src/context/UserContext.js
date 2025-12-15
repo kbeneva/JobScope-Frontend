@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authService } from "../services/authService";
+import * as SecureStore from "expo-secure-store";
 
 const UserContext = createContext(undefined);
 
@@ -13,88 +15,66 @@ export const UserProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const storedUser = await AsyncStorage.getItem('user');
+      const storedUser = await AsyncStorage.getItem("user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
-       else {
-      //  mock editprofil pour le tester dans profil 
-      const mockUser = {
-        id: "507f1f77bcf86cd799439012",
-        email: "johndoe@jobscope.com",
-        role: "user",
-        firstName: "John",
-        lastName: "Doe",
-        biography:
-          "I'm a web developer. I spend my whole day, practically every day, experimenting with HTML, CSS, and JavaScript; dabbling with Python and Ruby.",
-        interest: "Web Development, Cloud Computing,DevOps",
-      };
-      setUser(mockUser);
-      await AsyncStorage.setItem('user', JSON.stringify(mockUser));
-    }
     } catch (error) {
-      console.error('Error loading user:', error);
+      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const login = async (email, password) => {
-    try {
-      // TODO: Replace with API call
-      const mockUser = {
-        id: "507f1f77bcf86cd799439012",
-        email,
-        role: "user",
-        firstName: "John",
-        lastName: "Doe",
-        biography: "Full-stack developer with 3 years of experience.",
-        interest: "Web Development, Cloud Computing, DevOps",
-      };
-
-      setUser(mockUser);
-      await AsyncStorage.setItem('user', JSON.stringify(mockUser));
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
+    const userData = await authService.login(email, password);
+    setUser(userData);
+    await AsyncStorage.setItem("user", JSON.stringify(userData));
+    return userData;
   };
 
-  // TODO: sign up
+  const register = async (userData) => {
+    const { user: newUser } = await authService.register(userData);
+    setUser(newUser);
+    await AsyncStorage.setItem("user", JSON.stringify(newUser));
+    return newUser;
+  };
 
   const logout = async () => {
-    try {
-      setUser(null);
-      await AsyncStorage.removeItem('user');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+    setUser(null);
+    await AsyncStorage.removeItem("user");
+    await SecureStore.deleteItemAsync("userToken");
   };
 
-  const updateUser = async (userData) => {
-    if (user) {
-      const updatedUser = { ...user, ...userData };
+  const updateUser = (userData) => {
+    if (userData) {
+      const updatedUser = user ? { ...user, ...userData } : userData;
       setUser(updatedUser);
-      await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
+      AsyncStorage.setItem("user", JSON.stringify(updatedUser));
     }
   };
 
-  const value = {
-    user,
-    isAuthenticated: !!user,
-    isLoading,
-    login,
-    logout,
-    updateUser
-  };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateUser,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

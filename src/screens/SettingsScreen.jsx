@@ -1,16 +1,39 @@
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { useUser } from "../context/UserContext";
-import { View, Text, TouchableOpacity, Switch } from "react-native";
+import { View, Text, TouchableOpacity, Switch, Alert } from "react-native";
 import BackHeader from "../components/BackHeader";
 import { Ionicons } from "@expo/vector-icons";
 import { createSettingsStyles } from "../styles/screens/settingsStyles";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SettingsScreen() {
   const theme = useTheme();
-  const { user, logout } = useUser();
+  const { logout } = useUser();
   const screenStyles = createScreenStyles(theme);
   const settingsStyles = createSettingsStyles(theme);
+  const navigation = useNavigation();
+
+  const handleLogout = () => {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Logout",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await logout();
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Login" }],
+            });
+          } catch (error) {
+            Alert.alert("Error", "Failed to logout. Please try again.");
+          }
+        },
+      },
+    ]);
+  };
 
   return (
     <View style={screenStyles.container}>
@@ -40,13 +63,9 @@ export default function SettingsScreen() {
 
         <View style={settingsStyles.divider} />
 
-        {/* Logout row  */}
         <TouchableOpacity
           style={settingsStyles.settingRow}
-          onPress={() => {
-            // TODO: logout and go to login
-            setIsSettingsOpen(false);
-          }}
+          onPress={handleLogout}
         >
           <View style={settingsStyles.rowLeft}>
             <Ionicons
