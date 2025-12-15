@@ -25,11 +25,9 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
     const { user } = useUser();
-    const isAdmin = true;
-    // const isAdmin = user?.role === 'admin';
+    const isAdmin = user?.role === 'admin';
     const { colors, theme } = useContext(ThemeContext);
     const tabBarColor = theme === "light" ? "#fff" : "#222";
-
 
     return (
         <Tab.Navigator
