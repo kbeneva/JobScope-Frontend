@@ -19,14 +19,16 @@ import DetailsScreen from "../screens/DetailsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import UserFormScreen from "../screens/UserFormScreen";
+import AdminScreen from "../screens/AdminScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
+    const { user } = useUser();
+    const isAdmin = user?.role === 'admin';
     const { colors, theme } = useContext(ThemeContext);
     const tabBarColor = theme === "light" ? "#fff" : "#222";
-   
 
     return (
         <Tab.Navigator
@@ -76,6 +78,20 @@ function Tabs() {
                     ),
                 }}
             />
+            {isAdmin && (
+                <Tab.Screen
+                    name="Admin"
+                    component={AdminScreen}
+                    options={{
+                        tabBarIcon: ({ color, focused, size }) => (
+                            <Ionicons
+                                name={focused ? "people" : "people-outline"}
+                                size={size}
+                                color={color} />
+                        ),
+                    }}
+                />
+            )}
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
@@ -88,8 +104,6 @@ function Tabs() {
                     ),
                 }}
             />
-          
-
         </Tab.Navigator>
     );
 }
@@ -115,6 +129,7 @@ export default function AppNavigator() {
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
                 <Stack.Screen name="UserForm" component={UserFormScreen} />
+                <Stack.Screen name="Admin" component={AdminScreen} />
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}

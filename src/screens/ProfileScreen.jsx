@@ -97,8 +97,8 @@ export default function ProfileScreen() {
               imageUri
                 ? { uri: imageUri }
                 : {
-                    uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  }
+                  uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }
             }
             style={{
               width: 96,
