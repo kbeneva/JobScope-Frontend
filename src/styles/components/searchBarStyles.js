@@ -47,39 +47,47 @@ export const createSearchBarStyles = (theme) => StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
+    paddingTop: 160,
     alignItems: 'center',
-
+    padding: theme.spacing.xl,
   },
   modalContent: {
-    padding: 24,
-    // backgroundColor: '#fff',
-    width: screenWidth > 768 ? 400 : '90%',
-    backgroundColor: theme.colors.cardBackground,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontFamily: 'Poppins_600SemiBold',
-    marginBottom: 24,
-  },
-  filtersContainer: {
-    marginBottom: 24,
+    width: '100%',
+    backgroundColor: '#fff',
   },
   checkboxRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: theme.spacing.xs,
   },
   checkbox: {
     marginRight: 12,
   },
   checkboxLabel: {
-    fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    ...theme.typography.body,
     flex: 1,
   },
   modalButtons: {
+    borderTopWidth: 1,
+    borderColor: "#eee",
+    padding: theme.spacing.md,
     flexDirection: 'row',
     marginTop: 'auto',
+  },
+  accordionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderTopWidth: 1,
+    borderColor: "#eee",
+  },
+  accordionTitle: {
+    ...theme.typography.button,
+    color: theme.colors.textPrimary
+  },
+  accordionContent: {
+    paddingHorizontal: theme.spacing.md,
   },
 });
