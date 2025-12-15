@@ -2,33 +2,32 @@ import React from "react";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 import { useTheme } from "../../styles/theme";
-import { createJobTypeDonutStyles } from "../../styles/components/charts/chart";
+import { createSeniorityDistributionStyles } from "../../styles/components/charts/chart";
 
-export default function JobTypeChart({ data, title, metadata }) {
+export default function SeniorityDistributionChart({ data, title, metadata }) {
     const theme = useTheme();
-    const styles = createJobTypeDonutStyles(theme);
+    const styles = createSeniorityDistributionStyles(theme);
 
-    // Vérifier si les données existent
     if (!data || data.length === 0) {
         return (
             <View>
-                <Text style={styles.title}>{title || "Job Types Distribution"}</Text>
-                <Text style={{ color: theme.colors.textSecondary, textAlign: 'center' }}>
+                <Text style={styles.title}>{title || "Seniority Distribution"}</Text>
+                <Text style={{ color: theme.colors.textSecondary, textAlign: "center" }}>
                     No data available
                 </Text>
             </View>
         );
     }
 
-    // Couleurs pour les différents types de jobs
+    // Couleurs pour chaque niveau
     const colors = ["#006989", "#2C7DA0", "#468FAF", "#61A5C2", "#89C2D9"];
 
-    // Préparer les données pour le PieChart
+    // Préparer les données pour PieChart
     const chartData = data.map((item, index) => ({
-        value: item.value,
+        value: item.count,
         color: colors[index % colors.length],
         text: `${item.percentage}%`,
-        label: item.label,
+        label: item.level,
     }));
 
     return (
@@ -44,24 +43,30 @@ export default function JobTypeChart({ data, title, metadata }) {
                     innerCircleColor={theme.colors.card || theme.colors.background}
                     centerLabelComponent={() => (
                         <View>
-                            <Text style={{ 
-                                fontSize: 20, 
-                                fontWeight: 'bold',
-                                color: theme.colors.textPrimary,
-                            }}>
-                                {metadata?.total_jobs || ''}
+                            <Text
+                                style={{
+                                    fontSize: 20,
+                                    fontWeight: "bold",
+                                    color: theme.colors.textPrimary,
+                                    textAlign: "center",
+                                }}
+                            >
+                                {metadata?.total_jobs || ""}
                             </Text>
-                            <Text style={{ 
-                                fontSize: 12, 
-                                color: theme.colors.textSecondary,
-                            }}>
+                            <Text
+                                style={{
+                                    fontSize: 12,
+                                    color: theme.colors.textSecondary,
+                                    textAlign: "center",
+                                }}
+                            >
                                 Jobs
                             </Text>
                         </View>
                     )}
-                    textColor={theme.colors.white || '#fff'}
-                    textSize={11}
                     showText
+                    textColor={theme.colors.white || "#fff"}
+                    textSize={11}
                     fontWeight="bold"
                 />
             </View>
@@ -77,26 +82,14 @@ export default function JobTypeChart({ data, title, metadata }) {
                                     { backgroundColor: colors[index % colors.length] },
                                 ]}
                             />
-                            <Text style={styles.legendText}>{item.label}</Text>
+                            <Text style={styles.legendText}>{item.level}</Text>
                         </View>
                         <Text style={styles.legendValue}>
-                            {item.value} ({item.percentage}%)
+                            {item.count} ({item.percentage}%)
                         </Text>
                     </View>
                 ))}
             </View>
-
-            {/* Métadonnées */}
-            {metadata && (
-                <Text style={{ 
-                    fontSize: 11, 
-                    color: theme.colors.textSecondary,
-                    textAlign: 'center',
-                    marginTop: 8,
-                }}>
-                    Total jobs: {metadata.total_jobs ?? "-"}
-                </Text>
-            )}
         </View>
     );
 }

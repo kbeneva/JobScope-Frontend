@@ -5,9 +5,9 @@ import { useTheme } from "../styles/theme";
 import { analyticsService } from '../services/analyticsService';
 import { createAnalyticsStyles } from '../styles/screens/analyticsStyles';
 import RadarDomainChart from "./charts/RadarDomainChart";
-// import SeniorityDistributionChart from "./charts/SeniorityDistributionChart";
-// import TopCitiesDomainChart from "./charts/TopCitiesDomainChart";
-// import TopTechnologiesChart from "./charts/TopTechnologiesChart";
+import TopCitiesChart from './charts/TopCitiesChart';
+import SeniorityDistributionChart from "./charts/SeniorityDistributionChart";
+import TopTechnologiesChart from "./charts/TopTechnologiesChart";
 
 const DOMAINS = ["Web", "Mobile", "DevOps", "Data", "QA & Security", "Design", "Management"];
 
@@ -60,8 +60,13 @@ export default function DashboardB() {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}>
+      contentContainerStyle={{
+        paddingTop: 20,
+        paddingBottom: 100,
+        minHeight: '100%',
+      }}
+      showsVerticalScrollIndicator={false}
+    >
 
       {/* Dropdown */}
       <Dropdown
@@ -129,39 +134,40 @@ export default function DashboardB() {
       {/* Data Display - Mapper les charts par type */}
       {Object.keys(chartsData).length > 0 && !loading && !error && (
         <View>
-          {/* Utiliser la fonction de normalisation pour construire les clés */}
-          {chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`] && (
-            <RadarDomainChart 
-              data={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].data}
-              title={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].title}
-              metadata={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].metadata}
-              domain={selectedDomain}
+          {chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`] && (
+            <TopCitiesChart
+              data={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].metadata}
             />
           )}
-          
-          {/* {chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`] && (
+
+          {chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`] && (
+            <TopTechnologiesChart
+              data={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].metadata}
+            />
+          )}
+
+          {chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`] && (
             <SeniorityDistributionChart 
               data={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].data}
               title={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].title}
               metadata={chartsData[`seniority_distribution_${normalizeDomainForType(selectedDomain)}`].metadata}
             />
           )}
-          
-          {chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`] && (
-            <TopCitiesDomainChart 
-              data={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].data}
-              title={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].title}
-              metadata={chartsData[`top_cities_${normalizeDomainForType(selectedDomain)}`].metadata}
+
+          {chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`] && (
+            <RadarDomainChart
+              data={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].data}
+              title={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].title}
+              metadata={chartsData[`radar_domain_${normalizeDomainForType(selectedDomain)}`].metadata}
+              domain={selectedDomain}
             />
           )}
-          
-          {chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`] && (
-            <TopTechnologiesChart 
-              data={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].data}
-              title={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].title}
-              metadata={chartsData[`top_technologies_${normalizeDomainForType(selectedDomain)}`].metadata}
-            />
-          )} */}
+
+
         </View>
       )}
 

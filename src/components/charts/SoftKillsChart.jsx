@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createSoftSkillsChartStyles }
-  from "../../styles/components/charts/fourthChart";
+import { createCommonVerticalChartStyles } from "../../styles/components/charts/chart";
 
 const CATEGORY_COLORS = {
     "Communication": "#0B7285",
@@ -14,11 +13,11 @@ const CATEGORY_COLORS = {
 
 export default function SoftSkillsChart({ data, title, metadata }) {
   const theme = useTheme();
-  const styles = createSoftSkillsChartStyles(theme);
-  const maxValue = 750;
+  const styles = createCommonVerticalChartStyles(theme);
+  const maxValue = Math.max(...data.map(item => item.mentions));
 
   return (
-    <View >
+    <View style={styles.container}>
 
       <Text style={styles.title}>
         {title}

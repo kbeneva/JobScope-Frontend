@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createHardSkillsChartStyles } from "../../styles/components/charts/fifthChart";
+import { createCommonVerticalChartStyles } from "../../styles/components/charts/chart";
 
 const CATEGORY_COLORS = {
     "Cloud Platform": "#0B7285",
@@ -14,11 +14,11 @@ const CATEGORY_COLORS = {
 
 export default function HardSkillsChart({ data, title, metadata }) {
     const theme = useTheme();
-    const styles = createHardSkillsChartStyles(theme);
-    const maxValue = 750;
+    const styles = createCommonVerticalChartStyles(theme);
+    const maxValue = Math.max(...data.map(item => item.mentions));
 
     return (
-        <View >
+        <View style={[styles.container, {marginBottom: 100}]}>
 
             <Text style={styles.title}>
                 {title}

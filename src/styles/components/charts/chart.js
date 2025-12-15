@@ -1,33 +1,18 @@
 import { StyleSheet } from "react-native";
 
-// ============================================
-// STYLES COMMUNS PARTAGÉS
-// ============================================
-
+// Styles communs pour tous les charts
 const createCommonChartStyles = (theme) => ({
+  container: {
+    paddingTop: theme.spacing.xs,
+    marginBottom: theme.spacing.xl,
+    flex: 1,
+  },
   title: {
     ...theme.typography.h4,
     color: theme.colors.textPrimary,
-    marginBottom: theme.spacing?.md ?? 16,
+    marginBottom: theme.spacing.md,
     textAlign: "center",
   },
-
-  titleWithTopMargin: {
-    ...theme.typography.h4,
-    color: theme.colors.textPrimary,
-    marginBottom: 16,
-    textAlign: "center",
-    marginTop: 60,
-  },
-
-  card: {
-    padding: 16,
-    borderRadius: 14,
-    // backgroundColor: theme.colors.card,
-    marginVertical: 16,
-  },
-
-  // Styles pour les barres horizontales
   horizontalBarRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -41,8 +26,7 @@ const createCommonChartStyles = (theme) => ({
 
   horizontalBarContainer: {
     flex: 1,
-    height: 10,
-    backgroundColor: theme.colors.tag ?? "#EAEAEA",
+    height: 28,
     borderRadius: theme.borderRadius?.sm ?? 6,
     marginHorizontal: theme.spacing?.sm ?? 8,
     overflow: "hidden",
@@ -50,7 +34,7 @@ const createCommonChartStyles = (theme) => ({
 
   horizontalBar: {
     height: "100%",
-    borderRadius: theme.borderRadius?.sm ?? 6,
+    borderRadius: theme.borderRadius.xs,
   },
 
   horizontalBarValue: {
@@ -60,94 +44,26 @@ const createCommonChartStyles = (theme) => ({
     color: theme.colors.textSecondary,
   },
 
-  // Styles pour les barres verticales
-  verticalChart: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    height: 230,
-    paddingHorizontal: 6,
-  },
-
-  verticalBarWrapper: {
-    alignItems: "center",
-    width: 28,
-  },
-
-  verticalBarValue: {
-    fontSize: 10,
-    marginBottom: 4,
-    color: theme.colors.textSecondary,
-  },
-
-  verticalBar: {
-    width: 16,
-    borderRadius: 6,
-  },
-
-  verticalBarLabel: {
-    fontSize: 9,
-    marginTop: 6,
-    color: theme.colors.textSecondary,
-    textAlign: "center",
-  },
-
-  // Styles pour les légendes
   legendContainer: {
     marginTop: 16,
-  },
-
-  legendRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 6,
-  },
-
-  legendRowSpaceBetween: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 6,
-  },
-
-  legendLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  legendDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginRight: 8,
-  },
-
-  legendText: {
-    fontSize: 13,
-    color: theme.colors.textPrimary,
-  },
-
-  legendValue: {
-    fontSize: 13,
-    color: theme.colors.textSecondary,
   },
 });
 
 // ============================================
 // 1. TOP PROGRAMMING LANGUAGES CHART
 // ============================================
-
 export const createTopLanguagesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
-    container: {
-      marginBottom: theme.spacing?.lg ?? 16,
-    },
+    container: common.container,
     title: common.title,
     row: common.horizontalBarRow,
     label: {
       ...common.horizontalBarLabel,
       width: 90,
+      textAlign: "right",
+      paddingRight: 6,
     },
     barContainer: common.horizontalBarContainer,
     bar: {
@@ -155,22 +71,30 @@ export const createTopLanguagesChartStyles = (theme) => {
       backgroundColor: theme.colors.accent,
     },
     value: common.horizontalBarValue,
+    footerLabel: {
+      marginTop: 8,
+      textAlign: "center",
+      fontSize: 12,
+      color: theme.colors.textSecondary,
+    },
   });
 };
-
 // ============================================
 // 2. TOP CITIES CHART
 // ============================================
 
 export const createTopCitiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
-    title: common.titleWithTopMargin,
+    container: common.container,
+    title: common.title,
     row: common.horizontalBarRow,
     label: {
       ...common.horizontalBarLabel,
-      width: 120,
+      width: 100,
+      textAlign: "right",
+      paddingRight: 6,
     },
     barContainer: common.horizontalBarContainer,
     bar: {
@@ -193,74 +117,115 @@ export const createTopCitiesChartStyles = (theme) => {
 
 export const createJobTypeDonutStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
-    title: common.titleWithTopMargin,
+    container: common.container,
+    title: common.title,
     chartContainer: {
       alignItems: "center",
     },
-    legendContainer: common.legendContainer,
-    legendRow: common.legendRowSpaceBetween,
-    legendLeft: common.legendLeft,
-    colorDot: common.legendDot,
-    legendText: common.legendText,
-    legendValue: common.legendValue,
-    donutHole: {
-      position: "absolute",
-      width: 40,
-      height: 40,
-      borderRadius: 40,
+    legendContainer: {
+      marginTop: 16,
     },
-  });
-};
-
-// ============================================
-// 4. SOFT SKILLS CHART (Vertical Bars)
-// ============================================
-
-export const createSoftSkillsChartStyles = (theme) => {
-  const common = createCommonChartStyles(theme);
-  
-  return StyleSheet.create({
-    card: common.card,
-    title: common.titleWithTopMargin,
-    chart: {
-      ...common.verticalChart,
-      marginTop: 50,
-      paddingHorizontal: 1,
+    legendRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 8,
     },
-    barWrapper: common.verticalBarWrapper,
-    value: common.verticalBarValue,
-    bar: common.verticalBar,
-    label: common.verticalBarLabel,
-    legend: common.legendContainer,
-    legendRow: common.legendRow,
-    dot: common.legendDot,
+    legendLeft: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    colorDot: {
+      width: 10,
+      height: 10,
+      borderRadius: 5,
+      marginRight: 8,
+    },
     legendText: {
-      fontSize: 12,
+      fontSize: 13,
       color: theme.colors.textPrimary,
     },
+    legendValue: {
+      fontSize: 13,
+      color: theme.colors.textSecondary,
+    },
   });
 };
 
 // ============================================
-// 5. HARD SKILLS CHART (Vertical Bars)
+// Styles communs pour charts verticaux (Soft/Hard Skills)
 // ============================================
-
-export const createHardSkillsChartStyles = (theme) => {
+export const createCommonVerticalChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
-    card: common.card,
-    title: common.titleWithTopMargin,
-    chart: common.verticalChart,
-    barWrapper: common.verticalBarWrapper,
-    value: common.verticalBarValue,
-    bar: common.verticalBar,
-    label: common.verticalBarLabel,
-    legend: common.legendContainer,
-    legendRow: common.legendRow,
-    dot: common.legendDot,
+    card: {
+      padding: 16,
+      borderRadius: 14,
+      backgroundColor: theme.colors.card,
+      marginVertical: 16,
+    },
+
+    title: {
+      ...theme.typography.h4,
+      color: theme.colors.textPrimary,
+      marginBottom: 16,
+      textAlign: "center",
+      marginTop: 60,
+
+    },
+
+    chart: {
+      marginTop: 50,
+      flexDirection: "row",
+      alignItems: "flex-end",
+      justifyContent: "space-between",
+      height: 230,
+      paddingHorizontal: 1,
+    },
+
+    barWrapper: {
+      alignItems: "center",
+      width: 28,
+    },
+
+    value: {
+      fontSize: 10,
+      marginBottom: 4,
+      color: theme.colors.textSecondary,
+    },
+
+    bar: {
+      width: 20,
+      borderRadius: 4
+    },
+
+    label: {
+      fontSize: 9,
+      marginTop: 6,
+      color: theme.colors.textSecondary,
+      textAlign: "center",
+    },
+
+    legend: {
+      marginTop: 16,
+    },
+
+    legendRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 6,
+    },
+
+    dot: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      marginRight: 8,
+    },
+
     legendText: {
       fontSize: 12,
       color: theme.colors.textPrimary,
@@ -274,20 +239,13 @@ export const createHardSkillsChartStyles = (theme) => {
 
 export const createSkillsDistChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
-    title: {
-      ...theme.typography.h4,
-      color: theme.colors.textPrimary,
-      marginBottom: theme.spacing?.xs ?? 8,
-      textAlign: "center",
-    },
+    title: common.title,
     chartContainer: {
       alignItems: 'center',
       width: '100%',
-      paddingVertical: 20,
       paddingHorizontal: 10,
-      marginVertical: 10,
     },
     legendContainer: common.legendContainer,
     legendItem: {
@@ -322,7 +280,7 @@ export const createSkillsDistChartStyles = (theme) => {
 
 export const createTopTechnologiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
     container: {
       marginBottom: theme.spacing?.lg ?? 16,
@@ -334,7 +292,12 @@ export const createTopTechnologiesChartStyles = (theme) => {
       width: 100,
     },
     barContainer: common.horizontalBarContainer,
-    bar: common.horizontalBar,
+    bar: {
+      ...common.horizontalBar,
+      height: 40,
+      borderRadius: 4,
+      backgroundColor: theme.colors.primary,
+    },
     value: common.horizontalBarValue,
     categoryBadge: {
       paddingHorizontal: 6,
@@ -356,34 +319,46 @@ export const createTopTechnologiesChartStyles = (theme) => {
 
 export const createSeniorityDistributionStyles = (theme) => {
   const common = createCommonChartStyles(theme);
-  
+
   return StyleSheet.create({
     container: {
+      ...common.container,
       marginBottom: theme.spacing?.lg ?? 16,
     },
     title: common.title,
     chartContainer: {
       alignItems: "center",
+      marginVertical: theme.spacing?.md ?? 16,
     },
-    distributionBar: {
-      flexDirection: 'row',
-      height: 40,
-      borderRadius: 8,
-      overflow: 'hidden',
-      marginVertical: 16,
+
+    // Légende
+    legendContainer: {
+      marginTop: theme.spacing?.md ?? 12,
+      paddingHorizontal: theme.spacing?.sm ?? 8,
     },
-    distributionSegment: {
-      justifyContent: 'center',
-      alignItems: 'center',
+    legendRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: theme.spacing?.sm ?? 8,
     },
-    legendContainer: common.legendContainer,
-    legendRow: common.legendRowSpaceBetween,
-    legendLeft: common.legendLeft,
-    colorDot: common.legendDot,
-    legendText: common.legendText,
+    legendLeft: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    colorDot: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      marginRight: 8,
+    },
+    legendText: {
+      fontSize: 13,
+      color: theme.colors.textPrimary,
+    },
     legendValue: {
-      fontSize: 14,
-      fontWeight: '600',
+      fontSize: 13,
+      fontWeight: "600",
       color: theme.colors.textSecondary,
     },
   });
