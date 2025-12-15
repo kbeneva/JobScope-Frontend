@@ -13,21 +13,20 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     paddingTop: 60,
   },
   headerTitle: {
-    fontSize: 28,
-    fontFamily: 'Poppins_700Bold',
+    ...theme.typography.h3,
+    color: theme.colors.textPrimary,
   },
   headerSubtitle: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
     marginTop: 4,
   },
-  listContent: {
-    padding: 16,
-  },
   userCard: {
     backgroundColor: theme.colors.card,
     borderRadius: theme.borderRadius.md,
     padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    flex: 1
   },
   userHeader: {
     flexDirection: 'row',
@@ -44,8 +43,8 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     marginTop: 2,
   },
   roleBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     borderRadius: 12,
   },
   roleText: {
@@ -99,6 +98,7 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
+    backgroundColor: theme.colors.white,
     width: '90%',
     maxWidth: 400,
     padding: 24,

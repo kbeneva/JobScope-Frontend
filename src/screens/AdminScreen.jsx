@@ -1,11 +1,12 @@
 // screens/AdminUsersScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, ActivityIndicator, TextInput, Modal } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, ActivityIndicator, TextInput, Modal, ScrollView } from 'react-native';
 import { useTheme } from '../styles/theme';
 import { adminService } from '../services/adminService';
 import { Ionicons } from '@expo/vector-icons';
 import { createScreenStyles } from "../styles/screens/screenStyles";
 import { createAdminStyles } from '../styles/screens/adminStyles';
+import { RadioButton } from 'react-native-paper';
 
 export default function AdminUsersScreen() {
     const theme = useTheme();
@@ -104,47 +105,6 @@ export default function AdminUsersScreen() {
         }
     };
 
-    const renderUser = ({ item }) => (
-        <View style={[adminStyles.userCard, { backgroundColor: theme.colors.surface }]}>
-            <View style={adminStyles.userHeader}>
-                <View style={{ flex: 1 }}>
-                    <Text style={[adminStyles.userName, { color: theme.colors.textPrimary }]}>
-                        {item.firstName} {item.lastName}
-                    </Text>
-                    <Text style={[adminStyles.userEmail, { color: theme.colors.textSecondary }]}>
-                        {item.email}
-                    </Text>
-                </View>
-
-                <View style={[adminStyles.roleBadge, { backgroundColor: getRoleBadgeColor(item.role) }]}>
-                    <Text style={adminStyles.roleText}>{item.role}</Text>
-                </View>
-            </View>
-
-            <Text style={[adminStyles.createdAt, { color: theme.colors.textSecondary }]}>
-                Created: {new Date(item.created_at).toLocaleDateString()}
-            </Text>
-
-            <View style={adminStyles.actions}>
-                <TouchableOpacity
-                    onPress={() => openEditModal(item)}
-                    style={[adminStyles.actionButton, { backgroundColor: theme.colors.primary }]}
-                >
-                    <Ionicons name="pencil" size={16} color="#fff" />
-                    <Text style={adminStyles.actionText}>Edit</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={() => handleDeleteUser(item._id, `${item.firstName} ${item.lastName}`)}
-                    style={[adminStyles.actionButton, { backgroundColor: theme.colors.error }]}
-                >
-                    <Ionicons name="trash" size={16} color="#fff" />
-                    <Text style={adminStyles.actionText}>Delete</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-
     if (loading && users.length === 0) {
         return (
             <View style={[adminStyles.container, adminStyles.centered]}>
@@ -158,66 +118,134 @@ export default function AdminUsersScreen() {
 
     return (
         <View style={styles.container}>
-            {/* Header */}
-            <View style={adminStyles.header}>
-                <Text style={[adminStyles.headerTitle, { color: theme.colors.textPrimary }]}>
+            <View>
+                <Text style={adminStyles.headerTitle}>
                     Admin Users
                 </Text>
-                <Text style={[adminStyles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-                    {total} users total
+                <Text style={{
+                    ...theme.typography.body,
+                    color: theme.colors.textPrimary,
+                }}>
+                    {total} {total === 1 ? 'user' : 'users'}
                 </Text>
             </View>
+            <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={{ paddingBottom: theme.spacing.xl }}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Pagination en haut */}
+                {totalPages > 1 && (
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 16
+                    }}>
+                        <TouchableOpacity
+                            style={{
+                                borderWidth: 1,
+                                borderColor: theme.colors.border,
+                                borderRadius: 20,
+                                padding: 8,
+                                marginHorizontal: 4,
+                                opacity: page === 1 ? 0.5 : 1
+                            }}
+                            onPress={() => setPage(page - 1)}
+                            disabled={page === 1 || loading}
+                        >
+                            <Ionicons name="chevron-back" size={20} color={theme.colors.textSecondary} />
+                        </TouchableOpacity>
 
-            {/* User List */}
-            <FlatList
-                data={users}
-                renderItem={renderUser}
-                keyExtractor={(item) => item._id}
-                contentContainerStyle={adminStyles.listContent}
-                refreshing={loading}
-                onRefresh={fetchUsers}
-            />
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-                <View style={[adminStyles.pagination, { backgroundColor: theme.colors.surface }]}>
-                    <TouchableOpacity
-                        disabled={page === 1}
-                        onPress={() => setPage(page - 1)}
-                        style={[adminStyles.paginationButton, page === 1 && adminStyles.disabled]}
-                    >
-                        <Ionicons name="chevron-back" size={20} color={page === 1 ? '#ccc' : theme.colors.primary} />
-                        <Text style={{ color: page === 1 ? '#ccc' : theme.colors.primary }}>
-                            Previous
+                        <Text style={{
+                            fontSize: 14,
+                            color: theme.colors.textSecondary,
+                            marginHorizontal: 8
+                        }}>
+                            {page} / {totalPages}
                         </Text>
-                    </TouchableOpacity>
 
-                    <Text style={{ color: theme.colors.textPrimary, fontFamily: 'Poppins_600SemiBold' }}>
-                        {page} / {totalPages}
-                    </Text>
+                        <TouchableOpacity
+                            style={{
+                                borderWidth: 1,
+                                borderColor: theme.colors.border,
+                                borderRadius: 20,
+                                padding: 8,
+                                marginHorizontal: 4,
+                                opacity: page === totalPages ? 0.5 : 1
+                            }}
+                            onPress={() => setPage(page + 1)}
+                            disabled={page === totalPages || loading}
+                        >
+                            <Ionicons name="chevron-forward" size={20} color={theme.colors.textSecondary} />
+                        </TouchableOpacity>
+                    </View>
+                )}
 
-                    <TouchableOpacity
-                        disabled={page === totalPages}
-                        onPress={() => setPage(page + 1)}
-                        style={[adminStyles.paginationButton, page === totalPages && adminStyles.disabled]}
-                    >
-                        <Text style={{ color: page === totalPages ? '#ccc' : theme.colors.primary }}>
-                            Next
-                        </Text>
-                        <Ionicons name="chevron-forward" size={20} color={page === totalPages ? '#ccc' : theme.colors.primary} />
-                    </TouchableOpacity>
+                {/* Liste des users */}
+                <View>
+                    {users.map((user) => (
+                        <View
+                            key={user._id}
+                            style={adminStyles.userCard}
+                        >
+                            <View style={adminStyles.userHeader}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={[adminStyles.userName, { color: theme.colors.textPrimary }]}>
+                                        {user.firstName} {user.lastName}
+                                    </Text>
+                                    <Text style={[adminStyles.userEmail, { color: theme.colors.textSecondary }]}>
+                                        {user.email}
+                                    </Text>
+                                </View>
+
+                                <View style={[adminStyles.roleBadge, { backgroundColor: getRoleBadgeColor(user.role) }]}>
+                                    <Text style={adminStyles.roleText}>{user.role}</Text>
+                                </View>
+                            </View>
+
+                            <Text style={[adminStyles.createdAt, { color: theme.colors.textSecondary }]}>
+                                Created: {new Date(user.created_at).toLocaleDateString()}
+                            </Text>
+
+                            <View style={adminStyles.actions}>
+                                <TouchableOpacity
+                                    onPress={() => openEditModal(user)}
+                                    style={[adminStyles.actionButton, { backgroundColor: theme.colors.primary }]}
+                                >
+                                    <Ionicons name="pencil" size={16} color="#fff" />
+                                    <Text style={adminStyles.actionText}>Edit</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => handleDeleteUser(user._id, `${user.firstName} ${user.lastName}`)}
+                                    style={[adminStyles.actionButton, { backgroundColor: theme.colors.error }]}
+                                >
+                                    <Ionicons name="trash" size={16} color="#fff" />
+                                    <Text style={adminStyles.actionText}>Delete</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    ))}
                 </View>
-            )}
+
+                {/* Indicateur de chargement lors du changement de page */}
+                {loading && users.length > 0 && (
+                    <View style={{ paddingVertical: 20, alignItems: 'center' }}>
+                        <ActivityIndicator size="small" color={theme.colors.primary} />
+                    </View>
+                )}
+            </ScrollView>
 
             {/* Edit Modal */}
             <Modal
                 visible={editModalVisible}
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 onRequestClose={() => setEditModalVisible(false)}
             >
                 <View style={adminStyles.modalOverlay}>
-                    <View style={[adminStyles.modalContent, { backgroundColor: theme.colors.surface }]}>
+                    <View style={adminStyles.modalContent}>
                         <Text style={[adminStyles.modalTitle, { color: theme.colors.textPrimary }]}>
                             Edit User
                         </Text>
@@ -226,6 +254,7 @@ export default function AdminUsersScreen() {
                             style={[adminStyles.input, {
                                 backgroundColor: theme.colors.background,
                                 color: theme.colors.textPrimary,
+                                borderColor: theme.colors.border,
                             }]}
                             placeholder="First Name"
                             placeholderTextColor={theme.colors.textSecondary}
@@ -237,6 +266,7 @@ export default function AdminUsersScreen() {
                             style={[adminStyles.input, {
                                 backgroundColor: theme.colors.background,
                                 color: theme.colors.textPrimary,
+                                borderColor: theme.colors.border,
                             }]}
                             placeholder="Last Name"
                             placeholderTextColor={theme.colors.textSecondary}
@@ -248,6 +278,7 @@ export default function AdminUsersScreen() {
                             style={[adminStyles.input, {
                                 backgroundColor: theme.colors.background,
                                 color: theme.colors.textPrimary,
+                                borderColor: theme.colors.border,
                             }]}
                             placeholder="Email"
                             placeholderTextColor={theme.colors.textSecondary}
@@ -257,23 +288,51 @@ export default function AdminUsersScreen() {
                             autoCapitalize="none"
                         />
 
-                        <TextInput
-                            style={[adminStyles.input, {
-                                backgroundColor: theme.colors.background,
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={{
                                 color: theme.colors.textPrimary,
-                            }]}
-                            placeholder="Role (user/admin/moderator)"
-                            placeholderTextColor={theme.colors.textSecondary}
-                            value={editForm.role}
-                            onChangeText={(text) => setEditForm({ ...editForm, role: text })}
-                        />
+                                marginBottom: 8,
+                                fontFamily: 'Poppins_500Medium'
+                            }}>
+                                Role
+                            </Text>
+
+                            {/* USER */}
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => setEditForm({ ...editForm, role: 'user' })}
+                            >
+                                <RadioButton
+                                    value="user"
+                                    status={editForm.role === 'user' ? 'checked' : 'unchecked'}
+                                    onPress={() => setEditForm({ ...editForm, role: 'user' })}
+                                />
+                                <Text style={{ color: theme.colors.textPrimary }}>User</Text>
+                            </TouchableOpacity>
+
+                            {/* ADMIN */}
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => setEditForm({ ...editForm, role: 'admin' })}
+                            >
+                                <RadioButton
+                                    value="admin"
+                                    status={editForm.role === 'admin' ? 'checked' : 'unchecked'}
+                                    onPress={() => setEditForm({ ...editForm, role: 'admin' })}
+                                />
+                                <Text style={{ color: theme.colors.textPrimary }}>Admin</Text>
+                            </TouchableOpacity>
+                        </View>
+
 
                         <View style={adminStyles.modalButtons}>
                             <TouchableOpacity
                                 onPress={() => setEditModalVisible(false)}
-                                style={[adminStyles.modalButton, { backgroundColor: '#ccc' }]}
+                                style={[adminStyles.modalButton, { backgroundColor: theme.colors.border }]}
                             >
-                                <Text style={adminStyles.modalButtonText}>Cancel</Text>
+                                <Text style={[adminStyles.modalButtonText, { color: theme.colors.textPrimary }]}>
+                                    Cancel
+                                </Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
