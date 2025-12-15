@@ -25,6 +25,32 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
   const [imageUri, setImageUri] = useState(null);
 
+  if (!isAuthenticated) {
+    return (
+      <View style={profileStyles.notAuthContainer}>
+        <Ionicons
+          name="person-circle-outline"
+          size={96}
+          color={theme.colors.icon}
+          style={profileStyles.notAuthIcon}
+        />
+
+        <Text style={profileStyles.notAuthTitle}>You are not logged in</Text>
+
+        <Text style={profileStyles.notAuthMessage}>
+          Please log in to view and edit your profile.
+        </Text>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          style={profileStyles.notAuthButton}
+        >
+          <Text style={profileStyles.notAuthButtonText}>Go to Login</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   const pickFromLibrary = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
@@ -60,7 +86,11 @@ export default function ProfileScreen() {
   };
 
   const openPickerOptions = () => {
-    const options = ["Prendre une photo", "Choisir dans la bibliothèque", "Annuler"];
+    const options = [
+      "Prendre une photo",
+      "Choisir dans la bibliothèque",
+      "Annuler",
+    ];
     if (Platform.OS === "ios") {
       ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -83,15 +113,8 @@ export default function ProfileScreen() {
 
   return (
     <View style={screenStyles.container}>
-      <View style={{ alignItems: "center", marginTop: theme.spacing.lg }}>
-        <View
-          style={{
-            position: "relative",
-            width: 96,
-            height: 96,
-            marginBottom: theme.spacing.md,
-          }}
-        >
+      <View style={profileStyles.profileHeader}>
+        <View style={profileStyles.avatarContainer}>
           <Image
             source={
               imageUri
@@ -100,37 +123,20 @@ export default function ProfileScreen() {
                     uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                   }
             }
-            style={{
-              width: 96,
-              height: 96,
-              borderRadius: 48,
-            }}
+            style={profileStyles.avatar}
           />
           <TouchableOpacity
             onPress={openPickerOptions}
             activeOpacity={0.8}
-            style={{
-              position: "absolute",
-              right: -2,
-              bottom: -2,
-              width: 36,
-              height: 36,
-              borderRadius: 18,
-              backgroundColor: theme.colors.primary,
-              alignItems: "center",
-              justifyContent: "center",
-              borderWidth: 2,
-              borderColor: theme.colors.background,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 3,
-              elevation: 3,
-            }}
+            style={[
+              profileStyles.cameraButton,
+              { borderColor: theme.colors.background },
+            ]}
           >
-            <Image source={cameraIcon} style={{ width: 18, height: 18, tintColor: "#fff" }} />
+            <Image source={cameraIcon} style={profileStyles.cameraIcon} />
           </TouchableOpacity>
         </View>
+
         <Text style={profileStyles.name}>
           {user?.firstName} {user?.lastName}
         </Text>
@@ -138,22 +144,17 @@ export default function ProfileScreen() {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("UserForm")}
-          style={[
-            profileStyles.button,
-            { alignSelf: "stretch", alignItems: "center", justifyContent: "center" },
-          ]}
+          style={profileStyles.editButton}
         >
           <Text style={profileStyles.buttonText}>Edit Profil</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginTop: theme.spacing.lg }}>
+      <View style={profileStyles.bioContainer}>
         <Text style={profileStyles.bio}>{user?.biography}</Text>
-        {user?.interest ? (
-          <Text style={[profileStyles.bio, { marginTop: 8 }]}>
-            {user.interest}
-          </Text>
-        ) : null}
+        {user?.interest && (
+          <Text style={profileStyles.bioInterest}>{user.interest}</Text>
+        )}
       </View>
 
       <View style={profileStyles.sectionList}>
@@ -162,7 +163,11 @@ export default function ProfileScreen() {
           onPress={() => navigation.navigate("Favorites")}
         >
           <View style={profileStyles.rowLeft}>
-            <Ionicons name="bookmark-outline" size={22} color={theme.colors.textPrimary} />
+            <Ionicons
+              name="bookmark-outline"
+              size={22}
+              color={theme.colors.textPrimary}
+            />
             <Text style={profileStyles.rowText}>Saved</Text>
           </View>
           <Ionicons
