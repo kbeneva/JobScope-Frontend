@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { createTopLanguagesChartStyles } from "../../styles/components/charts/chart";
+import { createTopLanguagesChartStyles } from "../../styles/components/chartsStyles";
 import { useTheme } from "../../styles/theme";
 
 export default function ProgrammingLanguagesChart({ data, title, metadata }) {

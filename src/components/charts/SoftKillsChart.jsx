@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createCommonVerticalChartStyles } from "../../styles/components/charts/chart";
+import { createCommonVerticalChartStyles } from "../../styles/components/chartsStyles";
 
 const CATEGORY_COLORS = {
     "Communication": "#0B7285",

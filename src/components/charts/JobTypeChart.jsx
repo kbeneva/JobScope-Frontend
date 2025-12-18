@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 import { useTheme } from "../../styles/theme";
-import { createJobTypeDonutStyles } from "../../styles/components/charts/chart";
+import { createJobTypeDonutStyles } from "../../styles/components/chartsStyles";
 
 export default function JobTypeChart({ data, title, metadata }) {
     const theme = useTheme();

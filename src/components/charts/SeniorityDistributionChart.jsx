@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 import { useTheme } from "../../styles/theme";
-import { createSeniorityDistributionStyles } from "../../styles/components/charts/chart";
+import { createSeniorityDistributionStyles } from "../../styles/components/chartsStyles";
 
 export default function SeniorityDistributionChart({ data, title, metadata }) {
     const theme = useTheme();

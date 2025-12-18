@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import ENV from '../../config/env';
 
 const baseConfig = {
-  baseURL: ENV.apiUrl,
+  baseURL: "https://jobscope-api.onrender.com/api",
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

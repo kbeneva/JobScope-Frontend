@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createTopTechnologiesChartStyles } from "../../styles/components/charts/chart";
+import { createTopTechnologiesChartStyles } from "../../styles/components/chartsStyles";
 
 export default function TopTechnologiesChart({ data, title, metadata }) {
     const theme = useTheme();

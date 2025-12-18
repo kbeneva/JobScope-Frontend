@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from "../../styles/theme";
 import { StyleSheet, View, Text } from 'react-native';
 import { RadarChart } from '@salmonco/react-native-radar-chart';
-import { createSkillsDistChartStyles } from '../../styles/components/charts/chart';
+import { createSkillsDistChartStyles } from '../../styles/components/chartsStyles';
 
 export default function RadarDomainChart({ data, title, metadata, domain }) {
   const theme = useTheme();

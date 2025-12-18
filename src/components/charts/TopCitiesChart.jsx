@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { useTheme } from "../../styles/theme";
-import { createTopCitiesChartStyles } from "../../styles/components/charts/chart";
+import { createTopCitiesChartStyles } from "../../styles/components/chartsStyles";
 
 export default function TopCitiesChart({ data, title, metadata }) {
     const theme = useTheme();
