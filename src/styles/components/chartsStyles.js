@@ -56,21 +56,44 @@ export const createTopLanguagesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
-    container: common.container,
-    title: common.title,
-    row: common.horizontalBarRow,
+    title: {
+      marginTop: 20,
+      marginBottom: theme.spacing.md,
+      ...theme.typography.h4,
+      color: theme.colors.textPrimary,
+      textAlign: "center",
+
+    },
+
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 16,
+    },
     label: {
-      ...common.horizontalBarLabel,
-      width: 90,
+      width: 75,
+      fontSize: 12,
       textAlign: "right",
       paddingRight: 6,
+      color: theme.colors.textPrimary,
     },
-    barContainer: common.horizontalBarContainer,
+
+
+    barContainer: {
+      flex: 1,
+      height: 28,
+      marginRight: 6,
+    },
+
     bar: {
-      ...common.horizontalBar,
+      height: 28,
       backgroundColor: theme.colors.accent,
     },
-    value: common.horizontalBarValue,
+
+    value: {
+      fontSize: 12,
+      color: theme.colors.textSecondary,
+    },
     footerLabel: {
       marginTop: 8,
       textAlign: "center",
@@ -87,26 +110,52 @@ export const createTopCitiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
-    container: common.container,
-    title: common.title,
-    row: common.horizontalBarRow,
+    title: {
+      marginTop: 22,
+      marginBottom: theme.spacing.md,
+      ...theme.typography.h4,
+      color: theme.colors.textPrimary,
+      textAlign: "center",
+
+    },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 18,
+
+    },
     label: {
-      ...common.horizontalBarLabel,
-      width: 100,
+      width: 75,
+      fontSize: 12,
       textAlign: "right",
       paddingRight: 6,
+
+      color: theme.colors.textPrimary,
     },
-    barContainer: common.horizontalBarContainer,
+
+    barContainer: {
+      flex: 1,
+      height: 28,
+      marginRight: 6,
+    },
     bar: {
-      ...common.horizontalBar,
-      backgroundColor: theme.colors.primary,
+      height: 28,
+      backgroundColor: theme.colors.accent,
     },
-    value: common.horizontalBarValue,
-    axisLabel: {
-      marginTop: 10,
-      fontSize: 11,
+    value: {
+      fontSize: 12,
       color: theme.colors.textSecondary,
+    },
+    footerLabel: {
       textAlign: "center",
+      fontSize: 12,
+      color: theme.colors.textSecondary,
+    },
+    axisLabel: {
+      marginTop: 12,
+      textAlign: "center",
+      fontSize: 13,
+      color: theme.colors.textSecondary,
     },
   });
 };
@@ -123,15 +172,16 @@ export const createJobTypeDonutStyles = (theme) => {
     title: common.title,
     chartContainer: {
       alignItems: "center",
+
     },
     legendContainer: {
-      marginTop: 16,
+      marginTop: 18,
     },
     legendRow: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 8,
+      marginBottom: 10,
     },
     legendLeft: {
       flexDirection: "row",
@@ -282,33 +332,49 @@ export const createTopTechnologiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
-    container: {
-      marginBottom: theme.spacing?.lg ?? 16,
+     title: {
+      marginTop: 20,
+      marginBottom: theme.spacing.md,
+      ...theme.typography.h4,
+      color: theme.colors.textPrimary,
+      textAlign: "center",
+
     },
-    title: common.title,
-    row: common.horizontalBarRow,
+
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 16,
+    },
     label: {
-      ...common.horizontalBarLabel,
-      width: 100,
+      width: 75,
+      fontSize: 12,
+      textAlign: "right",
+      paddingRight: 6,
+      color: theme.colors.textPrimary,
     },
-    barContainer: common.horizontalBarContainer,
+
+
+    barContainer: {
+      flex: 1,
+      height: 28,
+      marginRight: 6,
+    },
+
     bar: {
-      ...common.horizontalBar,
-      height: 40,
-      borderRadius: 4,
-      backgroundColor: theme.colors.primary,
+      height: 28,
+      backgroundColor: theme.colors.accent,
     },
-    value: common.horizontalBarValue,
-    categoryBadge: {
-      paddingHorizontal: 6,
-      paddingVertical: 2,
-      borderRadius: 4,
-      marginTop: 4,
-      alignSelf: 'flex-start',
+
+    value: {
+      fontSize: 12,
+      color: theme.colors.textSecondary,
     },
-    categoryText: {
-      fontSize: 10,
-      fontWeight: '500',
+    footerLabel: {
+      marginTop: 8,
+      textAlign: "center",
+      fontSize: 12,
+      color: theme.colors.textSecondary,
     },
   });
 };
