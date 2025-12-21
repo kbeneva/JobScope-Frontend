@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import React, { useState, useEffect, useCallback } from "react";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { ActivityIndicator, View, Platform } from "react-native";
@@ -14,8 +15,14 @@ import {
 } from "@expo-google-fonts/poppins";
 import { UserProvider } from "./src/context/UserContext";
 import { FavoritesProvider } from "./src/context/FavoritesContext";
+import * as SplashScreen from 'expo-splash-screen';
+import CustomSplashScreen from './src/components/SplashScreen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
+
   const [fontsLoaded] = useFonts({
     Poppins_300Light,
     Poppins_400Regular,
@@ -25,25 +32,40 @@ export default function App() {
     Poppins_900Black,
   });
 
+  // hide splash when fonts ready
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  // show loading when fonts not loaded
   if (!fontsLoaded) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#000" />
-      </View>
-    );
+    return null;
   }
 
   const isWeb = Platform.OS === 'web';
 
+  // show custom splash screen
+  if (showCustomSplash && !isWeb) {
+    return (
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <CustomSplashScreen onFinish={() => setShowCustomSplash(false)} />
+      </View>
+    );
+  }
+
   return (
-    <ThemeProvider>
-      <UserProvider>
-        <FavoritesProvider>
-          <SafeAreaProvider>
-            <AppNavigator />
-          </SafeAreaProvider>
-        </FavoritesProvider>
-      </UserProvider>
-    </ThemeProvider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <ThemeProvider>
+        <UserProvider>
+          <FavoritesProvider>
+            <SafeAreaProvider>
+              <AppNavigator />
+            </SafeAreaProvider>
+          </FavoritesProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </View>
   );
 }
