@@ -5,13 +5,11 @@ import { useState, useEffect } from "react";
 import {
   View,
   Text,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   TextInput,
   Alert,
   ActivityIndicator,
 } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackHeader from "../components/BackHeader";
 import { createUserFormStyles } from "../styles/screens/userFormStyles";
 import { Ionicons } from "@expo/vector-icons";
@@ -94,8 +92,8 @@ export default function UserFormScreen() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          err.message ||
-          "Failed to update profile. Please try again."
+        err.message ||
+        "Failed to update profile. Please try again."
       );
     } finally {
       setLoading(false);
@@ -104,11 +102,9 @@ export default function UserFormScreen() {
 
   if (fetchingProfile) {
     return (
-      <View style={screenStyles.container}>
+      <View style={[screenStyles.container, { backgroundColor: theme.colors.background }]}>
         <BackHeader title="Edit Profile" />
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
           <Text
             style={{
@@ -125,124 +121,125 @@ export default function UserFormScreen() {
   }
 
   return (
-    <View style={screenStyles.container}>
+    <View style={[screenStyles.container, { backgroundColor: theme.colors.background }]}>
       <BackHeader title="Edit Profile" />
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: theme.colors.background }}
+        contentContainerStyle={{
+          paddingBottom: 50,
+          backgroundColor: theme.colors.background,
+        }}
+        enableOnAndroid={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: theme.spacing.lg,
-            paddingBottom: 100,
+        <Text style={userFormStyles.label}>First Name</Text>
+        <TextInput
+          value={firstName}
+          onChangeText={setFirstName}
+          placeholder="First Name"
+          placeholderTextColor={theme.colors.textSecondary}
+          style={userFormStyles.input}
+          editable={!loading}
+        />
+
+        <Text style={userFormStyles.label}>Last Name</Text>
+        <TextInput
+          value={lastName}
+          onChangeText={setLastName}
+          placeholder="Last Name"
+          placeholderTextColor={theme.colors.textSecondary}
+          style={userFormStyles.input}
+          editable={!loading}
+        />
+
+        <Text style={userFormStyles.label}>Email</Text>
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor={theme.colors.textSecondary}
+          style={userFormStyles.input}
+          editable={!loading}
+        />
+
+        <Text style={userFormStyles.label}>Bio</Text>
+        <TextInput
+          value={biography}
+          onChangeText={(t) => t.length <= BIO_MAX && setBiography(t)}
+          placeholder="Write something about you..."
+          placeholderTextColor={theme.colors.textSecondary}
+          style={[
+            userFormStyles.input,
+            { height: 110, textAlignVertical: "top" },
+          ]}
+          multiline
+          editable={!loading}
+        />
+        <Text
+          style={{
+            color: theme.colors.textSecondary,
+            fontSize: 12,
+            textAlign: "right",
+            marginTop: -theme.spacing.md,
+            marginBottom: theme.spacing.md,
           }}
-          keyboardShouldPersistTaps="handled"
         >
-          <Text style={userFormStyles.label}>First Name</Text>
-          <TextInput
-            value={firstName}
-            onChangeText={setFirstName}
-            placeholder="First Name"
-            placeholderTextColor={theme.colors.textSecondary}
-            style={userFormStyles.input}
-            editable={!loading}
-          />
+          {`${biography.length}/${BIO_MAX}`}
+        </Text>
 
-          <Text style={userFormStyles.label}>Last Name</Text>
-          <TextInput
-            value={lastName}
-            onChangeText={setLastName}
-            placeholder="Last Name"
-            placeholderTextColor={theme.colors.textSecondary}
-            style={userFormStyles.input}
-            editable={!loading}
-          />
+        <Text style={userFormStyles.label}>Interests</Text>
+        <TextInput
+          value={interest}
+          onChangeText={setInterest}
+          placeholder="Share your interests..."
+          placeholderTextColor={theme.colors.textSecondary}
+          style={userFormStyles.input}
+          editable={!loading}
+          returnKeyType="done"
+        />
 
-          <Text style={userFormStyles.label}>Email</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor={theme.colors.textSecondary}
-            style={userFormStyles.input}
-            editable={!loading}
-          />
-
-          <Text style={userFormStyles.label}>Bio</Text>
-          <TextInput
-            value={biography}
-            onChangeText={(t) => t.length <= BIO_MAX && setBiography(t)}
-            placeholder="Write something about you..."
-            placeholderTextColor={theme.colors.textSecondary}
-            style={[
-              userFormStyles.input,
-              { height: 110, textAlignVertical: "top" },
-            ]}
-            multiline
-            editable={!loading}
-          />
-          <Text
+        {error && (
+          <View
             style={{
-              color: theme.colors.textSecondary,
-              fontSize: 12,
-              textAlign: "right",
-              marginTop: -theme.spacing.md,
-              marginBottom: theme.spacing.md,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: theme.colors.error + "15",
+              padding: theme.spacing.md,
+              borderRadius: theme.borderRadius.md,
+              marginTop: theme.spacing.lg,
+              gap: theme.spacing.sm,
             }}
           >
-            {`${biography.length}/${BIO_MAX}`}
-          </Text>
-
-          <Text style={userFormStyles.label}>Interests</Text>
-          <TextInput
-            value={interest}
-            onChangeText={setInterest}
-            placeholder="Share your interests..."
-            placeholderTextColor={theme.colors.textSecondary}
-            style={userFormStyles.input}
-            editable={!loading}
-          />
-
-          {error && (
-            <View
+            <Ionicons
+              name="alert-circle"
+              size={20}
+              color={theme.colors.error}
+            />
+            <Text
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: theme.colors.error + "15",
-                padding: theme.spacing.md,
-                borderRadius: theme.borderRadius.md,
-                marginTop: theme.spacing.lg,
-                gap: theme.spacing.sm,
+                ...theme.typography.bodySmall,
+                color: theme.colors.error,
+                flex: 1,
               }}
             >
-              <Ionicons
-                name="alert-circle"
-                size={20}
-                color={theme.colors.error}
-              />
-              <Text
-                style={{
-                  ...theme.typography.bodySmall,
-                  color: theme.colors.error,
-                  flex: 1,
-                }}
-              >
-                {error}
-              </Text>
-            </View>
-          )}
-
-          <View style={{ marginTop: theme.spacing.xl }}>
-            <Button
-              onPress={onSave}
-              title={loading ? "Saving..." : "Save changes"}
-              disabled={loading}
-            />
+              {error}
+            </Text>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        )}
+
+        <View style={{ marginTop: theme.spacing.xl }}>
+          <Button
+            onPress={onSave}
+            title={loading ? "Saving..." : "Save changes"}
+            disabled={loading}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

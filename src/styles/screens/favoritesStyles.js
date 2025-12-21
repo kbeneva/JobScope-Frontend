@@ -6,7 +6,6 @@ export const createFavoritesStyles = (theme) =>
       flex: 1,
     },
     scrollContent: {
-      paddingHorizontal: theme.spacing.lg,
       paddingBottom: theme.spacing.xl,
     },
     headerContainer: {

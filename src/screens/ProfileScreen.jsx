@@ -54,7 +54,7 @@ export default function ProfileScreen() {
   const pickFromLibrary = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert("Permission requise", "Autorisez l'accès à la bibliothèque");
+      Alert.alert("Permission Required", "Please allow access to your photo library");
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -71,7 +71,7 @@ export default function ProfileScreen() {
   const takePhoto = async () => {
     const perm = await ImagePicker.requestCameraPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert("Permission requise", "Autorisez l'accès à la caméra");
+      Alert.alert("Permission Required", "Please allow access to your camera");
       return;
     }
     const result = await ImagePicker.launchCameraAsync({
@@ -87,9 +87,9 @@ export default function ProfileScreen() {
 
   const openPickerOptions = () => {
     const options = [
-      "Prendre une photo",
-      "Choisir dans la bibliothèque",
-      "Annuler",
+      "Take a Photo",
+      "Choose from Library",
+      "Cancel",
     ];
     if (Platform.OS === "ios") {
       ActionSheetIOS.showActionSheetWithOptions(
@@ -103,7 +103,7 @@ export default function ProfileScreen() {
         }
       );
     } else {
-      Alert.alert("Photo de profil", "Sélectionnez une option", [
+      Alert.alert("Profile Picture", "Select an option", [
         { text: options[0], onPress: takePhoto },
         { text: options[1], onPress: pickFromLibrary },
         { text: options[2], style: "cancel" },

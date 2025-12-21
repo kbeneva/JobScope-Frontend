@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-// Styles communs pour tous les charts
+// common styles for all charts
 const createCommonChartStyles = (theme) => ({
   container: {
     paddingTop: theme.spacing.xs,
@@ -18,12 +18,10 @@ const createCommonChartStyles = (theme) => ({
     alignItems: "center",
     marginBottom: theme.spacing?.sm ?? 10,
   },
-
   horizontalBarLabel: {
-    fontSize: 13,
+    ...theme.typography.caption,
     color: theme.colors.textPrimary,
   },
-
   horizontalBarContainer: {
     flex: 1,
     height: 28,
@@ -31,19 +29,16 @@ const createCommonChartStyles = (theme) => ({
     marginHorizontal: theme.spacing?.sm ?? 8,
     overflow: "hidden",
   },
-
   horizontalBar: {
     height: "100%",
     borderRadius: theme.borderRadius.xs,
   },
-
   horizontalBarValue: {
     width: 40,
-    fontSize: 12,
+    ...theme.typography.caption,
     textAlign: "right",
     color: theme.colors.textSecondary,
   },
-
   legendContainer: {
     marginTop: 16,
   },
@@ -56,15 +51,10 @@ export const createTopLanguagesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
+    container: common.container,
     title: {
-      marginTop: 20,
-      marginBottom: theme.spacing.md,
-      ...theme.typography.h4,
-      color: theme.colors.textPrimary,
-      textAlign: "center",
-
+      ...common.title,
     },
-
     row: {
       flexDirection: "row",
       alignItems: "center",
@@ -72,32 +62,28 @@ export const createTopLanguagesChartStyles = (theme) => {
     },
     label: {
       width: 75,
-      fontSize: 12,
+      ...theme.typography.caption,
       textAlign: "right",
       paddingRight: 6,
       color: theme.colors.textPrimary,
     },
-
-
     barContainer: {
       flex: 1,
       height: 28,
       marginRight: 6,
     },
-
     bar: {
       height: 28,
       backgroundColor: theme.colors.accent,
     },
-
     value: {
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
     footerLabel: {
       marginTop: 8,
       textAlign: "center",
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
   });
@@ -110,29 +96,22 @@ export const createTopCitiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
+    container: common.container,
     title: {
-      marginTop: 22,
-      marginBottom: theme.spacing.md,
-      ...theme.typography.h4,
-      color: theme.colors.textPrimary,
-      textAlign: "center",
-
+      ...common.title,
     },
     row: {
       flexDirection: "row",
       alignItems: "center",
       marginBottom: 18,
-
     },
     label: {
       width: 75,
-      fontSize: 12,
+      ...theme.typography.caption,
       textAlign: "right",
       paddingRight: 6,
-
       color: theme.colors.textPrimary,
     },
-
     barContainer: {
       flex: 1,
       height: 28,
@@ -143,18 +122,18 @@ export const createTopCitiesChartStyles = (theme) => {
       backgroundColor: theme.colors.accent,
     },
     value: {
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
     footerLabel: {
       textAlign: "center",
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
     axisLabel: {
       marginTop: 12,
       textAlign: "center",
-      fontSize: 13,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
   });
@@ -169,7 +148,9 @@ export const createJobTypeDonutStyles = (theme) => {
 
   return StyleSheet.create({
     container: common.container,
-    title: common.title,
+    title: {
+      ...common.title,
+    },
     chartContainer: {
       alignItems: "center",
 
@@ -194,39 +175,33 @@ export const createJobTypeDonutStyles = (theme) => {
       marginRight: 8,
     },
     legendText: {
-      fontSize: 13,
+      ...theme.typography.caption,
       color: theme.colors.textPrimary,
     },
     legendValue: {
-      fontSize: 13,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
   });
 };
 
 // ============================================
-// Styles communs pour charts verticaux (Soft/Hard Skills)
+// common styles for vertical charts (Soft/Hard Skills)
 // ============================================
 export const createCommonVerticalChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
+    container: common.container,
     card: {
       padding: 16,
       borderRadius: 14,
       backgroundColor: theme.colors.card,
       marginVertical: 16,
     },
-
     title: {
-      ...theme.typography.h4,
-      color: theme.colors.textPrimary,
-      marginBottom: 16,
-      textAlign: "center",
-      marginTop: 60,
-
+      ...common.title,
     },
-
     chart: {
       marginTop: 50,
       flexDirection: "row",
@@ -235,40 +210,33 @@ export const createCommonVerticalChartStyles = (theme) => {
       height: 230,
       paddingHorizontal: 1,
     },
-
     barWrapper: {
       alignItems: "center",
       width: 28,
     },
-
     value: {
-      fontSize: 10,
+      ...theme.typography.caption,
       marginBottom: 4,
       color: theme.colors.textSecondary,
     },
-
     bar: {
       width: 20,
       borderRadius: 4
     },
-
     label: {
-      fontSize: 9,
+      ...theme.typography.captionSmall,
       marginTop: 6,
       color: theme.colors.textSecondary,
       textAlign: "center",
     },
-
     legend: {
       marginTop: 16,
     },
-
     legendRow: {
       flexDirection: "row",
       alignItems: "center",
       marginBottom: 6,
     },
-
     dot: {
       width: 10,
       height: 10,
@@ -277,7 +245,7 @@ export const createCommonVerticalChartStyles = (theme) => {
     },
 
     legendText: {
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textPrimary,
     },
   });
@@ -291,7 +259,10 @@ export const createSkillsDistChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
-    title: common.title,
+    container: common.container,
+    title: {
+      ...common.title,
+    },
     chartContainer: {
       alignItems: 'center',
       width: '100%',
@@ -319,7 +290,7 @@ export const createSkillsDistChartStyles = (theme) => {
       color: theme.colors.textPrimary,
     },
     percentage: {
-      fontSize: 13,
+      ...theme.typography.caption,
     },
   });
 };
@@ -332,15 +303,10 @@ export const createTopTechnologiesChartStyles = (theme) => {
   const common = createCommonChartStyles(theme);
 
   return StyleSheet.create({
-     title: {
-      marginTop: 20,
-      marginBottom: theme.spacing.md,
-      ...theme.typography.h4,
-      color: theme.colors.textPrimary,
-      textAlign: "center",
-
+    container: common.container,
+    title: {
+      ...common.title,
     },
-
     row: {
       flexDirection: "row",
       alignItems: "center",
@@ -348,32 +314,28 @@ export const createTopTechnologiesChartStyles = (theme) => {
     },
     label: {
       width: 75,
-      fontSize: 12,
+      ...theme.typography.caption,
       textAlign: "right",
       paddingRight: 6,
       color: theme.colors.textPrimary,
     },
-
-
     barContainer: {
       flex: 1,
       height: 28,
       marginRight: 6,
     },
-
     bar: {
       height: 28,
       backgroundColor: theme.colors.accent,
     },
-
     value: {
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
     footerLabel: {
       marginTop: 8,
       textAlign: "center",
-      fontSize: 12,
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
   });
@@ -389,15 +351,15 @@ export const createSeniorityDistributionStyles = (theme) => {
   return StyleSheet.create({
     container: {
       ...common.container,
-      marginBottom: theme.spacing?.lg ?? 16,
     },
-    title: common.title,
+    title: {
+      ...common.title,
+    },
     chartContainer: {
       alignItems: "center",
       marginVertical: theme.spacing?.md ?? 16,
     },
 
-    // Légende
     legendContainer: {
       marginTop: theme.spacing?.md ?? 12,
       paddingHorizontal: theme.spacing?.sm ?? 8,
@@ -419,12 +381,11 @@ export const createSeniorityDistributionStyles = (theme) => {
       marginRight: 8,
     },
     legendText: {
-      fontSize: 13,
+      ...theme.typography.caption,
       color: theme.colors.textPrimary,
     },
     legendValue: {
-      fontSize: 13,
-      fontWeight: "600",
+      ...theme.typography.caption,
       color: theme.colors.textSecondary,
     },
   });

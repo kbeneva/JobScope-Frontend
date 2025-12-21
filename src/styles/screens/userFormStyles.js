@@ -8,7 +8,7 @@ export const createUserFormStyles = (theme) => StyleSheet.create({
     },
     input: {
         ...theme.typography.input,
-        color: theme.colors.textSecondary,
+        color: theme.colors.textPrimary,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.textSecondary,
         marginBottom: theme.spacing.lg,

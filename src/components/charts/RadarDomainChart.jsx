@@ -31,7 +31,7 @@ export default function RadarDomainChart({ data, title, metadata, domain }) {
 
   return (
     <View>
-      <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
+      <Text style={styles.title}>
         {title}
       </Text>
 
@@ -69,7 +69,6 @@ export default function RadarDomainChart({ data, title, metadata, domain }) {
         />
       </View>
 
-      {/* Légende avec les valeurs */}
       <View style={styles.legendContainer}>
         {data.map((item, index) => {
           return (
