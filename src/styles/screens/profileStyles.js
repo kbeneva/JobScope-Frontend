@@ -2,8 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const createProfileStyles = (theme) =>
   StyleSheet.create({
-    notAuthContainer: {
+    centerWrapper: {
       flex: 1,
+      justifyContent: "center",
+    },
+    notAuthContainer: {
       justifyContent: "center",
       alignItems: "center",
       padding: theme.spacing.lg,
