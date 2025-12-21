@@ -48,6 +48,14 @@ If you need to access the app from a device on a different network:
    npx expo start --tunnel
 ```
 
+## Backend API
+
+This mobile application is powered by the JobScope RESTful API, which provides:
+- Computer science job listings
+- User authentication and profile management
+- Favorite job management
+- Labor market analytics
+
 ## Features Overview
 
 ### Authentication
@@ -125,5 +133,7 @@ If you need to access the app from a device on a different network:
 
 ## Links
 
-- **Figma Design**: [JobScope UI](https://www.figma.com/design/2DlADMSS6JSM79s7wyOxq6/JobScope?node-id=0-1&p=f&t=5HtndrcXqvOW7RfS-0)  
+- **Figma Design**: [JobScope UI](https://www.figma.com/design/2DlADMSS6JSM79s7wyOxq6/JobScope?node-id=0-1&p=f&t=5HtndrcXqvOW7RfS-0)
 - **Trello Board**: [Project Management](https://trello.com/b/ApVxyN82/jobscopefrontend)
+- **Backend API Repository**: [JobScope API](https://github.com/LoulouPlou/JobScope-API)
+- **Deployed API**: [jobscope-api.onrender.com](https://jobscope-api.onrender.com/)
