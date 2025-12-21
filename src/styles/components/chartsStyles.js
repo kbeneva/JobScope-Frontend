@@ -286,7 +286,7 @@ export const createSkillsDistChartStyles = (theme) => {
       alignItems: 'center',
     },
     categoryName: {
-      ...theme.typography.bodySmall,
+      ...theme.typography.caption,
       color: theme.colors.textPrimary,
     },
     percentage: {

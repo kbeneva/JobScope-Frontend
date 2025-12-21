@@ -57,11 +57,11 @@ export const createAnalyticsStyles = (theme) => StyleSheet.create({
     dropdown: {
         width: '100%',
         height: 40,
-        borderColor: theme.colors.border,
+        borderColor: theme.colors.textSecondary,
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 12,
-        backgroundColor: theme.colors.white,
+        backgroundColor: theme.colors.card,
         marginBottom: 16,
     },
     placeholderStyle: {

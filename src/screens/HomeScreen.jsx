@@ -20,7 +20,12 @@ export default function HomeScreen() {
 
   const fetchJobs = async () => {
     try {
-      const data = await jobsService.getRecentJobs();
+      var data;
+      if(isAuthenticated && user){
+        data = await jobsService.getPersonalizedJobs();
+      } else {
+        data = await jobsService.getRecentJobs();
+      }
       setJobs(data);
     } catch (error) {
       console.error('Error:', error);

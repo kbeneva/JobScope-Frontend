@@ -16,6 +16,9 @@ export const privateApiClient = axios.create(baseConfig);
 
 export const optionalAuthApiClient = axios.create(baseConfig);
 
+// debug
+// console.log(baseConfig.baseURL)
+
 // auth mandatory
 privateApiClient.interceptors.request.use(
   async (config) => {

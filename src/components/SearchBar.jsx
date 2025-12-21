@@ -1,5 +1,4 @@
-// components/SearchBar.js
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { View, TextInput, TouchableOpacity, Modal, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Checkbox from 'expo-checkbox';
@@ -9,32 +8,51 @@ import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 import Accordion from "./Accordion";
 
 
-export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, placeholder = "Search job...", defaultQuery = "", defaultFilters = {}, }) {
+export default function SearchBar({
+  onFilterApply,
+  onSearchSubmit,
+  placeholder = "Search job...",
+  initialQuery = "",
+  initialFilters = {},
+  clearOnSubmit = false,
+}) {
+
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(initialQuery);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [filters, setFilters] = useState({
-    // Job Type
-    fullTime: defaultFilters.jobType?.includes('Full-time') || false,
-    partTime: defaultFilters.jobType?.includes('Part-time') || false,
-    contract: defaultFilters.jobType?.includes('Contract') || false,
-    internship: defaultFilters.jobType?.includes('Internship') || false,
+    fullTime: initialFilters.jobType?.includes('Full-time') || false,
+    partTime: initialFilters.jobType?.includes('Part-time') || false,
+    contract: initialFilters.jobType?.includes('Contract') || false,
+    internship: initialFilters.jobType?.includes('Internship') || false,
 
-    // Experience
-    Junior: defaultFilters.experience?.includes('Junior') || false,
-    Mid: defaultFilters.experience?.includes('Mid') || false,
-    senior: defaultFilters.experience?.includes('Senior') || false,
-    lead: defaultFilters.experience?.includes('Lead') || false,
+    entry: initialFilters.experience?.includes('Entry') || false,
+    intermediate: initialFilters.experience?.includes('Intermediate') || false,
+    senior: initialFilters.experience?.includes('Senior') || false,
+    lead: initialFilters.experience?.includes('Lead') || false,
   });
-
 
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+
+      if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
     else if (onFilterApply) {
       onFilterApply(apiFilters);
@@ -48,13 +66,27 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+
+      if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
     else if (onFilterApply) {
       onFilterApply(apiFilters);
     }
   };
 
-  // Reset des filtres
+  // Reset filters
   const handleReset = () => {
     const resetFilters = {
       fullTime: false,
@@ -73,9 +105,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     setModalVisible(false);
 
-    if (onSearchSubmit) {
-      onSearchSubmit(apiFilters);
-    } else if (onFilterApply) {
+    if (onFilterApply) {
       onFilterApply(apiFilters);
     }
   };
@@ -164,11 +194,11 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
           <TouchableOpacity
             style={{ width: '100%' }}
             activeOpacity={1}
-            onPress={(e) => e.stopPropagation()}  // ← Empêche la fermeture du modal
+            onPress={(e) => e.stopPropagation()}
           >
             <View style={[
               styles.modalContent,
-              { backgroundColor: theme.colors.bar}
+              { backgroundColor: theme.colors.bar }
             ]}>
 
               <View style={styles.filtersContainer}>
@@ -245,7 +275,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
   );
 }
 
-// Composant CheckBox item avec Expo Checkbox
+
 function CheckBoxItem({ label, checked, onToggle }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
@@ -263,7 +293,7 @@ function CheckBoxItem({ label, checked, onToggle }) {
           styles.checkboxLabel,
           { color: theme.colors.textPrimary }
         ]}
-        onPress={onToggle} // Permet de cliquer sur le texte aussi
+        onPress={onToggle}
       >
         {label}
       </Text>
