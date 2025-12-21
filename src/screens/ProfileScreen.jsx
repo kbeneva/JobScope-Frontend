@@ -27,26 +27,53 @@ export default function ProfileScreen() {
 
   if (!isAuthenticated) {
     return (
-      <View style={profileStyles.notAuthContainer}>
-        <Ionicons
-          name="person-circle-outline"
-          size={96}
-          color={theme.colors.icon}
-          style={profileStyles.notAuthIcon}
-        />
+      <View style={screenStyles.container}>
+        <View style={profileStyles.centerWrapper}>
+          <View style={profileStyles.notAuthContainer}>
+            <Ionicons
+              name="person-circle-outline"
+              size={96}
+              color={theme.colors.icon}
+              style={profileStyles.notAuthIcon}
+            />
 
-        <Text style={profileStyles.notAuthTitle}>You are not logged in</Text>
+            <Text style={profileStyles.notAuthTitle}>
+              You are not logged in
+            </Text>
 
-        <Text style={profileStyles.notAuthMessage}>
-          Please log in to view and edit your profile.
-        </Text>
+            <Text style={profileStyles.notAuthMessage}>
+              Please log in to view and edit your profile.
+            </Text>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
-          style={profileStyles.notAuthButton}
-        >
-          <Text style={profileStyles.notAuthButtonText}>Go to Login</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              style={profileStyles.notAuthButton}
+            >
+              <Text style={profileStyles.notAuthButtonText}>Go to Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={profileStyles.sectionList}>
+            <TouchableOpacity
+              style={profileStyles.row}
+              onPress={() => navigation.navigate("Settings")}
+            >
+              <View style={profileStyles.rowLeft}>
+                <Ionicons
+                  name="settings-outline"
+                  size={22}
+                  color={theme.colors.textPrimary}
+                />
+                <Text style={profileStyles.rowText}>Settings</Text>
+              </View>
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={theme.colors.textPrimary}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   }
@@ -54,7 +81,10 @@ export default function ProfileScreen() {
   const pickFromLibrary = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!perm.granted) {
-      Alert.alert("Permission Required", "Please allow access to your photo library");
+      Alert.alert(
+        "Permission Required",
+        "Please allow access to your photo library"
+      );
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -86,11 +116,7 @@ export default function ProfileScreen() {
   };
 
   const openPickerOptions = () => {
-    const options = [
-      "Take a Photo",
-      "Choose from Library",
-      "Cancel",
-    ];
+    const options = ["Take a Photo", "Choose from Library", "Cancel"];
     if (Platform.OS === "ios") {
       ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -120,8 +146,8 @@ export default function ProfileScreen() {
               imageUri
                 ? { uri: imageUri }
                 : {
-                  uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                }
+                    uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  }
             }
             style={profileStyles.avatar}
           />
