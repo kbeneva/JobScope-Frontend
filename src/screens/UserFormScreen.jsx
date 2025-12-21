@@ -142,7 +142,7 @@ export default function UserFormScreen() {
           <TextInput
             value={firstName}
             onChangeText={setFirstName}
-            placeholder="John"
+            placeholder="First Name"
             placeholderTextColor={theme.colors.textSecondary}
             style={userFormStyles.input}
             editable={!loading}
@@ -152,7 +152,7 @@ export default function UserFormScreen() {
           <TextInput
             value={lastName}
             onChangeText={setLastName}
-            placeholder="Doe"
+            placeholder="Last Name"
             placeholderTextColor={theme.colors.textSecondary}
             style={userFormStyles.input}
             editable={!loading}
@@ -162,7 +162,7 @@ export default function UserFormScreen() {
           <TextInput
             value={email}
             onChangeText={setEmail}
-            placeholder="johndoe@jobscope.com"
+            placeholder="Email"
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor={theme.colors.textSecondary}

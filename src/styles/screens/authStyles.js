@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 export const createAuthStyles = (theme) =>
   StyleSheet.create({
@@ -26,9 +28,16 @@ export const createAuthStyles = (theme) =>
       fontSize: 16,
       marginLeft: 4,
     },
+    titleContainer: {
+      overflow: "hidden",
+    },
     headerTitleWrapper: {
       marginTop: theme.spacing.xl,
       marginBottom: theme.spacing.xl,
+    },
+    titleAbsolute: {
+      position: "absolute",
+      width: width - theme.spacing.xl * 2,
     },
     headerTitle: {
       ...theme.typography.h1,
@@ -45,6 +54,13 @@ export const createAuthStyles = (theme) =>
       paddingHorizontal: theme.spacing.xl,
       paddingTop: theme.spacing.xl,
       paddingBottom: theme.spacing.xxl,
+    },
+    formsWrapper: {
+      overflow: "hidden",
+    },
+    formAbsolute: {
+      position: "absolute",
+      width: width - theme.spacing.xl * 2,
     },
     inputContainer: {
       marginBottom: theme.spacing.md,
