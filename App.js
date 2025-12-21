@@ -32,21 +32,21 @@ export default function App() {
     Poppins_900Black,
   });
 
-  // Cacher le splash natif une fois les fonts chargées
+  // hide splash when fonts ready
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  // Afficher le loading natif si fonts pas prêtes
+  // show loading when fonts not loaded
   if (!fontsLoaded) {
-    return null; // Le splash natif reste visible
+    return null;
   }
 
   const isWeb = Platform.OS === 'web';
 
-  // Afficher le custom splash screen
+  // show custom splash screen
   if (showCustomSplash && !isWeb) {
     return (
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>

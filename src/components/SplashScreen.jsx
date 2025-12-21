@@ -1,27 +1,22 @@
-// components/SplashScreen.js
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, Image, Easing } from 'react-native';
-import { useTheme } from '../styles/theme';
 
 export default function SplashScreen({ onFinish }) {
-//   const theme = useTheme();
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // 1. Fade In initial
     Animated.timing(opacityAnim, {
       toValue: 1,
-      duration: 500,
+      duration: 600,
       useNativeDriver: true,
     }).start();
 
-    // 2. Pulse animation
     const pulseAnimation = Animated.loop(
       Animated.sequence([
         Animated.timing(scaleAnim, {
           toValue: 1.1,
-          duration: 600,
+          duration: 700,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
@@ -36,7 +31,6 @@ export default function SplashScreen({ onFinish }) {
 
     pulseAnimation.start();
 
-    // 3. Arrêter et fade out après 2.5 secondes
     setTimeout(() => {
       pulseAnimation.stop();
       
