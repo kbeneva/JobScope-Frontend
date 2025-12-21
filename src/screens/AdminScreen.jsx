@@ -19,7 +19,6 @@ export default function AdminUsersScreen() {
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    // Modal pour édition
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [editForm, setEditForm] = useState({
@@ -61,7 +60,6 @@ export default function AdminUsersScreen() {
                             await adminService.deleteUser(userId);
                             Alert.alert('Success', 'User deleted');
 
-                            // Si la page devient vide, revenir à la page précédente
                             if (users.length === 1 && page > 1) {
                                 setPage(page - 1);
                             } else {
@@ -134,7 +132,6 @@ export default function AdminUsersScreen() {
                 contentContainerStyle={{ paddingBottom: theme.spacing.xl }}
                 showsVerticalScrollIndicator={false}
             >
-                {/* Pagination en haut */}
                 {totalPages > 1 && (
                     <View style={{
                         flexDirection: 'row',
@@ -182,7 +179,7 @@ export default function AdminUsersScreen() {
                     </View>
                 )}
 
-                {/* Liste des users */}
+                {/* users list */}
                 <View>
                     {users.map((user) => (
                         <View
@@ -191,10 +188,10 @@ export default function AdminUsersScreen() {
                         >
                             <View style={adminStyles.userHeader}>
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[adminStyles.userName, { color: theme.colors.textPrimary }]}>
+                                    <Text style={adminStyles.userName}>
                                         {user.firstName} {user.lastName}
                                     </Text>
-                                    <Text style={[adminStyles.userEmail, { color: theme.colors.textSecondary }]}>
+                                    <Text style={adminStyles.userEmail}>
                                         {user.email}
                                     </Text>
                                 </View>
@@ -204,7 +201,7 @@ export default function AdminUsersScreen() {
                                 </View>
                             </View>
 
-                            <Text style={[adminStyles.createdAt, { color: theme.colors.textSecondary }]}>
+                            <Text style={adminStyles.createdAt}>
                                 Created: {new Date(user.created_at).toLocaleDateString()}
                             </Text>
 
@@ -229,7 +226,7 @@ export default function AdminUsersScreen() {
                     ))}
                 </View>
 
-                {/* Indicateur de chargement lors du changement de page */}
+                    
                 {loading && users.length > 0 && (
                     <View style={{ paddingVertical: 20, alignItems: 'center' }}>
                         <ActivityIndicator size="small" color={theme.colors.primary} />
@@ -237,7 +234,7 @@ export default function AdminUsersScreen() {
                 )}
             </ScrollView>
 
-            {/* Edit Modal */}
+
             <Modal
                 visible={editModalVisible}
                 animationType="fade"
@@ -246,16 +243,12 @@ export default function AdminUsersScreen() {
             >
                 <View style={adminStyles.modalOverlay}>
                     <View style={adminStyles.modalContent}>
-                        <Text style={[adminStyles.modalTitle, { color: theme.colors.textPrimary }]}>
+                        <Text style={adminStyles.modalTitle}>
                             Edit User
                         </Text>
 
                         <TextInput
-                            style={[adminStyles.input, {
-                                backgroundColor: theme.colors.background,
-                                color: theme.colors.textPrimary,
-                                borderColor: theme.colors.border,
-                            }]}
+                            style={adminStyles.input}
                             placeholder="First Name"
                             placeholderTextColor={theme.colors.textSecondary}
                             value={editForm.firstName}
@@ -263,11 +256,7 @@ export default function AdminUsersScreen() {
                         />
 
                         <TextInput
-                            style={[adminStyles.input, {
-                                backgroundColor: theme.colors.background,
-                                color: theme.colors.textPrimary,
-                                borderColor: theme.colors.border,
-                            }]}
+                            style={adminStyles.input}
                             placeholder="Last Name"
                             placeholderTextColor={theme.colors.textSecondary}
                             value={editForm.lastName}
@@ -275,11 +264,7 @@ export default function AdminUsersScreen() {
                         />
 
                         <TextInput
-                            style={[adminStyles.input, {
-                                backgroundColor: theme.colors.background,
-                                color: theme.colors.textPrimary,
-                                borderColor: theme.colors.border,
-                            }]}
+                            style={adminStyles.input}
                             placeholder="Email"
                             placeholderTextColor={theme.colors.textSecondary}
                             value={editForm.email}
@@ -328,16 +313,16 @@ export default function AdminUsersScreen() {
                         <View style={adminStyles.modalButtons}>
                             <TouchableOpacity
                                 onPress={() => setEditModalVisible(false)}
-                                style={[adminStyles.modalButton, { backgroundColor: theme.colors.border }]}
+                                style={[adminStyles.modalButton, {backgroundColor: theme.colors.error}]}
                             >
-                                <Text style={[adminStyles.modalButtonText, { color: theme.colors.textPrimary }]}>
+                                <Text style={adminStyles.modalButtonText}>
                                     Cancel
                                 </Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
                                 onPress={handleUpdateUser}
-                                style={[adminStyles.modalButton, { backgroundColor: theme.colors.primary }]}
+                                style={[adminStyles.modalButton, { backgroundColor: theme.colors.success }]}
                             >
                                 <Text style={adminStyles.modalButtonText}>Save</Text>
                             </TouchableOpacity>

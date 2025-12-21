@@ -5,7 +5,7 @@ import { createHeaderStyles } from "../styles/components/JobHeaderStyles";
 import SearchBar from "./SearchBar";
 import { useNavigation } from "@react-navigation/native";
 
-export default function JobHeader({ isHomePage = false, onFilterApply }) {
+export default function JobHeader({ isHomePage = false, onFilterApply, initialFilters = {} }) {
     const theme = useTheme();
     const { user, isAuthenticated } = useUser();
     const navigation = useNavigation();
@@ -25,19 +25,23 @@ export default function JobHeader({ isHomePage = false, onFilterApply }) {
                         <Text style={styles.header}>
                             Welcome back,{'\n'}
                             <Text style={styles.header}>
-                                { user.firstName } { user.lastName }
+                                {user.firstName} {user.lastName}
                             </Text>
                         </Text>
                     ) : (
                         <Text style={styles.header}>Welcome</Text>
                     )}
-                    <SearchBar 
+                    <SearchBar
                         onSearchSubmit={handleSearchSubmit}
                     />
                 </View>
             ) : (
-                <View style={{paddingTop:20}}>
-                    <SearchBar onFilterApply={onFilterApply}/>
+                <View style={{ paddingTop: 20 }}>
+                    <SearchBar
+                        onFilterApply={onFilterApply}
+                        initialQuery={initialFilters.title || ""}
+                        initialFilters={initialFilters}
+                    />
                 </View>
             )}
         </View>

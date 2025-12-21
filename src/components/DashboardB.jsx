@@ -20,7 +20,6 @@ export default function DashboardB() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Transformer les domaines en format pour le dropdown
   const domainData = DOMAINS.map((domain) => ({
     label: domain,
     value: domain,
@@ -29,11 +28,10 @@ export default function DashboardB() {
   const normalizeDomainForType = (domain) => {
     return domain
       .toLowerCase()
-      .replace(/\s+&\s+/g, '_and_')  // "QA & Security" -> "qa_and_security"
-      .replace(/\s+/g, '_');          // Remplacer les espaces restants par _
+      .replace(/\s+&\s+/g, '_and_')
+      .replace(/\s+/g, '_');
   };
 
-  // Charger les données du domaine sélectionné
   useEffect(() => {
     const fetchDomainData = async () => {
       setLoading(true);
@@ -78,7 +76,7 @@ export default function DashboardB() {
         inputSearchStyle={styles.inputSearchStyle}
         activeColor={theme.colors.accent + '20'}
         data={domainData}
-        maxHeight={260}
+        maxHeight={200}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? 'Select a domain' : '...'}
@@ -98,7 +96,7 @@ export default function DashboardB() {
               paddingHorizontal: 14,
               backgroundColor: selected
                 ? theme.colors.accent + '10'
-                : theme.colors.white,
+                : theme.colors.card,
             }}
           >
             <Text

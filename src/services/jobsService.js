@@ -1,4 +1,4 @@
-import { publicApiClient, optionalAuthApiClient } from './api';
+import { publicApiClient, optionalAuthApiClient, privateApiClient } from './api';
 
 export const jobsService = {
   // optional auth

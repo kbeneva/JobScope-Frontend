@@ -18,7 +18,7 @@ export const lightColors = {
     textButton: '#FFFFFF',
 
     // States
-    success: '#5bb471',
+    success: '#2d7c41ff',
     warning: '#e99623',
     error: '#a02721',
     info: '#5FA8D3',
