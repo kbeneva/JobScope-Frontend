@@ -33,6 +33,7 @@ export default function JobHeader({ isHomePage = false, onFilterApply, initialFi
                     )}
                     <SearchBar
                         onSearchSubmit={handleSearchSubmit}
+                        clearOnSubmit={true}
                     />
                 </View>
             ) : (

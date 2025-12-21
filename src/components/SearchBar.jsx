@@ -14,6 +14,7 @@ export default function SearchBar({
   placeholder = "Search job...",
   initialQuery = "",
   initialFilters = {},
+  clearOnSubmit = false,
 }) {
 
   const theme = useTheme();
@@ -38,6 +39,20 @@ export default function SearchBar({
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+
+      if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
     else if (onFilterApply) {
       onFilterApply(apiFilters);
@@ -51,6 +66,20 @@ export default function SearchBar({
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+
+      if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
     else if (onFilterApply) {
       onFilterApply(apiFilters);
@@ -76,9 +105,7 @@ export default function SearchBar({
 
     setModalVisible(false);
 
-    if (onSearchSubmit) {
-      onSearchSubmit(apiFilters);
-    } else if (onFilterApply) {
+    if (onFilterApply) {
       onFilterApply(apiFilters);
     }
   };
