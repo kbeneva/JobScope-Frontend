@@ -4,8 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   ActivityIndicator,
   Animated,
@@ -18,6 +16,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useUser } from "../context/UserContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { authService } from "../services/authService";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get("window");
 
@@ -117,8 +117,8 @@ export default function AuthScreen({ route }) {
       } else {
         setSignupError(
           err?.response?.data?.message ||
-            err.message ||
-            "Signup failed. Please try again."
+          err.message ||
+          "Signup failed. Please try again."
         );
       }
     } finally {
@@ -145,11 +145,18 @@ export default function AuthScreen({ route }) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+    <View style={styles.container}>
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: theme.colors.background }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          backgroundColor: theme.colors.background,
+        }}
+        enableOnAndroid={true}
+        extraScrollHeight={100}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
         <LinearGradient
           colors={theme.colors.gradients.background}
           start={{ x: 0, y: 0 }}
@@ -196,8 +203,9 @@ export default function AuthScreen({ route }) {
           </View>
         </LinearGradient>
 
-        <View style={styles.formContainer}>
+        <View style={[styles.formContainer, { backgroundColor: theme.colors.background }]}>
           <View style={styles.formsWrapper}>
+            {/* Login Form */}
             <Animated.View
               style={[
                 styles.formAbsolute,
@@ -216,6 +224,7 @@ export default function AuthScreen({ route }) {
                   keyboardType="email-address"
                   placeholder="Enter your email"
                   placeholderTextColor={theme.colors.textSecondary}
+                  returnKeyType="next"
                 />
               </View>
 
@@ -230,6 +239,8 @@ export default function AuthScreen({ route }) {
                     placeholder="Enter your password"
                     placeholderTextColor={theme.colors.textSecondary}
                     autoCapitalize="none"
+                    returnKeyType="done"
+                    onSubmitEditing={handleLogin}
                   />
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
@@ -270,6 +281,7 @@ export default function AuthScreen({ route }) {
               </View>
             </Animated.View>
 
+            {/* Signup Form */}
             <Animated.View
               style={{
                 transform: [{ translateX: Animated.add(slideAnim, width) }],
@@ -284,6 +296,7 @@ export default function AuthScreen({ route }) {
                   placeholder="Enter your first name"
                   placeholderTextColor={theme.colors.textSecondary}
                   autoCapitalize="words"
+                  returnKeyType="next"
                 />
               </View>
 
@@ -296,6 +309,7 @@ export default function AuthScreen({ route }) {
                   placeholder="Enter your last name"
                   placeholderTextColor={theme.colors.textSecondary}
                   autoCapitalize="words"
+                  returnKeyType="next"
                 />
               </View>
 
@@ -309,6 +323,7 @@ export default function AuthScreen({ route }) {
                   placeholderTextColor={theme.colors.textSecondary}
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  returnKeyType="next"
                 />
               </View>
 
@@ -323,6 +338,8 @@ export default function AuthScreen({ route }) {
                     placeholder="Create a password"
                     placeholderTextColor={theme.colors.textSecondary}
                     autoCapitalize="none"
+                    returnKeyType="done"
+                    onSubmitEditing={handleSignup}
                   />
                   <TouchableOpacity
                     onPress={() => setShowSignupPassword(!showSignupPassword)}
@@ -366,7 +383,7 @@ export default function AuthScreen({ route }) {
             </Animated.View>
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }

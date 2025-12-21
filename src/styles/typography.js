@@ -51,6 +51,10 @@
         fontFamily: 'Poppins_300Light',
         fontSize: 12,
     },
+    captionSmall: {
+        fontFamily: 'Poppins_300Light',
+        fontSize: 8,
+    },
     button: {
         fontFamily: 'Poppins_600SemiBold',
         fontSize: 16,
