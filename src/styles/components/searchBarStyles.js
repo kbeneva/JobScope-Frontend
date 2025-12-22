@@ -4,12 +4,12 @@ const { width: screenWidth } = Dimensions.get('window');
 
 export const createSearchBarStyles = (theme) =>
   StyleSheet.create({
-  wrapper: {
-      position: 'relative', 
-      borderRadius: 12,     
+    wrapper: {
+      position: 'relative',
+      borderRadius: 12,
       marginBottom: 20,
     },
-       shadowLayer: {
+    shadowLayer: {
       position: 'absolute',
       top: -7,
       left: -7,
@@ -19,9 +19,6 @@ export const createSearchBarStyles = (theme) =>
       backgroundColor: 'rgba(237, 246, 249, 0.3)',
       zIndex: 0,
     },
-
-    
-
     searchContainer: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -29,13 +26,11 @@ export const createSearchBarStyles = (theme) =>
       height: 48,
       borderRadius: 12,
       backgroundColor: theme.colors.bar,
-      zIndex: 2,                
+      zIndex: 2,
     },
-
     searchIcon: {
       marginRight: 12,
     },
-
     input: {
       flex: 1,
       fontSize: 16,
@@ -83,5 +78,21 @@ export const createSearchBarStyles = (theme) =>
       padding: theme.spacing.md,
       flexDirection: 'row',
       marginTop: 'auto',
+    },
+    accordionHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: theme.spacing.md,
+      paddingVertical: theme.spacing.sm,
+      borderTopWidth: 1,
+      borderColor: "#eee",
+    },
+    accordionTitle: {
+      ...theme.typography.button,
+      color: theme.colors.textPrimary
+    },
+    accordionContent: {
+      paddingHorizontal: theme.spacing.md,
     },
   });

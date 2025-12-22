@@ -12,29 +12,25 @@ import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 import Accordion from "./Accordion";
 
-
-
-
-
 export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder = "Search job...", initialQuery = "", initialFilters = {}, clearOnSubmit = false, }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
-  
+
   const [searchText, setSearchText] = useState(initialQuery);
   const [modalVisible, setModalVisible] = useState(false);
-    
+
   const shadowScale = useSharedValue(0);
   const borderColor = useSharedValue(0);
   const bigColor = useSharedValue(0);
 
- const shadowStyle = useAnimatedStyle(() => ({
+  const shadowStyle = useAnimatedStyle(() => ({
     transform: [{ scale: shadowScale.value }],
     opacity: shadowScale.value,
   }));
   const containerStyle = useAnimatedStyle(() => ({
     borderColor: `rgba(131, 197, 190, ${borderColor.value})`,
     borderWidth: 3,
- 
+
   }));
 
 
@@ -46,15 +42,15 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
     internship: initialFilters.jobType?.includes('Internship') || false,
 
     // Experience
-    entry: initialFilters.experience?.includes('Entry') || false,
-    intermediate: initialFilters.experience?.includes('Intermediate') || false,
+    entry: initialFilters.experience?.includes('Junior') || false,
+    intermediate: initialFilters.experience?.includes('Mid') || false,
     senior: initialFilters.experience?.includes('Senior') || false,
     lead: initialFilters.experience?.includes('Lead') || false,
   });
 
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
-    
+
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
@@ -113,8 +109,8 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
       partTime: false,
       contract: false,
       internship: false,
-      Junior: false,
-      Mid: false,
+      entry: false,
+      intermediate: false,
       senior: false,
       lead: false,
     };
@@ -149,8 +145,8 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
     if (uiFilters.internship) apiFilters.jobType.push('Internship');
 
     // Experience
-    if (uiFilters.Junior) apiFilters.experience.push('Junior');
-    if (uiFilters.Mid) apiFilters.experience.push('Mid');
+    if (uiFilters.entry) apiFilters.experience.push('Junior');
+    if (uiFilters.intermediate) apiFilters.experience.push('Mid');
     if (uiFilters.senior) apiFilters.experience.push('Senior');
     if (uiFilters.lead) apiFilters.experience.push('Lead');
 
@@ -163,14 +159,13 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
 
 
   return (
-       <>
+    <>
       <View style={styles.wrapper}>
         <Animated.View
           pointerEvents="none"
           style={[styles.shadowLayer, shadowStyle]}
         />
 
-    
         <Animated.View style={[styles.searchContainer, containerStyle]}>
           <FontAwesome
             name="search"
@@ -180,13 +175,13 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
           />
 
           <TextInput
-             style={[
-            styles.input,
-            {
-              color: theme.colors.textPrimary,
-              flex: 1,
-            }
-          ]}
+            style={[
+              styles.input,
+              {
+                color: theme.colors.textPrimary,
+                flex: 1,
+              }
+            ]}
             placeholder={placeholder}
             placeholderTextColor={theme.colors.textSecondary}
             value={searchText}
@@ -217,7 +212,7 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
           </TouchableOpacity>
         </Animated.View>
       </View>
-  
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -269,13 +264,13 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
                 <Accordion title="Experience Level">
                   <CheckBoxItem
                     label="Junior"
-                    checked={filters.Junior}
-                    onToggle={() => toggleFilter("Junior")}
+                    checked={filters.entry}
+                    onToggle={() => toggleFilter("entry")}
                   />
                   <CheckBoxItem
                     label="Intermediate"
-                    checked={filters.Mid}
-                    onToggle={() => toggleFilter("Mid")}
+                    checked={filters.intermediate}
+                    onToggle={() => toggleFilter("intermediate")}
                   />
                   <CheckBoxItem
                     label="Senior"
@@ -309,9 +304,9 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
             </View></TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-      
+
     </>
-    
+
   );
 }
 
