@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { padding } from '../spacing';
 
 export const createUserFormStyles = (theme) => StyleSheet.create({
     label: {

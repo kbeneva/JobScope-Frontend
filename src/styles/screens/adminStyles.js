@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const createAdminStyles = (theme) =>  StyleSheet.create({
+export const createAdminStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -34,13 +34,12 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     marginBottom: 8,
   },
   userName: {
-    fontSize: 18,
-    fontFamily: 'Poppins_600SemiBold',
+    ...theme.typography.h4,
+    color: theme.colors.textPrimary,
   },
   userEmail: {
-    fontSize: 14,
-    fontFamily: 'Poppins_400Regular',
-    marginTop: 2,
+    ...theme.typography.body,
+    color: theme.colors.textSecondary
   },
   roleBadge: {
     paddingHorizontal: 16,
@@ -54,8 +53,8 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     textTransform: 'capitalize',
   },
   createdAt: {
-    fontSize: 12,
-    fontFamily: 'Poppins_400Regular',
+    ...theme.typography.bodySmall,
+    color: theme.colors.textSecondary,
     marginBottom: 12,
   },
   actions: {
@@ -98,23 +97,24 @@ export const createAdminStyles = (theme) =>  StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.card,
     width: '90%',
     maxWidth: 400,
     padding: 24,
     borderRadius: 16,
   },
   modalTitle: {
-    fontSize: 24,
-    fontFamily: 'Poppins_700Bold',
+    ...theme.typography.h4,
+    color: theme.colors.textPrimary,
     marginBottom: 20,
   },
   input: {
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-    fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    ...theme.typography.input,
+    color: theme.colors.textPrimary,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.textSecondary,
+    marginBottom: theme.spacing.lg,
+    padding: 2,
   },
   modalButtons: {
     flexDirection: 'row',

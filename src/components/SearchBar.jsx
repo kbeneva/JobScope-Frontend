@@ -1,5 +1,4 @@
-// components/SearchBar.js
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { View, TextInput, TouchableOpacity, Modal, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -53,15 +52,14 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
     lead: initialFilters.experience?.includes('Lead') || false,
   });
 
-
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
     
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
-    
-     if (clearOnSubmit) {
+
+      if (clearOnSubmit) {
         setSearchText('');
         setFilters({
           fullTime: false,
@@ -89,7 +87,7 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
 
-    if (clearOnSubmit) {
+      if (clearOnSubmit) {
         setSearchText('');
         setFilters({
           fullTime: false,
@@ -108,7 +106,7 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
     }
   };
 
-  // Reset des filtres
+  // Reset filters
   const handleReset = () => {
     const resetFilters = {
       fullTime: false,
@@ -127,7 +125,7 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
 
     setModalVisible(false);
 
-   if (onFilterApply) {
+    if (onFilterApply) {
       onFilterApply(apiFilters);
     }
   };
@@ -234,11 +232,11 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
           <TouchableOpacity
             style={{ width: '100%' }}
             activeOpacity={1}
-            onPress={(e) => e.stopPropagation()}  // ← Empêche la fermeture du modal
+            onPress={(e) => e.stopPropagation()}
           >
             <View style={[
               styles.modalContent,
-              { backgroundColor: theme.colors.bar}
+              { backgroundColor: theme.colors.bar }
             ]}>
 
               <View style={styles.filtersContainer}>
@@ -317,7 +315,7 @@ export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder =
   );
 }
 
-// Composant CheckBox item avec Expo Checkbox
+
 function CheckBoxItem({ label, checked, onToggle }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
@@ -335,7 +333,7 @@ function CheckBoxItem({ label, checked, onToggle }) {
           styles.checkboxLabel,
           { color: theme.colors.textPrimary }
         ]}
-        onPress={onToggle} // Permet de cliquer sur le texte aussi
+        onPress={onToggle}
       >
         {label}
       </Text>
