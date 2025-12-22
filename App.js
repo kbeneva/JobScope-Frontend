@@ -56,7 +56,7 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <View style={{ flex: 1 }}onLayout={onLayoutRootView}>
       <ThemeProvider>
         <UserProvider>
           <FavoritesProvider>

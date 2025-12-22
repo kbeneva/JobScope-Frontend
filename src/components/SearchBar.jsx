@@ -1,41 +1,56 @@
 import { useState, useEffect, useRef } from "react";
 import { View, TextInput, TouchableOpacity, Modal, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import Checkbox from 'expo-checkbox';
 import { useTheme } from "../styles/theme";
 import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 import Accordion from "./Accordion";
 
-
-export default function SearchBar({
-  onFilterApply,
-  onSearchSubmit,
-  placeholder = "Search job...",
-  initialQuery = "",
-  initialFilters = {},
-  clearOnSubmit = false,
-}) {
-
+export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder = "Search job...", initialQuery = "", initialFilters = {}, clearOnSubmit = false, }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
+
   const [searchText, setSearchText] = useState(initialQuery);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const shadowScale = useSharedValue(0);
+  const borderColor = useSharedValue(0);
+  const bigColor = useSharedValue(0);
+
+  const shadowStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: shadowScale.value }],
+    opacity: shadowScale.value,
+  }));
+  const containerStyle = useAnimatedStyle(() => ({
+    borderColor: `rgba(131, 197, 190, ${borderColor.value})`,
+    borderWidth: 3,
+
+  }));
+
+
   const [filters, setFilters] = useState({
+    // Job Type
     fullTime: initialFilters.jobType?.includes('Full-time') || false,
     partTime: initialFilters.jobType?.includes('Part-time') || false,
     contract: initialFilters.jobType?.includes('Contract') || false,
     internship: initialFilters.jobType?.includes('Internship') || false,
 
-    entry: initialFilters.experience?.includes('Entry') || false,
-    intermediate: initialFilters.experience?.includes('Intermediate') || false,
+    // Experience
+    entry: initialFilters.experience?.includes('Junior') || false,
+    intermediate: initialFilters.experience?.includes('Mid') || false,
     senior: initialFilters.experience?.includes('Senior') || false,
     lead: initialFilters.experience?.includes('Lead') || false,
   });
 
   const handleSubmitSearch = () => {
     const apiFilters = buildApiFilters(searchText, filters);
+
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
@@ -54,6 +69,7 @@ export default function SearchBar({
         });
       }
     }
+
     else if (onFilterApply) {
       onFilterApply(apiFilters);
     }
@@ -93,8 +109,8 @@ export default function SearchBar({
       partTime: false,
       contract: false,
       internship: false,
-      Junior: false,
-      Mid: false,
+      entry: false,
+      intermediate: false,
       senior: false,
       lead: false,
     };
@@ -129,8 +145,8 @@ export default function SearchBar({
     if (uiFilters.internship) apiFilters.jobType.push('Internship');
 
     // Experience
-    if (uiFilters.Junior) apiFilters.experience.push('Junior');
-    if (uiFilters.Mid) apiFilters.experience.push('Mid');
+    if (uiFilters.entry) apiFilters.experience.push('Junior');
+    if (uiFilters.intermediate) apiFilters.experience.push('Mid');
     if (uiFilters.senior) apiFilters.experience.push('Senior');
     if (uiFilters.lead) apiFilters.experience.push('Lead');
 
@@ -144,40 +160,57 @@ export default function SearchBar({
 
   return (
     <>
-      <View style={[styles.searchContainer]}>
-        <FontAwesome
-          name="search"
-          size={20}
-          color={theme.colors.textSecondary}
-          style={styles.searchIcon}
+      <View style={styles.wrapper}>
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.shadowLayer, shadowStyle]}
         />
 
-        <TextInput
-          style={[
-            styles.input,
-            {
-              color: theme.colors.textPrimary,
-              flex: 1,
-            }
-          ]}
-          placeholder={placeholder}
-          placeholderTextColor={theme.colors.textSecondary}
-          value={searchText}
-          onChangeText={setSearchText}
-          onSubmitEditing={handleSubmitSearch}
-          returnKeyType="search"
-        />
-
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={styles.filterButton}
-        >
+        <Animated.View style={[styles.searchContainer, containerStyle]}>
           <FontAwesome
-            name="sliders"
+            name="search"
             size={20}
             color={theme.colors.textSecondary}
+            style={styles.searchIcon}
           />
-        </TouchableOpacity>
+
+          <TextInput
+            style={[
+              styles.input,
+              {
+                color: theme.colors.textPrimary,
+                flex: 1,
+              }
+            ]}
+            placeholder={placeholder}
+            placeholderTextColor={theme.colors.textSecondary}
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleSubmitSearch}
+            returnKeyType="search"
+            onFocus={() => {
+              shadowScale.value = withTiming(1, { duration: 500 });
+              borderColor.value = withTiming(1, { duration: 500 });
+              bigColor.value = withTiming(1, { duration: 500 });
+            }}
+            onBlur={() => {
+              shadowScale.value = withTiming(0, { duration: 500 });
+              borderColor.value = withTiming(0, { duration: 500 });
+              bigColor.value = withTiming(0, { duration: 500 });
+            }}
+          />
+
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={styles.filterButton}
+          >
+            <FontAwesome
+              name="sliders"
+              size={20}
+              color={theme.colors.textSecondary}
+            />
+          </TouchableOpacity>
+        </Animated.View>
       </View>
 
       <Modal
@@ -231,13 +264,13 @@ export default function SearchBar({
                 <Accordion title="Experience Level">
                   <CheckBoxItem
                     label="Junior"
-                    checked={filters.Junior}
-                    onToggle={() => toggleFilter("Junior")}
+                    checked={filters.entry}
+                    onToggle={() => toggleFilter("entry")}
                   />
                   <CheckBoxItem
                     label="Intermediate"
-                    checked={filters.Mid}
-                    onToggle={() => toggleFilter("Mid")}
+                    checked={filters.intermediate}
+                    onToggle={() => toggleFilter("intermediate")}
                   />
                   <CheckBoxItem
                     label="Senior"
@@ -271,7 +304,9 @@ export default function SearchBar({
             </View></TouchableOpacity>
         </TouchableOpacity>
       </Modal>
+
     </>
+
   );
 }
 
