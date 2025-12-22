@@ -1,8 +1,14 @@
 module.exports = {
-  preset: 'jest-expo',
-  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   testEnvironment: 'node',
-  transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native|@react-navigation|expo|@expo|@expo-google-fonts)/)',
+  roots: ['<rootDir>/src', '<rootDir>/__tests__'],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx}',
+    '!src/**/*.test.{js,jsx}',
+    '!src/**/index.{js,jsx}',
+    '!src/services/api.js',
   ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['html', 'text'],
+  clearMocks: true,
 };
