@@ -1,4 +1,3 @@
-// services/adminService.js
 import { privateApiClient } from './api';
 
 export const adminService = {

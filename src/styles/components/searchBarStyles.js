@@ -1,6 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-
-const { width: screenWidth } = Dimensions.get('window');
+import { StyleSheet} from 'react-native';
 
 export const createSearchBarStyles = (theme) =>
   StyleSheet.create({

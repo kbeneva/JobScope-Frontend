@@ -1,6 +1,5 @@
-// components/Accordion.js
 import { useState } from "react";
-import { View, Text, TouchableOpacity, LayoutAnimation, Platform, UIManager } from "react-native";
+import { View, Text, TouchableOpacity, LayoutAnimation } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useTheme } from "../styles/theme";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
-  Alert
 } from "react-native";
 import { useTheme } from "../styles/theme";
 import { createScreenStyles } from "../styles/screens/screenStyles";
@@ -68,7 +67,6 @@ export default function JobsScreen({ route }) {
     } catch (err) {
       console.error("Error in fetchJobs:", err);
       setError(err.message);
-      Alert.alert('Error', 'Unable to load offers');
     } finally {
       setLoading(false);
     }
