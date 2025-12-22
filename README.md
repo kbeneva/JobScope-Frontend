@@ -48,6 +48,15 @@ If you need to access the app from a device on a different network:
    npx expo start --tunnel
 ```
 
+### Running the Tests
+
+All tests are automated using **Jest** and are located in the `__tests__` folder or alongside service files in `src/services`. The tests only cover service logic, API interactions, and error handling. 
+
+#### Run all tests with coverage
+```bash
+npm run test:coverage
+```
+
 ## Backend API
 
 This mobile application is powered by the JobScope RESTful API, which provides:
