@@ -53,6 +53,12 @@ If you need to access the app from a device on a different network:
 All tests are automated using **Jest** and are located in the `__tests__` folder or alongside service files in `src/services`. The tests only cover service logic, API interactions, and error handling. 
 
 #### Run all tests with coverage
+1. **Switch to branch `tests`**
+```bash
+npm run test:coverage
+```
+
+2. **Run tests**
 ```bash
 npm run test:coverage
 ```
