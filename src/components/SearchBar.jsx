@@ -12,19 +12,19 @@ import { useTheme } from "../styles/theme";
 import Button from "./Button";
 import { createSearchBarStyles } from "../styles/components/searchBarStyles";
 import Accordion from "./Accordion";
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 
 
-export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, placeholder = "Search job...", defaultQuery = "", defaultFilters = {}, }) {
+
+export default function SearchBar({ onFilterApply, onSearchSubmit, placeholder = "Search job...", initialQuery = "", initialFilters = {}, clearOnSubmit = false, }) {
   const theme = useTheme();
   const styles = createSearchBarStyles(theme);
   
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(initialQuery);
   const [modalVisible, setModalVisible] = useState(false);
     
- const shadowScale = useSharedValue(0);
+  const shadowScale = useSharedValue(0);
   const borderColor = useSharedValue(0);
   const bigColor = useSharedValue(0);
 
@@ -41,16 +41,16 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
   const [filters, setFilters] = useState({
     // Job Type
-    fullTime: defaultFilters.jobType?.includes('Full-time') || false,
-    partTime: defaultFilters.jobType?.includes('Part-time') || false,
-    contract: defaultFilters.jobType?.includes('Contract') || false,
-    internship: defaultFilters.jobType?.includes('Internship') || false,
+    fullTime: initialFilters.jobType?.includes('Full-time') || false,
+    partTime: initialFilters.jobType?.includes('Part-time') || false,
+    contract: initialFilters.jobType?.includes('Contract') || false,
+    internship: initialFilters.jobType?.includes('Internship') || false,
 
     // Experience
-    Junior: defaultFilters.experience?.includes('Junior') || false,
-    Mid: defaultFilters.experience?.includes('Mid') || false,
-    senior: defaultFilters.experience?.includes('Senior') || false,
-    lead: defaultFilters.experience?.includes('Lead') || false,
+    entry: initialFilters.experience?.includes('Entry') || false,
+    intermediate: initialFilters.experience?.includes('Intermediate') || false,
+    senior: initialFilters.experience?.includes('Senior') || false,
+    lead: initialFilters.experience?.includes('Lead') || false,
   });
 
 
@@ -60,7 +60,22 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+    
+     if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
+
     else if (onFilterApply) {
       onFilterApply(apiFilters);
     }
@@ -73,6 +88,20 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     if (onSearchSubmit) {
       onSearchSubmit(apiFilters);
+
+    if (clearOnSubmit) {
+        setSearchText('');
+        setFilters({
+          fullTime: false,
+          partTime: false,
+          contract: false,
+          internship: false,
+          entry: false,
+          intermediate: false,
+          senior: false,
+          lead: false,
+        });
+      }
     }
     else if (onFilterApply) {
       onFilterApply(apiFilters);
@@ -98,9 +127,7 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
 
     setModalVisible(false);
 
-    if (onSearchSubmit) {
-      onSearchSubmit(apiFilters);
-    } else if (onFilterApply) {
+   if (onFilterApply) {
       onFilterApply(apiFilters);
     }
   };
@@ -155,7 +182,13 @@ export default function SearchBar({ onSearch, onFilterApply, onSearchSubmit, pla
           />
 
           <TextInput
-            style={styles.input}
+             style={[
+            styles.input,
+            {
+              color: theme.colors.textPrimary,
+              flex: 1,
+            }
+          ]}
             placeholder={placeholder}
             placeholderTextColor={theme.colors.textSecondary}
             value={searchText}

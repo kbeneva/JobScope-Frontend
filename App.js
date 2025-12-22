@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useState, useEffect, useCallback } from "react";
 import { ThemeProvider } from "./src/context/ThemeContext";
 import AppNavigator from "./src/navigation/AppNavigator";
@@ -57,7 +56,7 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <View style={{ flex: 1 }}onLayout={onLayoutRootView}>
       <ThemeProvider>
         <UserProvider>
           <FavoritesProvider>
@@ -67,6 +66,6 @@ export default function App() {
           </FavoritesProvider>
         </UserProvider>
       </ThemeProvider>
-    </GestureHandlerRootView>
+    </View>
   );
 }
