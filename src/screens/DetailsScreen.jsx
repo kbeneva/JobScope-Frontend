@@ -131,13 +131,13 @@ export default function DetailsScreen({ route }) {
           <MaterialIcons
             name="attach-money"
             size={20}
-            color={theme.colors?.primary || theme.primary}
+            color={theme.colors?.primary}
             style={detailsStyles.detailIcon}
           />
           {job.salary ? (
             <JobTag label={job.salary} outlined={true} />
           ) : (
-            <Text style={theme.typography.caption}>not disclosed</Text>
+            <Text style={[theme.typography.caption, {color: theme.colors.textSecondary}]}>not disclosed</Text>
           )}
         </View>
         <View style={detailsStyles.detailRow}>

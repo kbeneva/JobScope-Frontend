@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import ENV from '../../config/env';
 
 const baseConfig = {
   baseURL: "https://jobscope-api.onrender.com/api",
