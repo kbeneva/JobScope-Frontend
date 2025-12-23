@@ -33,9 +33,17 @@ yarn-error.*
 # local env files
 .env*.local
 
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
 # typescript
 *.tsbuildinfo
 
 # generated native folders
 /ios
 /android
+
+# Jest
+coverage/
